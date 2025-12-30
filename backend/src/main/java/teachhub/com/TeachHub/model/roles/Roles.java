@@ -19,7 +19,7 @@ import lombok.Setter;
 public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String nome_funcao;
