@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import teachhub.com.TeachHub.model.favorito.Favorito;
+import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.roles.Roles;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author adersonbertim
@@ -49,5 +52,11 @@ public class Usuario {
     @ManyToOne
     @JoinColumn (name = "roles_idrole", nullable = false)
     private Roles roles;
+
+    @OneToMany
+    private List<Postagem> postagensCriadas;
+
+    @OneToMany (mappedBy = "usuario")
+    private List<Favorito> favoritos;
 
 }
