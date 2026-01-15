@@ -8,11 +8,23 @@ package teachhub.com.TeachHub.config;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public abstract class AService <E, R extends JpaRepository<E, Long>> {
 
     protected R repository;
 
     public AService (R repository){
         this.repository = repository;
+    }
+    public E salvar(E novaEntidade){
+        return this.repository.save(novaEntidade);
+    }
+    public List<E> findAll(){
+        return this.repository.findAll();
+    }
+
+    public void deletar(Long id){
+        this.repository.deleteById(id);
     }
 }
