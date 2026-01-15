@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.apache.catalina.User;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -27,7 +28,7 @@ public class LogIA {
     private String resposta;
 
     @Column
-    private Date data;
+    private LocalDateTime data;
 
     @ManyToOne
     @JoinColumn (name = "user_idusuario", nullable = false)

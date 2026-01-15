@@ -9,6 +9,7 @@ import lombok.Setter;
 import teachhub.com.TeachHub.model.midia.Midia;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -32,10 +33,10 @@ public class Postagem {
     private String categoria;
 
     @Column(nullable = false)
-    private Date dataCriacao;
+    private LocalDateTime dataCriacao;
 
     @Column(nullable = false)
-    private Date dataAtualizacao;
+    private LocalDateTime dataAtualizacao;
 
     @Column
     private String tag;

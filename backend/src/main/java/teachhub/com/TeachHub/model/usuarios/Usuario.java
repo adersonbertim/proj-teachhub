@@ -10,6 +10,7 @@ import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.roles.Roles;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class Usuario {
     private String senha;
 
     @Column
-    private LocalDate dataCadastro;
+    private LocalDateTime dataCadastro;
 
     @Column
     private String telefone;

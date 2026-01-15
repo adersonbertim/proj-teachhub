@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -30,7 +31,7 @@ public class Comentarios {
     private int likes;
 
     @Column (nullable = false)
-    private Date data;
+    private LocalDateTime data;
 
     @ManyToOne
     @JoinColumn (name = "user_idusuario", nullable = false)
