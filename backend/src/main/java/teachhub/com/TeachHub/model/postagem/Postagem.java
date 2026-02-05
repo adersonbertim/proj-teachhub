@@ -42,7 +42,7 @@ public class Postagem {
     private String tag;
 
     @Column
-    private boolean visibilidade;
+    private Boolean visibilidade = true;
 
     @ManyToOne
     @JoinColumn (name = "user_idusuario", nullable = false)

@@ -24,7 +24,7 @@ public class Midia {
     private String caminho;
 
     @Column
-    private int lim_tamanho;
+    private Integer lim_tamanho;
 
     @ManyToOne
     @JoinColumn (name = "postagem_idpostagem", nullable = false)

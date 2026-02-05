@@ -4,6 +4,10 @@ package teachhub.com.TeachHub.config;
 * Abstract controller to do basic CRUD operations
 * @author: adersonbertim
 * @since 11/01/2026
+ * @param <E> the entity type
+ * @param <D> the DTO type
+ * @param <ID> the id type
+ * @param <S> the service type
  */
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public abstract class AController <E, S extends AService<E, ?>> {
+public abstract class AController <E, D, ID, S extends AService<E, ?>> {
     protected S service;
 
     public AController (S servico){

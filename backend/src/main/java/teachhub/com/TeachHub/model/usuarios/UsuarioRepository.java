@@ -2,5 +2,5 @@ package teachhub.com.TeachHub.model.usuarios;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
+public interface UsuarioRepository extends JpaRepository<Usuario,Long> {
 }

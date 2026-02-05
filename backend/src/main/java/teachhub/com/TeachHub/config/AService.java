@@ -7,6 +7,7 @@ package teachhub.com.TeachHub.config;
  */
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import teachhub.com.TeachHub.model.usuarios.Usuario;
 
 import java.util.List;
 
@@ -27,4 +28,5 @@ public abstract class AService <E, R extends JpaRepository<E, Long>> {
     public void deletar(Long id){
         this.repository.deleteById(id);
     }
+
 }

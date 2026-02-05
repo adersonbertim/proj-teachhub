@@ -48,7 +48,7 @@ public class Usuario {
     private String areaEnsino;
 
     @Column
-    private int score;
+    private Integer score;
 
     @ManyToOne
     @JoinColumn (name = "roles_idrole", nullable = false)
