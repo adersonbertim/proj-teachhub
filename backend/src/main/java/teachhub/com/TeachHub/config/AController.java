@@ -18,6 +18,8 @@ import java.util.List;
 public abstract class AController <E, D, ID, S extends AService<E, ?>> {
     protected S service;
 
+    protected abstract D toDTO(E entity);
+
     public AController (S servico){
         this.service = servico;
     }

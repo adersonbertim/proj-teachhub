@@ -24,7 +24,7 @@ public abstract class AService <E, R extends JpaRepository<E, Long>> {
     public List<E> findAll(){
         return this.repository.findAll();
     }
-
+    
     public void deletar(Long id){
         this.repository.deleteById(id);
     }

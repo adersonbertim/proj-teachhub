@@ -4,11 +4,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import teachhub.com.TeachHub.config.AController;
 import teachhub.com.TeachHub.model.curso.Curso;
+import teachhub.com.TeachHub.model.curso.CursoDTO;
+import teachhub.com.TeachHub.model.usuarios.Usuario;
+import teachhub.com.TeachHub.model.usuarios.UsuarioDTO;
 import teachhub.com.TeachHub.service.CursoService;
 
 @RestController
 @RequestMapping("/cursos")
-public class CursoController extends AController<Curso, CursoService> {
+public class CursoController extends AController<Curso, CursoDTO, Long, CursoService> {
     public CursoController(CursoService service) {
         super(service);
     }

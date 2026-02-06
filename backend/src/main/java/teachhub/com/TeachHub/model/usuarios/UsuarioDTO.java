@@ -1,6 +1,10 @@
 package teachhub.com.TeachHub.model.usuarios;
 
+import lombok.Builder;
+
 import java.time.LocalDateTime;
+
+@Builder
 
 public record UsuarioDTO (
         Long id,

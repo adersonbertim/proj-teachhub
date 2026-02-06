@@ -10,6 +10,8 @@ import teachhub.com.TeachHub.model.usuarios.Usuario;
 import teachhub.com.TeachHub.model.usuarios.UsuarioDTO;
 import teachhub.com.TeachHub.service.UsuarioService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController extends AController <Usuario, UsuarioDTO, Long, UsuarioService>{
@@ -18,12 +20,9 @@ public class UsuarioController extends AController <Usuario, UsuarioDTO, Long, U
         super(service);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity <UsuarioDTO> buscarPorId(@PathVariable Long id) {
-        Usuario usuario = service.buscarPorId(id);
-        if(usuario == null){
-            return ResponseEntity.notFound().build();
-        };
-        return ResponseEntity.ok(UsuarioDTO.usuario(usuario));
+    protected UsuarioDTO toDTO(Usuario entity) {
+        return UsuarioDTO.usuario(entity);
     }
+
+
 }
