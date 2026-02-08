@@ -1,6 +1,6 @@
 # TeachHub
 
-TeachHub is an open-source platform designed to facilitate collaboration and resource sharing among educators. It provides tools for creating, sharing, and managing educational content, as well as features for communication and collaboration within teaching communities.
+TeachHub is an platform designed to facilitate collaboration and resource sharing among educators. It provides tools for creating, sharing, and managing educational content, as well as features for communication and collaboration within teaching communities.
 
 ## Features
 
