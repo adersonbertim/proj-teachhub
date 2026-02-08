@@ -14,4 +14,9 @@ public class FavoritoController extends AController <Favorito, FavoritoDTO, Long
     public FavoritoController(FavoritoService service) {
         super(service);
     }
+
+    @Override
+    protected FavoritoDTO toDTO(Favorito entity) {
+        return FavoritoDTO.fromEntity(entity);
+    }
 }

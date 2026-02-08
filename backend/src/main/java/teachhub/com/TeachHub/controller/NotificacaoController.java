@@ -13,4 +13,9 @@ public class NotificacaoController extends AController<Notificacao, NotificacaoD
     public NotificacaoController(NotificacaoService service) {
         super(service);
     }
+
+    @Override
+    protected NotificacaoDTO toDTO(Notificacao entity) {
+        return NotificacaoDTO.fromEntity(entity);
+    }
 }

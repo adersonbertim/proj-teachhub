@@ -21,7 +21,7 @@ public class UsuarioController extends AController <Usuario, UsuarioDTO, Long, U
     }
 
     protected UsuarioDTO toDTO(Usuario entity) {
-        return UsuarioDTO.usuario(entity);
+        return UsuarioDTO.fromEntity(entity);
     }
 
 

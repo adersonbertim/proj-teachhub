@@ -15,4 +15,9 @@ public class CursoController extends AController<Curso, CursoDTO, Long, CursoSer
     public CursoController(CursoService service) {
         super(service);
     }
+
+    @Override
+    protected CursoDTO toDTO(Curso entity) {
+        return CursoDTO.fromEntity(entity);
+    }
 }

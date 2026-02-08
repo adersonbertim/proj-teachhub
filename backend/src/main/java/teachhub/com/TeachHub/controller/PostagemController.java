@@ -13,4 +13,9 @@ public class PostagemController extends AController<Postagem, PostagemDTO, Long,
     public PostagemController(PostagemService service) {
         super(service);
     }
+
+    @Override
+    protected PostagemDTO toDTO(Postagem entity) {
+        return PostagemDTO.fromEntity(entity);
+    }
 }

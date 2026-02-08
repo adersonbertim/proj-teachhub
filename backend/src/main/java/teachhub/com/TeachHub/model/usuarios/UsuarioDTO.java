@@ -14,7 +14,7 @@ public record UsuarioDTO (
         String areaEnsino,
         Integer score
 ){
-    public static UsuarioDTO usuario(Usuario u) {
+    public static UsuarioDTO fromEntity(Usuario u) {
         return new UsuarioDTO(
                 u.getId(),
                 u.getEmail(),

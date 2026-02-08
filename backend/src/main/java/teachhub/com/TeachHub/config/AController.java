@@ -13,6 +13,7 @@ package teachhub.com.TeachHub.config;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AController <E, D, ID, S extends AService<E, ?>> {
@@ -26,8 +27,11 @@ public abstract class AController <E, D, ID, S extends AService<E, ?>> {
 
     @CrossOrigin("http://localhost:4200")
     @GetMapping
-    public List<E> listar(){
-        return service.findAll();
+    public List<D> listar(){
+        List<E> entidades = service.findAll();
+        return entidades.stream()
+                .map(this::toDTO)
+                .toList();
     }
 
     @CrossOrigin("http://localhost:4200")
