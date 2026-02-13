@@ -24,9 +24,13 @@ public abstract class AService <E, R extends JpaRepository<E, Long>> {
     public List<E> findAll(){
         return this.repository.findAll();
     }
-    
     public void deletar(Long id){
         this.repository.deleteById(id);
+    }
+
+    public E findById(Long id){
+        return this.repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Registro não encontrado com o ID " + id));
     }
 
 }

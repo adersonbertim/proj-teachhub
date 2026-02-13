@@ -11,7 +11,9 @@ package teachhub.com.TeachHub.config;
  */
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import teachhub.com.TeachHub.core.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,29 +29,39 @@ public abstract class AController <E, D, ID, S extends AService<E, ?>> {
 
     @CrossOrigin("http://localhost:4200")
     @GetMapping
-    public List<D> listar(){
-        List<E> entidades = service.findAll();
-        return entidades.stream()
+    public ResponseEntity<ApiResponse<List<D>>> listar(){
+        List<D> entidades = service.findAll().stream()
                 .map(this::toDTO)
                 .toList();
+        return ResponseEntity.ok(ApiResponse.success(entidades));
     }
 
     @CrossOrigin("http://localhost:4200")
     @PostMapping
-    public void cadastrarNovo(@RequestBody E entidade){
-        service.salvar(entidade);
+    public ResponseEntity<ApiResponse<D>> cadastrarNovo(@RequestBody E entidade){
+        E salvo = service.salvar(entidade);
+        return ResponseEntity.ok(ApiResponse.success(toDTO(salvo)));
     }
+
 
     @CrossOrigin("http://localhost:4200")
     @PutMapping
-    public void atualizar(@RequestBody E entidade){
-        service.salvar(entidade);
+    public  ResponseEntity<ApiResponse<D>> atualizar(@RequestBody E entidade){
+        E atualizado = service.salvar(entidade);
+        return ResponseEntity.ok(ApiResponse.success(toDTO(atualizado)));
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@RequestParam Long id){
+    public ResponseEntity<ApiResponse<String>> deletar(@PathVariable Long id){
         service.deletar(id);
+        return ResponseEntity.ok(ApiResponse.success("Item removido com sucesso!"));
     }
 
+    @CrossOrigin("http://localhost:4200")
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<D>> buscarPorId(@PathVariable Long id){
+        E entidade = service.findById(id);
+        return ResponseEntity.ok(ApiResponse.success(toDTO(entidade)));
+    }
 
 }

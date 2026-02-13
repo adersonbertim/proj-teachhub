@@ -1,12 +1,12 @@
 package teachhub.com.TeachHub.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import teachhub.com.TeachHub.config.AController;
+import teachhub.com.TeachHub.core.ApiResponse;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
+import teachhub.com.TeachHub.model.usuarios.UsuarioCadastroDTO;
 import teachhub.com.TeachHub.model.usuarios.UsuarioDTO;
 import teachhub.com.TeachHub.service.UsuarioService;
 
@@ -24,5 +24,17 @@ public class UsuarioController extends AController <Usuario, UsuarioDTO, Long, U
         return UsuarioDTO.fromEntity(entity);
     }
 
+    @PostMapping("/registrar")
+    public ResponseEntity<ApiResponse<UsuarioDTO>> registrar(@Valid @RequestBody UsuarioCadastroDTO dto) {
+        Usuario novoUsuario = new  Usuario();
+        novoUsuario.setNome(dto.nome());
+        novoUsuario.setEmail(dto.email());
+        novoUsuario.setSenha(dto.senha());
 
+        Usuario usuarioSalvo = service.salvar(novoUsuario);
+
+        UsuarioDTO usuarioDTO = toDTO(usuarioSalvo);
+
+        return ResponseEntity.ok(ApiResponse.success(usuarioDTO));
+    }
 }
