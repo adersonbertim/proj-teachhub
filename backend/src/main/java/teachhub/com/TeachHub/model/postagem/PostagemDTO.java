@@ -1,13 +1,10 @@
 package teachhub.com.TeachHub.model.postagem;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import teachhub.com.TeachHub.model.curso.Curso;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -31,4 +28,10 @@ public class PostagemDTO {
                 .categoria(postagem.getCategoria())
                 .build();
     }
+    public record PostagemRequestDTO(
+            @NotBlank String titulo,
+            @NotBlank String descricao,
+            @NotBlank String categoria,
+            String tag
+    ) {}
 }
