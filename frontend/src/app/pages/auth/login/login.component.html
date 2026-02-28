@@ -1,0 +1,36 @@
+<div class="login-card">
+  <h2>Login TeachHub</h2>
+  <p>Bem vindo a melhor plataforma de conectividade entre professor do Planeta!</p>
+
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input 
+        type="email" 
+        id="email" 
+        name="email" 
+        [(ngModel)]="loginData.email" 
+        required 
+        placeholder="exemplo@email.com">
+    </div>
+
+    <div class="form-group">
+      <label for="senha">Senha</label>
+      <input 
+        type="password" 
+        id="senha" 
+        name="senha" 
+        [(ngModel)]="loginData.senha" 
+        required 
+        placeholder="Sua senha">
+    </div>
+
+    <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <button type="submit" [disabled]="!loginForm.valid">Entrar</button>
+  </form>
+
+  <p class="footer-text">
+    Não tem uma conta? <a href="/register">Cadastre-se</a>
+  </p>
+</div>

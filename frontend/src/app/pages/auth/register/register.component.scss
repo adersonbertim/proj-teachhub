@@ -1,0 +1,31 @@
+.register-card {
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 2rem;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-group { margin-bottom: 1.2rem; }
+label { display: block; margin-bottom: 0.5rem; color: #444; font-weight: 500; }
+input, select {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #28a745; /* Verde para diferenciar do login */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+button:disabled { background-color: #ccc; }
+.error-text { color: #dc3545; font-size: 0.9rem; margin-top: 0.5rem; }

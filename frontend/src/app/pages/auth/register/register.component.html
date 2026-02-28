@@ -1,0 +1,37 @@
+<div class="register-card">
+  <h2>Crie sua conta no TeachHub</h2>
+  <p>Junte-se à nossa comunidade de educação.</p>
+
+  <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+    <div class="form-group">
+      <label>Nome Completo</label>
+      <input type="text" name="nome" [(ngModel)]="registerData.nome" required placeholder="Seu nome">
+    </div>
+
+    <div class="form-group">
+      <label>E-mail</label>
+      <input type="email" name="email" [(ngModel)]="registerData.email" required placeholder="exemplo@email.com">
+    </div>
+
+    <div class="form-group">
+      <label>Senha</label>
+      <input type="password" name="senha" [(ngModel)]="registerData.senha" required placeholder="Crie uma senha forte">
+    </div>
+
+    <div class="form-group">
+      <label>Eu sou:</label>
+      <select name="role" [(ngModel)]="registerData.role">
+        <option value="ALUNO">Aluno</option>
+        <option value="PROFESSOR">Professor</option>
+      </select>
+    </div>
+
+    <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <button type="submit" [disabled]="!registerForm.valid">Cadastrar</button>
+  </form>
+
+  <p class="footer-text">
+    Já tem conta? <a href="/login">Voltar ao login</a>
+  </p>
+</div>
