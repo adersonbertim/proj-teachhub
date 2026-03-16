@@ -32,8 +32,13 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/assets/scss/style.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/scss"
+              ]
+            },
             "scripts": [],
             "server": "src/main.server.ts",
             "outputMode": "server",
@@ -96,8 +101,13 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/assets/scss/style.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/scss"
+              ]
+            },
             "scripts": []
           }
         }

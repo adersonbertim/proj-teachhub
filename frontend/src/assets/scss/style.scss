@@ -1,0 +1,9 @@
+/* variables as has a component to use on most of layouts */
+@use "variables" as *; 
+
+
+/* layouts */
+@use "home";
+@use "sidebar";
+@use "header";
+@use "footer";

@@ -1,0 +1,31 @@
+
+// src/assets/scss/_variables.scss
+$primary: #673ab7;
+$white: #ffffff;
+$dark-bg: #121212;
+
+// Variáveis CSS para o Dark Mode
+:root {
+  --bg-card: #{$white};
+  --text-main: #2d3436;
+}
+
+.dark-theme {
+  --bg-card: #1e1e1e;
+  --text-main: #ffffff;
+}
+// Cores fixas
+$primary: #673ab7;
+
+:root {
+  --bg-body: #f8f9fc;
+  --bg-card: #ffffff;
+  --text-main: #2d3436;
+}
+
+// Quando a classe .dark-theme for aplicada no main-wrapper lá no MainLayout
+.dark-theme {
+  --bg-body: #121212;
+  --bg-card: #1e1e1e;
+  --text-main: #f5f5f5;
+}

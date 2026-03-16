@@ -1,0 +1,10 @@
+
+@use "variables" as *;
+
+.main-footer {
+  padding: 15px;
+  text-align: center;
+  background-color: var(--bg-body); // Usa a cor de fundo do tema
+  color: var(--text-main);
+  font-size: 0.8rem;
+}

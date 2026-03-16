@@ -30,7 +30,8 @@ export const routes: Routes = [
             {path: 'home', component: HomeComponent},
             {path: 'postagens', component: PostagemComponent},
             {path: 'criar-postagem', component: CriarPostagemComponent},
-            {path: 'perfil', component: PerfilComponent}
+            {path: 'perfil', component: PerfilComponent},
+            {path: 'ia', component: IaChatComponent},
         ]
 
     }

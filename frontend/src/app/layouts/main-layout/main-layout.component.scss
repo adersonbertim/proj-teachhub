@@ -1,0 +1,53 @@
+@use "variables" as *;
+
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  transition: background 0.3s ease;
+
+  &.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+
+  // Mudança importante: Usamos o seletor de descendência direta ou deep
+  &.sidebar-collapsed {
+    // Usamos ::ng-deep para garantir que o CSS entre no componente <app-sidebar>
+    ::ng-deep app-sidebar {
+      width: 0 !important;
+      min-width: 0 !important;
+      display: block; // Garante que aceite dimensões
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none; // Desativa cliques enquanto sumida
+    }
+
+    .content-area {
+      flex: 1;
+    }
+  }
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+// Estilo para a tag do componente em si
+app-sidebar {
+  width: 260px;
+  min-width: 260px;
+  transition: all 0.3s ease-in-out;
+  display: block;
+  border-right: 1px solid rgba(0,0,0,0.1);
+  background-color: var(--bg-card);
+}
+
+.content-area {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: inherit;
+}

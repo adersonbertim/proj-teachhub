@@ -1,0 +1,21 @@
+<header class="header-container">
+  <div class="left">
+    <button class="btn-icon" (click)="onToggleSidebar()">☰</button>
+  </div>
+
+  <div class="controls-group">
+    <div class="accessibility-buttons">
+      
+      <button class="ia-btn" (click)="goToIA()">
+        <span class="icon">🤖</span>
+        Assistente IA
+      </button>
+
+      <button (click)="changeFontSize('diminuir')">A-</button>
+      <button (click)="changeFontSize('resetar')">A</button>
+      <button (click)="changeFontSize('aumentar')">A+</button>
+    </div>
+
+    <button class="btn-icon" (click)="onToggleDark()">🌓</button>
+  </div>
+</header>

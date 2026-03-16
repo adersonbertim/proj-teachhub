@@ -1,17 +1,38 @@
-<div class="home-container">
-  <h1>Olá, o que você deseja fazer hoje no TeachHub?</h1>
-  
-  <div class="options-grid">
-    <div class="card" (click)="irPara('postagens')">
-      <i class="icon-posts"></i>
-      <h3>Explorar Postagens</h3>
-      <p>Veja o que a comunidade está compartilhando.</p>
+<div class="dashboard-container">
+  <header class="welcome-section">
+    <h1>Bem-vindo ao TeachHub</h1>
+    <p>O que você deseja fazer hoje?</p>
+  </header>
+
+  <div class="card-grid">
+    <div class="menu-card" (click)="navigateTo('explorar')">
+      <div class="card-icon">📚</div>
+      <h2>Explorar Conteúdo</h2>
+      <span>Veja os materiais disponíveis</span>
     </div>
 
-    <div class="card" (click)="irPara('criar-postagem')">
-      <i class="icon-create"></i>
-      <h3>Criar Postagem</h3>
-      <p>Compartilhe conhecimento ou dúvidas com outros.</p>
+    <div class="menu-card" (click)="navigateTo('postar')">
+      <div class="card-icon">✍️</div>
+      <h2>Criar Postagem</h2>
+      <span>Influencie outros professores</span>
+    </div>
+
+    <div class="menu-card" (click)="navigateTo('criar postagem')">
+      <div class="card-icon">📚</div>
+      <h2>Cursos</h2>
+      <span>Aprenda algo novo!</span>
+    </div>
+
+    <div class="menu-card ia-card" (click)="navigateTo('ia')">
+      <div class="card-icon">🤖</div>
+      <h2>Falar com IA</h2>
+      <span>Tire dúvidas em tempo real</span>
+    </div>
+
+    <div class="menu-card" (click)="navigateTo('perfil')">
+      <div class="card-icon">👤</div>
+      <h2>Meu Perfil</h2>
+      <span>Gerencie seus dados</span>
     </div>
   </div>
 </div>
