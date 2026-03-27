@@ -1,13 +1,25 @@
+@use "variables" as *;
+
 .dashboard-container {
   padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
   text-align: center;
+  background-color: var(--bg-body); // Usa sua variável global de fundo
+  transition: background-color 0.3s ease;
+  min-height: 100vh;
 
   .welcome-section {
     margin-bottom: 50px;
-    h1 { color: #2c3e50; font-size: 2.5rem; }
-    p { color: #7f8c8d; }
+    h1 { 
+      color: var(--text-main); // Adaptável ao Dark Mode
+      font-size: 2.5rem; 
+      transition: color 0.3s;
+    }
+    p { 
+      color: var(--text-main); 
+      opacity: 0.8; // Para dar uma leve diferenciação do H1
+    }
   }
 }
 
@@ -19,16 +31,28 @@
 }
 
 .menu-card {
-  background: #ffffff;
+  background: var(--bg-card); // Usa sua variável: #ffffff ou #1e1e1e
   border-radius: 15px;
   padding: 40px 20px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05); // Sombra leve base
-  border: 1px solid #f0f0f0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1); // Borda sutil adaptável
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  mat-card-title {
+    color: var(--text-main);
+    font-size: 1.2rem !important;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  mat-card-subtitle {
+    color: var(--text-main) !important;
+    opacity: 0.7;
+  }
 
   .card-icon {
     font-size: 50px;
@@ -37,26 +61,27 @@
 
   h2 {
     font-size: 1.4rem;
-    color: #333;
+    color: var(--text-main); // Nome da postagem/card
     margin-bottom: 10px;
   }
 
   span {
-    color: #95a5a6;
+    color: var(--text-main);
+    opacity: 0.6; // Cinza adaptável
     font-size: 0.9rem;
   }
 
   // EFEITO DE RELEVO AO PASSAR O MOUSE
   &:hover {
-    transform: translateY(-10px); // Eleva o card
-    box-shadow: 0 15px 30px rgba(103, 58, 183, 0.15); // Sombra profunda e colorida
-    border-color: #673ab7; // Cor de destaque (roxinho da sua imagem)
+    transform: translateY(-10px);
+    // No Dark Mode, a sombra roxa fica excelente
+    box-shadow: 0 15px 30px rgba($primary, 0.2); 
+    border-color: $primary; 
   }
 
-  // Estilo para o card que está "focado" ou em destaque
   &.highlighted {
-    border: 2px solid #673ab7;
-    box-shadow: 0 10px 20px rgba(103, 58, 183, 0.1);
+    border: 2px solid $primary;
+    box-shadow: 0 10px 20px rgba($primary, 0.1);
   }
 }
 

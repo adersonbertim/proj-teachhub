@@ -1,1 +1,102 @@
-<p>criar-postagem works!</p>
+<div class="create-post-container">
+  <div class="post-card">
+    <header class="post-header">
+      <h1>🚀 Nova Postagem</h1>
+      <p>
+        Crie seus posts educativos e ou ajude a comunidade com um novo
+        conhecimento!
+      </p>
+    </header>
+
+    <div class="post-body">
+      <input
+        type="text"
+        class="title-field"
+        placeholder="Título da postagem..."
+      />
+
+      <div class="toolbar">
+        <div class="tool-group">
+          <button (click)="execCommand('bold')" title="Negrito">
+            <b>B</b>
+          </button>
+          <button (click)="execCommand('italic')" title="Itálico">
+            <i>I</i>
+          </button>
+          <button (click)="execCommand('underline')" title="Sublinhado">
+            <u>U</u>
+          </button>
+        </div>
+
+        <div class="tool-group">
+          <button (click)="execCommand('justifyLeft')" title="Esquerda">
+            ⬅️
+          </button>
+          <button (click)="execCommand('justifyCenter')" title="Centro">
+            ↔️
+          </button>
+          <button (click)="execCommand('justifyRight')" title="Direita">
+            ➡️
+          </button>
+          <button (click)="execCommand('justifyFull')" title="Justificado">
+            ↕️
+          </button>
+        </div>
+
+        <div class="tool-group">
+          <button (click)="promptLink()" title="Link">🔗</button>
+          <button (click)="triggerImage()" title="Imagem">🖼️</button>
+          <input
+            type="file"
+            #fileInput
+            style="display: none"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+          />
+
+          <button (click)="fileInput.click()" title="Upload de Imagem">
+            🖼️
+          </button>
+        </div>
+      </div>
+
+      <div
+        #editor
+        class="rich-editor"
+        contenteditable="true"
+        placeholder="Comece a escrever seu conteúdo aqui..."
+      ></div>
+
+      <div class="post-settings">
+        <div class="setting-item">
+          <label>Matéria</label>
+          <select class="styled-select">
+            <option value="matematica">Matemática</option>
+            <option value="ciencias">Ciências</option>
+            <option value="fisica">Física</option>
+            <option value="quimica">Química</option>
+            <option value="historia">História</option>
+          </select>
+        </div>
+
+        <div class="setting-item checkbox">
+          <label class="toggle-switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+          <span>Plano de Aula</span>
+        </div>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <button class="btn-secondary">Descartar</button>
+      <button class="btn-primary">Criar Postagem</button>
+
+
+  <button class="btn-back" (click)="voltar()">Voltar</button>
+
+
+    </footer>
+  </div>
+</div>

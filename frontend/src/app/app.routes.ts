@@ -7,7 +7,9 @@ import { IaChatComponent } from './pages/ia-chat/ia-chat.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CriarPostagemComponent } from './pages/criar-postagem/criar-postagem.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
-import { PostagemComponent } from './pages/postagem/postagem.component';
+import path from 'path/win32';
+import { SidebarComponent } from './layouts/sidebar/sidebar.component';
+
 
 export const routes: Routes = [
     //group for autentication
@@ -21,14 +23,14 @@ export const routes: Routes = [
 
         ]
     },
-    //group for navbar, sidebar, principal layout 
+    
+    
     {
         path: '',
         component: MainLayoutComponent,
         // NEED: canActivate for routes
         children: [
             {path: 'home', component: HomeComponent},
-            {path: 'postagens', component: PostagemComponent},
             {path: 'criar-postagem', component: CriarPostagemComponent},
             {path: 'perfil', component: PerfilComponent},
             {path: 'ia', component: IaChatComponent},

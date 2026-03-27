@@ -1,24 +1,21 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import path from 'path';
+import { MaterialModule } from '../../material-module';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [CommonModule, MaterialModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  private router = inject(Router)
-
-irPara(arg0: string) {
-throw new Error('Method not implemented.');
-}
-
-  constructor(){}
+ 
+  constructor(private router : Router){}
 
 
-  navigateTo(rota: string){
-    this.router.navigate([`/${rota}`]);
+  navigateTo(route: string){
+    this.router.navigate([route]);
   }
 }

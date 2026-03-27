@@ -1,10 +1,78 @@
 @use "variables" as *;
 
-.sidebar {
+.sidebar-container {
+  height: 100vh;
+  width: 260px;
+  background-color: var(--bg-card);
+  border-right: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+
+  .logo-section {
+    padding: 30px 20px;
+    text-align: center;
+    .logo {
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: $primary;
+      letter-spacing: -1px;
+    }
+  }
+
+  ::ng-deep .mat-mdc-nav-list {
+    padding: 10px !important;
+
+    .mat-mdc-list-item {
+      margin-bottom: 8px !important;
+      border-radius: 12px !important;
+      height: 48px !important;
+      color: var(--text-main) !important;
+
+      // Alinhamento centralizado do conteúdo
+      .mdc-list-item__content {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+      }
+
+      // ÍCONES LEVES
+      .material-symbols-outlined {
+        font-variation-settings: 'wght' 300, 'opsz' 24 !important; // 300 deixa o ícone bem fino
+        font-size: 22px !important;
+      }
+
+      &.active-link {
+        background-color: rgba($primary, 0.1) !important;
+        color: $primary !important;
+        
+        .material-symbols-outlined {
+          font-variation-settings: 'wght' 500, 'FILL' 1 !important; // No ativo ele ganha um pouco de peso
+        }
+      }
+    }
+  }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding: 20px;
+    
+    .btn-logout {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #666;
+      
+      &:hover { color: #0a7386; }
+    }
+  }
+}
+
+/* .sidebar {
   width: 230px;
   height: 100vh;
   background-color: var(--bg-card); // Usa sua variável do Dark Mode
-  border-right: 1px solid rgba(0,0,0,0.1);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -32,7 +100,10 @@
         border-radius: 10px;
         transition: all 0.2s;
 
-        .icon { margin-right: 15px; font-size: 1.2rem; }
+        .icon {
+          margin-right: 15px;
+          font-size: 1.2rem;
+        }
 
         &:hover {
           background-color: rgba($primary, 0.1);
@@ -46,4 +117,4 @@
       }
     }
   }
-}
+} */

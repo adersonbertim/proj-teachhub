@@ -1,34 +1,31 @@
-<nav class="sidebar">
-  <div class="logo">
-    <h2>TeachHub</h2>
+<div class="sidebar-container">
+
+  <div class="logo-section">
+    <span class="logo">TeachHub</span>
   </div>
 
-  <ul class="nav-links">
-    <li>
-      <a routerLink="/home" routerLinkActive="active">
-        <span class="icon">🏠</span> Home
-      </a>
-    </li>
-    <li>
-      <a routerLink="/cursos" routerLinkActive="active">
-        <span class="icon">📚</span> Cursos
-      </a>
-    </li>
-    <li>
-      <a routerLink="/ia" routerLinkActive="active">
-        <span class="icon">🤖</span> Tutor IA
-      </a>
-    </li>
-    <li>
-      <a routerLink="/postagens" routerLinkActive="active">
-        <span class="icon">✍️</span> Postagens
-      </a>
-    </li>
-    <hr>
-    <li>
-      <a routerLink="/perfil" routerLinkActive="active">
-        <span class="icon">👤</span> Perfil
-      </a>
-    </li>
-  </ul>
-</nav>
+
+  <mat-divider></mat-divider>
+
+  <mat-nav-list>
+    <a mat-list-item
+    *ngFor="let item of navItens"
+    [routerLink]="item.route"
+    routerLinkActive="active-link">
+
+    <mat-icon matListIcon class="material-symbols-outlined">
+      {{ item.icon }}
+    </mat-icon>
+    <span matLine>{{ item.label }}</span>
+    </a>
+  </mat-nav-list>
+
+  
+  <div class="sidebar-footer">
+    <button mat-button (click)="logout()" class="btn-logout">
+      <mat-icon class="material-symbols-outlined">logout</mat-icon>
+      <span>Sair</span>
+    </button>
+  </div>
+
+</div>

@@ -1,0 +1,25 @@
+<button class="floating-btn" (click)="toggleChat()" *ngIf="!isOpen && !isIAPage">
+  <span class="icon">✨</span>
+  Dúvida?
+</button>
+
+<div class="chat-window" *ngIf="isOpen" [class.dark]="isDarkMode">
+  <div class="chat-header">
+    <span class="status-dot"></span>
+    <p>Suporte TeachHub</p>
+    <button (click)="toggleChat()">✕</button>
+  </div>
+  
+  <div class="chat-body">
+    <div class="welcome-msg">
+      <div class="bot-avatar">✨</div>
+      <h2>Olá! Ficou com dúvida?</h2>
+      <p>Estou aqui para te ajudar com a plataforma.</p>
+    </div>
+  </div>
+
+  <div class="chat-footer">
+    <input type="text" placeholder="Pergunte alguma coisa...">
+    <button class="send-btn">➤</button>
+  </div>
+</div>

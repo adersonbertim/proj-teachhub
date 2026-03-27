@@ -5,34 +5,47 @@
   </header>
 
   <div class="card-grid">
-    <div class="menu-card" (click)="navigateTo('explorar')">
-      <div class="card-icon">📚</div>
-      <h2>Explorar Conteúdo</h2>
-      <span>Veja os materiais disponíveis</span>
-    </div>
 
-    <div class="menu-card" (click)="navigateTo('postar')">
-      <div class="card-icon">✍️</div>
-      <h2>Criar Postagem</h2>
-      <span>Influencie outros professores</span>
-    </div>
 
-    <div class="menu-card" (click)="navigateTo('criar postagem')">
-      <div class="card-icon">📚</div>
-      <h2>Cursos</h2>
-      <span>Aprenda algo novo!</span>
-    </div>
+    <mat-card class="menu-card" (click)="navigateTo('postagens')">
+      <mat-card-header>
+          <div class="card-icon">📚</div>
+          <mat-card-title>Explorar Conteúdo</mat-card-title>
+          <mat-card-subtitle>Veja os materiais disponíveis</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
 
-    <div class="menu-card ia-card" (click)="navigateTo('ia')">
-      <div class="card-icon">🤖</div>
-      <h2>Falar com IA</h2>
-      <span>Tire dúvidas em tempo real</span>
-    </div>
+    <mat-card class="menu-card" (click)="navigateTo('criar-postagem')">
+      <mat-card-header>
+          <div class="card-icon">✍️</div>
+          <mat-card-title>Criar Postagem</mat-card-title>
+          <mat-card-subtitle>Influencie outros professores</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+ 
 
-    <div class="menu-card" (click)="navigateTo('perfil')">
-      <div class="card-icon">👤</div>
-      <h2>Meu Perfil</h2>
-      <span>Gerencie seus dados</span>
-    </div>
-  </div>
+    <mat-card class="menu-card" (click)="navigateTo('cursos')">
+      <mat-card-header>
+          <div class="card-icon">📚</div>
+          <mat-card-title>Cursos</mat-card-title>
+          <mat-card-subtitle>Aprenda algo novo!</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+
+    <mat-card class="menu-card ia-card" (click)="navigateTo('ia')">
+      <mat-card-header>
+          <div class="card-icon">🤖</div>
+          <mat-card-title>Falar com IA</mat-card-title>
+          <mat-card-subtitle>Tire dúvidas em tempo real</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+
+    <mat-card class="menu-card" (click)="navigateTo('perfil')">
+      <mat-card-header>
+          <div class="card-icon">👤</div>
+          <mat-card-title>Meu Perfil</mat-card-title>
+          <mat-card-subtitle>Gerencie seus dados</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+
 </div>

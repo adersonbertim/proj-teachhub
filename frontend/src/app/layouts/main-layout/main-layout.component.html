@@ -6,15 +6,23 @@
   <app-header
     (toggleSideBar)="handleSideBarToggle()"
     (toggleDark)="toggleDarkMode()"
+    
   >
   </app-header>
 
+    
+
   <div class="app-body">
-    <app-sidebar [collapsed]="isSidebarCollapsed"></app-sidebar>
+    <app-sidebar [isSidebarCollapsed]="isSidebarCollapsed"></app-sidebar>
     <main class="content-area">
       <router-outlet></router-outlet>
     </main>
   </div>
 
-  <app-footer></app-footer>
+  
+  
+
+  <app-footer>
+
+  </app-footer>
 </div>

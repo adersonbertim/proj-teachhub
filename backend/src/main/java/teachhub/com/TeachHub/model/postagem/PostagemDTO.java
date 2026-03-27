@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import teachhub.com.TeachHub.model.usuarios.UsuarioDTO;
 
 @Data
 @Builder
@@ -15,6 +16,9 @@ public class PostagemDTO {
     private String titulo;
     private String descricao;
     private String categoria;
+    private String autor;
+
+    private UsuarioDTO usuarioDTO;
 
 
     public static PostagemDTO fromEntity(Postagem postagem) {
@@ -26,12 +30,14 @@ public class PostagemDTO {
                 .titulo(postagem.getTitulo())
                 .descricao(postagem.getDescricao())
                 .categoria(postagem.getCategoria())
+                .usuarioDTO(UsuarioDTO.fromEntity(postagem.getAutor()))
                 .build();
     }
     public record PostagemRequestDTO(
             @NotBlank String titulo,
             @NotBlank String descricao,
             @NotBlank String categoria,
+            @NotBlank String usuario,
             String tag
     ) {}
 }

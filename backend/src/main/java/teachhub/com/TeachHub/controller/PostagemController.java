@@ -15,7 +15,7 @@ import teachhub.com.TeachHub.service.PostagemService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/postagens")
+@RequestMapping("/feed")
 public class PostagemController  {
     private PostagemService service;
 

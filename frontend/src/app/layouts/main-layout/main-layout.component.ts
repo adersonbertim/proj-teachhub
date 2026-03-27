@@ -4,19 +4,21 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { FooterComponent } from '../footer/footer.component';
-// Importe seus componentes de layout aqui
-// import { SidebarComponent } from './sidebar/sidebar.component';
+import { SupportChatComponent } from "../../pages/support-chat/support-chat.component";
+
+
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterModule,
     HeaderComponent,
     SidebarComponent,
     FooterComponent,
-  ], 
+    SupportChatComponent
+], 
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })
@@ -37,7 +39,7 @@ export class MainLayoutComponent {
   }
 
   handleSideBarToggle() {
-    console.log('O Pai recebeu o aviso!');
+    
     this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
