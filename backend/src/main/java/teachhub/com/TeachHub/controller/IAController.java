@@ -3,6 +3,7 @@ package teachhub.com.TeachHub.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import teachhub.com.TeachHub.config.AController;
 import teachhub.com.TeachHub.core.ApiResponse;
 import teachhub.com.TeachHub.model.log_ia.LogIA;
 import teachhub.com.TeachHub.model.log_ia.PerguntaDTO;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ia")
-public class IAController {
+public class IAController  {
 
     private final IAService iaService;
     public IAController(IAService iaService) {

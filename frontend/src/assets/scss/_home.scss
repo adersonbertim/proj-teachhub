@@ -5,89 +5,89 @@
   max-width: 1200px;
   margin: 0 auto;
   text-align: center;
-  background-color: var(--bg-body); // Usa sua variável global de fundo
-  transition: background-color 0.3s ease;
-  min-height: 100vh;
+  background-color: transparent; // O fundo já é controlado pelo main-layout
+  min-height: 80vh;
 
   .welcome-section {
     margin-bottom: 50px;
     h1 { 
-      color: var(--text-main); // Adaptável ao Dark Mode
+      color: var(--text-main); 
       font-size: 2.5rem; 
-      transition: color 0.3s;
+      font-weight: 800;
+      letter-spacing: -1px;
     }
     p { 
       color: var(--text-main); 
-      opacity: 0.8; // Para dar uma leve diferenciação do H1
+      opacity: 0.7; 
     }
   }
 }
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
   padding: 20px;
 }
 
 .menu-card {
-  background: var(--bg-card); // Usa sua variável: #ffffff ou #1e1e1e
-  border-radius: 15px;
-  padding: 40px 20px;
+  background: var(--bg-card) !important; 
+  border-radius: 20px !important;
+  padding: 20px !important;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.1); // Borda sutil adaptável
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border: 1px solid var(--card-border) !important;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+
+  mat-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px !important;
+  }
+
+  // Estilo do Ícone (Leve e Roxo)
+  mat-icon {
+    font-size: 48px !important;
+    width: 48px !important;
+    height: 48px !important;
+    margin-bottom: 20px;
+    color: $primary;
+    font-variation-settings: 'wght' 300; // DEIXA O ÍCONE FINO
+  }
 
   mat-card-title {
-    color: var(--text-main);
-    font-size: 1.2rem !important;
-    font-weight: 600;
-    margin-bottom: 8px;
+    color: var(--text-main) !important;
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 8px !important;
   }
 
   mat-card-subtitle {
     color: var(--text-main) !important;
-    opacity: 0.7;
+    opacity: 0.6;
+    font-size: 0.95rem !important;
   }
 
-  .card-icon {
-    font-size: 50px;
-    margin-bottom: 20px;
-  }
-
-  h2 {
-    font-size: 1.4rem;
-    color: var(--text-main); // Nome da postagem/card
-    margin-bottom: 10px;
-  }
-
-  span {
-    color: var(--text-main);
-    opacity: 0.6; // Cinza adaptável
-    font-size: 0.9rem;
-  }
-
-  // EFEITO DE RELEVO AO PASSAR O MOUSE
+  // Efeito de Hover
   &:hover {
-    transform: translateY(-10px);
-    // No Dark Mode, a sombra roxa fica excelente
-    box-shadow: 0 15px 30px rgba($primary, 0.2); 
-    border-color: $primary; 
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba($primary, 0.15) !important;
+    border-color: $primary !important;
+
+    mat-icon {
+      font-variation-settings: 'wght' 400, 'FILL' 1; // Preenche ao passar o mouse
+    }
   }
 
-  &.highlighted {
-    border: 2px solid $primary;
-    box-shadow: 0 10px 20px rgba($primary, 0.1);
-  }
-}
-
-// Responsividade para telas menores
-@media (max-width: 768px) {
-  .card-grid {
-    grid-template-columns: 1fr;
+  // Estilo específico para o Card de IA
+  &.ia-card:hover {
+    border-color: #00bcd4 !important;
+    box-shadow: 0 12px 25px rgba(0, 188, 212, 0.2) !important;
+    mat-icon { color: #00bcd4; }
   }
 }

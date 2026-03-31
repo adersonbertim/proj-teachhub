@@ -6,46 +6,45 @@
 
   <div class="card-grid">
 
-
-    <mat-card class="menu-card" (click)="navigateTo('postagens')">
-      <mat-card-header>
-          <div class="card-icon">📚</div>
-          <mat-card-title>Explorar Conteúdo</mat-card-title>
-          <mat-card-subtitle>Veja os materiais disponíveis</mat-card-subtitle>
-      </mat-card-header>
+    <mat-card class="menu-card" (click)="navigateTo('postagens')" appearance="outlined">
+      <mat-card-content>
+        <mat-icon class="material-symbols-outlined">explore</mat-icon>
+        <mat-card-title>Explorar Conteúdo</mat-card-title>
+        <mat-card-subtitle>Veja os materiais disponíveis</mat-card-subtitle>
+      </mat-card-content>
     </mat-card>
 
-    <mat-card class="menu-card" (click)="navigateTo('criar-postagem')">
-      <mat-card-header>
-          <div class="card-icon">✍️</div>
-          <mat-card-title>Criar Postagem</mat-card-title>
-          <mat-card-subtitle>Influencie outros professores</mat-card-subtitle>
-      </mat-card-header>
-    </mat-card>
- 
-
-    <mat-card class="menu-card" (click)="navigateTo('cursos')">
-      <mat-card-header>
-          <div class="card-icon">📚</div>
-          <mat-card-title>Cursos</mat-card-title>
-          <mat-card-subtitle>Aprenda algo novo!</mat-card-subtitle>
-      </mat-card-header>
+    <mat-card class="menu-card" (click)="navigateTo('criar-postagem')" appearance="outlined">
+      <mat-card-content>
+        <mat-icon class="material-symbols-outlined">edit_square</mat-icon>
+        <mat-card-title>Criar Postagem</mat-card-title>
+        <mat-card-subtitle>Influencie outros professores</mat-card-subtitle>
+      </mat-card-content>
     </mat-card>
 
-    <mat-card class="menu-card ia-card" (click)="navigateTo('ia')">
-      <mat-card-header>
-          <div class="card-icon">🤖</div>
-          <mat-card-title>Falar com IA</mat-card-title>
-          <mat-card-subtitle>Tire dúvidas em tempo real</mat-card-subtitle>
-      </mat-card-header>
+    <mat-card class="menu-card" (click)="navigateTo('cursos')" appearance="outlined">
+      <mat-card-content>
+        <mat-icon class="material-symbols-outlined">school</mat-icon>
+        <mat-card-title>Cursos</mat-card-title>
+        <mat-card-subtitle>Aprenda algo novo!</mat-card-subtitle>
+      </mat-card-content>
     </mat-card>
 
-    <mat-card class="menu-card" (click)="navigateTo('perfil')">
-      <mat-card-header>
-          <div class="card-icon">👤</div>
-          <mat-card-title>Meu Perfil</mat-card-title>
-          <mat-card-subtitle>Gerencie seus dados</mat-card-subtitle>
-      </mat-card-header>
+    <mat-card class="menu-card ia-card" (click)="navigateTo('ia')" appearance="outlined">
+      <mat-card-content>
+        <mat-icon class="material-symbols-outlined">smart_toy</mat-icon>
+        <mat-card-title>Falar com IA</mat-card-title>
+        <mat-card-subtitle>Tire dúvidas em tempo real</mat-card-subtitle>
+      </mat-card-content>
     </mat-card>
 
+    <mat-card class="menu-card" (click)="navigateTo('perfil')" appearance="outlined">
+      <mat-card-content>
+        <mat-icon class="material-symbols-outlined">account_circle</mat-icon>
+        <mat-card-title>Meu Perfil</mat-card-title>
+        <mat-card-subtitle>Gerencie seus dados</mat-card-subtitle>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
 </div>

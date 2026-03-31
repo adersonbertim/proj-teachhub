@@ -11,7 +11,7 @@ import { MaterialModule } from '../../material-module';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
- 
+  title= 'Pagina Inicial';
   constructor(private router : Router){}
 
 

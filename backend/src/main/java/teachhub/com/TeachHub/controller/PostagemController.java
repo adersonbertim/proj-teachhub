@@ -16,11 +16,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/feed")
-public class PostagemController  {
+public class PostagemController extends AController<Postagem, PostagemDTO, Long, PostagemService>  {
     private PostagemService service;
 
     public PostagemController(PostagemService service) {
+        super(service);
         this.service = service;
+    }
+
+    @Override
+    protected PostagemDTO toDTO(Postagem entity) {
+        return PostagemDTO.fromEntity(entity);
     }
 
     @PostMapping

@@ -17,10 +17,11 @@ export class SidebarComponent {
 
   navItens = [
     { label: 'Home', icon: 'home', route: '/home' },
-    { label: 'Nova Postagem', icon: 'add_circle', route: '/criar-postagem' },
+    { label: 'Nova Postagem', icon: 'post', route: '/criar-postagem' },
     { label: 'Cursos', icon: 'school', route: '/cursos' },
     { label: 'Assistente IA', icon: 'robot_2', route: '/ia' },
     { label: 'Meu Perfil', icon: 'account_circle', route: '/perfil' },
+    { label: 'Sair', icon: 'logout', route: '/logout' },
   ];
 
   logout(){ 
