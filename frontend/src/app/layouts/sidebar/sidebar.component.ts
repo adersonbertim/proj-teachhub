@@ -16,13 +16,14 @@ export class SidebarComponent {
   @Input() isSidebarCollapsed: boolean = false;
 
   navItens = [
-    { label: 'Home', icon: 'home', route: '/home' },
-    { label: 'Nova Postagem', icon: 'post', route: '/criar-postagem' },
-    { label: 'Cursos', icon: 'school', route: '/cursos' },
-    { label: 'Assistente IA', icon: 'robot_2', route: '/ia' },
-    { label: 'Meu Perfil', icon: 'account_circle', route: '/perfil' },
-    { label: 'Sair', icon: 'logout', route: '/logout' },
-  ];
+  { label: 'Home', icon: 'grid_view', route: '/home' },
+  { label: 'Explorar', icon: 'explore', route: '/postagens' },
+  { label: 'Criar Postagem', icon: 'edit_square', route: '/criar-postagem' },
+  { label: 'Cursos', icon: 'school', route: '/cursos' },
+  { label: 'Falar com IA', icon: 'smart_toy', route: '/ia' },
+  { label: 'Meu Perfil', icon: 'account_circle', route: '/perfil' }
+];
+
 
   logout(){ 
     console.log('Logout');

@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { MaterialModule } from '../../material-module';
+
 
 
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [MaterialModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -15,17 +17,15 @@ export class HeaderComponent {
   constructor(private router: Router) {}
 
   fontSize= 100; //(16px)
-
+  @Input() isDarkMode: boolean = false;
   @Output() toggleSideBar = new EventEmitter <void>();
   @Output() toggleDark = new EventEmitter<void> ();
 
   onToggleSidebar(){
-    console.log('Fui clicado no Header!');
     this.toggleSideBar.emit();
   }
 
   onToggleDark(){
-
     this.toggleDark.emit();
   }
 

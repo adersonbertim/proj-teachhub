@@ -1,21 +1,38 @@
-<header class="header-container">
-  <div class="left">
-    <button class="btn-icon" (click)="onToggleSidebar()">☰</button>
+<mat-toolbar class="header-container">
+  <div class="left-section">
+    <button mat-icon-button (click)="onToggleSidebar()" aria-label="Menu">
+      <mat-icon class="material-symbols-outlined">menu</mat-icon>
+    </button>
   </div>
 
+  <span class="spacer"></span>
+
   <div class="controls-group">
-    <div class="accessibility-buttons">
-      
-      <button class="ia-btn" (click)="goToIA()">
-        <span class="icon">🤖</span>
+    <div class="accessibility-group">
+      <button mat-flat-button class="ia-btn" (click)="goToIA()">
+        <mat-icon class="material-symbols-outlined">smart_toy</mat-icon>
         Assistente IA
       </button>
 
-      <button (click)="changeFontSize('diminuir')">A-</button>
-      <button (click)="changeFontSize('resetar')">A</button>
-      <button (click)="changeFontSize('aumentar')">A+</button>
+      <div class="font-controls">
+        <button mat-icon-button (click)="changeFontSize('diminuir')" title="Diminuir Fonte">
+          <mat-icon class="material-symbols-outlined">text_decrease</mat-icon>
+        </button>
+        <button mat-icon-button (click)="changeFontSize('resetar')" title="Resetar Fonte">
+          <mat-icon class="material-symbols-outlined">match_case</mat-icon>
+        </button>
+        <button mat-icon-button (click)="changeFontSize('aumentar')" title="Aumentar Fonte">
+          <mat-icon class="material-symbols-outlined">text_increase</mat-icon>
+        </button>
+      </div>
     </div>
 
-    <button class="btn-icon" (click)="onToggleDark()">🌓</button>
+    <mat-divider vertical></mat-divider>
+
+    <button mat-icon-button (click)="onToggleDark()" class="theme-toggle">
+      <mat-icon class="material-symbols-outlined">
+        {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
+      </mat-icon>
+    </button>
   </div>
-</header>
+</mat-toolbar>

@@ -1,102 +1,84 @@
 <div class="create-post-container">
-  <div class="post-card">
+  <mat-card class="post-card">
     <header class="post-header">
       <h1>🚀 Nova Postagem</h1>
-      <p>
-        Crie seus posts educativos e ou ajude a comunidade com um novo
-        conhecimento!
-      </p>
+      <p>Crie seus posts educativos ou ajude a comunidade com um novo conhecimento!</p>
     </header>
 
     <div class="post-body">
-      <input
-        type="text"
-        class="title-field"
-        placeholder="Título da postagem..."
-      />
+      <mat-form-field appearance="fill" class="title-field-container">
+        <mat-label>Título da postagem</mat-label>
+        <input matInput [(ngModel)]="titulo" placeholder="Ex: Introdução à Algoritmos">
+      </mat-form-field>
 
       <div class="toolbar">
         <div class="tool-group">
-          <button (click)="execCommand('bold')" title="Negrito">
-            <b>B</b>
+          <button mat-icon-button (click)="execCommand('bold')" title="Negrito">
+            <mat-icon class="material-symbols-outlined">format_bold</mat-icon>
           </button>
-          <button (click)="execCommand('italic')" title="Itálico">
-            <i>I</i>
+          <button mat-icon-button (click)="execCommand('italic')" title="Itálico">
+            <mat-icon class="material-symbols-outlined">format_italic</mat-icon>
           </button>
-          <button (click)="execCommand('underline')" title="Sublinhado">
-            <u>U</u>
-          </button>
-        </div>
-
-        <div class="tool-group">
-          <button (click)="execCommand('justifyLeft')" title="Esquerda">
-            ⬅️
-          </button>
-          <button (click)="execCommand('justifyCenter')" title="Centro">
-            ↔️
-          </button>
-          <button (click)="execCommand('justifyRight')" title="Direita">
-            ➡️
-          </button>
-          <button (click)="execCommand('justifyFull')" title="Justificado">
-            ↕️
+          <button mat-icon-button (click)="execCommand('underline')" title="Sublinhado">
+            <mat-icon class="material-symbols-outlined">format_underlined</mat-icon>
           </button>
         </div>
 
         <div class="tool-group">
-          <button (click)="promptLink()" title="Link">🔗</button>
-          <button (click)="triggerImage()" title="Imagem">🖼️</button>
-          <input
-            type="file"
-            #fileInput
-            style="display: none"
-            accept="image/*"
-            (change)="onFileSelected($event)"
-          />
+          <button mat-icon-button (click)="execCommand('justifyLeft')" title="Esquerda">
+            <mat-icon class="material-symbols-outlined">format_align_left</mat-icon>
+          </button>
+          <button mat-icon-button (click)="execCommand('justifyCenter')" title="Centro">
+            <mat-icon class="material-symbols-outlined">format_align_center</mat-icon>
+          </button>
+          <button mat-icon-button (click)="execCommand('justifyRight')" title="Direita">
+            <mat-icon class="material-symbols-outlined">format_align_right</mat-icon>
+          </button>
+        </div>
 
-          <button (click)="fileInput.click()" title="Upload de Imagem">
-            🖼️
+        <div class="tool-group">
+          <button mat-icon-button (click)="promptLink()" title="Inserir Link">
+            <mat-icon class="material-symbols-outlined">link</mat-icon>
+          </button>
+          
+          <input type="file" #fileInput style="display: none" accept="image/*" (change)="onFileSelected($event)" />
+          <button mat-icon-button (click)="fileInput.click()" title="Upload de Imagem">
+            <mat-icon class="material-symbols-outlined">image</mat-icon>
           </button>
         </div>
       </div>
 
-      <div
-        #editor
-        class="rich-editor"
-        contenteditable="true"
-        placeholder="Comece a escrever seu conteúdo aqui..."
-      ></div>
+      <div #editor class="rich-editor" contenteditable="true" placeholder="Comece a escrever seu conteúdo aqui..."></div>
 
       <div class="post-settings">
-        <div class="setting-item">
-          <label>Matéria</label>
-          <select class="styled-select">
-            <option value="matematica">Matemática</option>
-            <option value="ciencias">Ciências</option>
-            <option value="fisica">Física</option>
-            <option value="quimica">Química</option>
-            <option value="historia">História</option>
-          </select>
-        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Matéria</mat-label>
+          <mat-select [(ngModel)]="materia">
+            <mat-option value="matematica">Matemática</mat-option>
+            <mat-option value="ciencias">Ciências</mat-option>
+            <mat-option value="fisica">Física</mat-option>
+            <mat-option value="quimica">Química</mat-option>
+            <mat-option value="historia">História</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-        <div class="setting-item checkbox">
-          <label class="toggle-switch">
-            <input type="checkbox" />
-            <span class="slider"></span>
-          </label>
-          <span>Plano de Aula</span>
+        <div class="setting-item">
+          <mat-slide-toggle color="primary" [(ngModel)]="isPlanoAula">
+            É um Plano de Aula?
+          </mat-slide-toggle>
         </div>
       </div>
     </div>
 
     <footer class="post-footer">
-      <button class="btn-secondary">Descartar</button>
-      <button class="btn-primary">Criar Postagem</button>
-
-
-  <button class="btn-back" (click)="voltar()">Voltar</button>
-
-
+      <button mat-button color="warn" (click)="voltar()">Descartar</button>
+      <div class="main-actions">
+        <button mat-stroked-button (click)="voltar()">Voltar</button>
+        <button mat-flat-button color="primary" (click)="criarPostagem()">
+          <mat-icon class="material-symbols-outlined">send</mat-icon>
+          Criar Postagem
+        </button>
+      </div>
     </footer>
-  </div>
+  </mat-card>
 </div>

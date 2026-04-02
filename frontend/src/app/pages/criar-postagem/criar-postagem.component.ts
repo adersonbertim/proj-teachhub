@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { PostagemDTO } from '../../services/model.service';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MaterialModule } from '../../material-module';
 
 @Component({
   selector: 'app-criar-postagem',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MaterialModule],
   templateUrl: './criar-postagem.component.html',
   styleUrl: './criar-postagem.component.scss',
 })
@@ -16,6 +17,8 @@ export class CriarPostagemComponent {
   @ViewChild('editor') editor!: ElementRef;
   autor: string = '';
   titulo: string = '';
+  materia: string = '';
+  isPlanoAula: boolean = false;
   descricao: string = '';
   categoria: string = '';
 

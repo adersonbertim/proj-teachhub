@@ -7,6 +7,7 @@
   border-right: 1px solid var(--card-border);
   display: flex;
   flex-direction: column;
+  transition: all 0.3s ease;
 
   .logo-section {
     padding: 30px 20px;
@@ -14,40 +15,65 @@
     .logo {
       font-weight: 800;
       font-size: 1.5rem;
-      color: $primary;
+      color: $primary; // Seu roxo #673ab7
       letter-spacing: -1px;
+      text-transform: uppercase;
     }
   }
 
+  mat-divider {
+    opacity: 0.5;
+    margin: 0 20px;
+  }
+
   ::ng-deep .mat-mdc-nav-list {
-    padding: 10px !important;
+    padding: 15px !important;
 
     .mat-mdc-list-item {
-      margin-bottom: 8px !important;
+      margin-bottom: 6px !important;
       border-radius: 12px !important;
       height: 48px !important;
       color: var(--text-main) !important;
+      transition: all 0.2s ease !important;
 
-      // Alinhamento centralizado do conteúdo
+      // Alinhamento e espaçamento entre ícone e texto
       .mdc-list-item__content {
         display: flex !important;
         align-items: center !important;
         gap: 12px !important;
       }
 
-      // ÍCONES LEVES
+      // ÍCONES SUPER LEVES (Padronizado com a Home)
       .material-symbols-outlined {
-        font-variation-settings: 'wght' 200, 'opsz' 24 !important; // 300 deixa o ícone bem fino
-        font-size: 20px !important;
+        font-variation-settings: 'wght' 200, 'opsz' 24 !important; 
+        font-size: 22px !important;
+        color: var(--text-main);
+        opacity: 0.8;
       }
 
+      .mat-mdc-list-item-title {
+        font-size: 0.95rem !important;
+        font-weight: 500 !important;
+      }
+
+      // ESTADO ATIVO
       &.active-link {
-        background-color: rgba($primary, 0.1) !important;
-        color: $primary !important;
+        background-color: rgba($primary, 0.12) !important; // Fundo 
+        
+        .mat-mdc-list-item-title {
+          color: $primary !important;
+          font-weight: 700 !important;
+        }
         
         .material-symbols-outlined {
-          font-variation-settings: 'wght' 500, 'FILL' 1 !important; // No ativo ele ganha um pouco de peso
+          color: $primary !important;
+          opacity: 1;
+          font-variation-settings: 'wght' 400, 'FILL' 1 !important; // Ícone ganha corpo e preenchimento
         }
+      }
+
+      &:hover:not(.active-link) {
+        background-color: rgba(0, 0, 0, 0.04) !important;
       }
     }
   }
@@ -58,63 +84,19 @@
     
     .btn-logout {
       width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #666;
+      justify-content: flex-start !important;
+      gap: 12px;
+      color: var(--text-main);
+      opacity: 0.7;
+      border-radius: 10px;
       
-      &:hover { color: #0a7386; }
-    }
-  }
-}
+      mat-icon { font-variation-settings: 'wght' 200; }
 
-/* .sidebar {
-  width: 230px;
-  height: 100vh;
-  background-color: var(--bg-card); // Usa sua variável do Dark Mode
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-
-  .logo {
-    padding: 20px 0;
-    text-align: center;
-    color: $primary;
-    font-weight: bold;
-  }
-
-  .nav-links {
-    list-style: none;
-    padding: 0;
-
-    li {
-      margin-bottom: 10px;
-
-      a {
-        display: flex;
-        align-items: center;
-        padding: 12px 15px;
-        text-decoration: none;
-        color: var(--text-main);
-        border-radius: 10px;
-        transition: all 0.2s;
-
-        .icon {
-          margin-right: 15px;
-          font-size: 1.2rem;
-        }
-
-        &:hover {
-          background-color: rgba($primary, 0.1);
-          color: $primary;
-        }
-
-        &.active {
-          background-color: $primary;
-          color: white;
-        }
+      &:hover { 
+        opacity: 1;
+        color: #d32f2f; // Vermelho suave para o logout
+        background-color: rgba(211, 47, 47, 0.05);
       }
     }
   }
-} */
+}
