@@ -21,8 +21,8 @@ export class PostagemService{
             console.log('Postagem salva', novaPostagem);
         }
 
-        getPostagem(){
-            return this.postagens;
+        getPostagemById(id: number){
+            return this.postagens.find(post => post.idPostagem === id);
         }
     
 

@@ -69,10 +69,14 @@ export class CriarPostagemComponent {
       descricao: this.descricao,
       categoria: this.categoria,
       idPostagem: 0,
-      isPlanoAula: undefined,
+      isPlanoAula: false,
       materia: '',
       conteudo: undefined,
       dataCriacao: '',
+      isFavorita: false,
+      nota: false,
+      likes: 0,
+      dislikes: 0,
     };
     this.postagemService.adicionarPostagens(novaPostagem);
     this.router.navigate(['/postagens']);

@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 
 export interface PostagemDTO{
-isPlanoAula: any;
+isFavorita: boolean;
+isPlanoAula: boolean;
+nota : boolean;
+likes: number;
+dislikes: number;
 materia: string;
 conteudo: any;
 dataCriacao: string|number|Date;
@@ -11,3 +15,4 @@ dataCriacao: string|number|Date;
     categoria: string;
     autor: string;
 }
+

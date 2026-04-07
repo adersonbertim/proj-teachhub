@@ -78,6 +78,7 @@ const MaterialComponents = [
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
+  MatChipsModule
 ];
 
 @NgModule({

@@ -9,6 +9,8 @@ import { CriarPostagemComponent } from './pages/criar-postagem/criar-postagem.co
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import path from 'path/win32';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
+import { PostagensComponent } from './pages/postagens/postagens.component';
+import { CursosComponent } from './pages/cursos/cursos.component';
 
 
 export const routes: Routes = [
@@ -34,6 +36,9 @@ export const routes: Routes = [
             {path: 'criar-postagem', component: CriarPostagemComponent},
             {path: 'perfil', component: PerfilComponent},
             {path: 'ia', component: IaChatComponent},
+            {path: 'postagens', component: PostagensComponent},
+            {path: 'cursos', component: CursosComponent},
+            {path:'**', redirectTo: 'home'} 
         ]
 
     }
