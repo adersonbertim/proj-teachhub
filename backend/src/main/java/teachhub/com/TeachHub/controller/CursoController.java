@@ -25,7 +25,7 @@ public class CursoController extends AController<Curso, CursoDTO, Long, CursoSer
         return CursoDTO.fromEntity(entity);
     }
 
-
+    @Override
     @GetMapping
     public ResponseEntity<ApiResponse<List<CursoDTO>>> listarTodos() {
         var cursos = service.findAll()
@@ -35,8 +35,9 @@ public class CursoController extends AController<Curso, CursoDTO, Long, CursoSer
         return ResponseEntity.ok(ApiResponse.success(cursos));
     }
 
+    @Override
     @PostMapping
-    public ResponseEntity<ApiResponse<CursoDTO>> salvar(@RequestBody Curso curso) {
+    public ResponseEntity<ApiResponse<CursoDTO>> cadastrarNovo(@RequestBody Curso curso) {
         return ResponseEntity.ok(ApiResponse.success(CursoDTO.fromEntity(service.salvar(curso))));
     }
 }

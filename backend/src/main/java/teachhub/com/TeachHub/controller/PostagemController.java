@@ -29,16 +29,18 @@ public class PostagemController extends AController<Postagem, PostagemDTO, Long,
         return PostagemDTO.fromEntity(entity);
     }
 
+
     @PostMapping
-    public ResponseEntity<ApiResponse<PostagemDTO>> criar (
+    public ResponseEntity<ApiResponse<PostagemDTO>> cadastrarNovo (
         @RequestBody @Valid PostagemDTO.PostagemRequestDTO dto,
                 @AuthenticationPrincipal Usuario usuarioLogado) {
         Postagem postagem = service.criarPostagem(dto, usuarioLogado);
         return ResponseEntity.ok(ApiResponse.success(PostagemDTO.fromEntity(postagem)));
     }
 
+
     @GetMapping
-    public ResponseEntity<ApiResponse<List<PostagemDTO>>> listarFeed (){
+    public ResponseEntity<ApiResponse<List<PostagemDTO>>> listarTodos (){
         return ResponseEntity.ok(ApiResponse.success(service.listarTodas()));
     }
 

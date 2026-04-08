@@ -29,7 +29,7 @@ public abstract class AController <E, D, ID, S extends AService<E, ?>> {
 
     @CrossOrigin("http://localhost:4200")
     @GetMapping
-    public ResponseEntity<ApiResponse<List<D>>> listar(){
+    public ResponseEntity<ApiResponse<List<D>>> listarTodos(){
         List<D> entidades = service.findAll().stream()
                 .map(this::toDTO)
                 .toList();
@@ -37,7 +37,6 @@ public abstract class AController <E, D, ID, S extends AService<E, ?>> {
     }
 
     @CrossOrigin("http://localhost:4200")
-    @PostMapping
     public ResponseEntity<ApiResponse<D>> cadastrarNovo(@RequestBody E entidade){
         E salvo = service.salvar(entidade);
         return ResponseEntity.ok(ApiResponse.success(toDTO(salvo)));
@@ -45,7 +44,6 @@ public abstract class AController <E, D, ID, S extends AService<E, ?>> {
 
 
     @CrossOrigin("http://localhost:4200")
-    @PutMapping
     public  ResponseEntity<ApiResponse<D>> atualizar(@RequestBody E entidade){
         E atualizado = service.salvar(entidade);
         return ResponseEntity.ok(ApiResponse.success(toDTO(atualizado)));
