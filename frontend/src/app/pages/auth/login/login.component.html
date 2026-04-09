@@ -1,36 +1,34 @@
-<div class="login-card">
-  <h2>Login TeachHub</h2>
-  <p>Bem vindo a melhor plataforma de conectividade entre professor do Planeta!</p>
+<mat-card class="login-container">
+  <mat-card-header>
+    <mat-card-title>Login TeachHub</mat-card-title>
+    <mat-card-subtitle>Bem vindo a melhor plataforma de conectividade entre professor do Planeta!</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="login-card">
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>E-mail</mat-label>
+          <input 
+            matInput 
+            type="email" 
+            id="email" 
+            name="email" 
+            [(ngModel)]="loginData.email" 
+            required 
+            placeholder="exemplo@email.com">
+        </mat-form-field>
 
-  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-    <div class="form-group">
-      <label for="email">E-mail</label>
-      <input 
-        type="email" 
-        id="email" 
-        name="email" 
-        [(ngModel)]="loginData.email" 
-        required 
-        placeholder="exemplo@email.com">
-    </div>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Senha</mat-label>
+          <input 
+            matInput 
+            type="password" 
+            id="senha" 
+            name="senha" 
+            [(ngModel)]="loginData.senha" 
+            required 
+            placeholder="Sua senha">
+        </mat-form-field>
 
-    <div class="form-group">
-      <label for="senha">Senha</label>
-      <input 
-        type="password" 
-        id="senha" 
-        name="senha" 
-        [(ngModel)]="loginData.senha" 
-        required 
-        placeholder="Sua senha">
-    </div>
-
-    <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
-
-    <button type="submit" [disabled]="!loginForm.valid">Entrar</button>
-  </form>
-
-  <p class="footer-text">
-    Não tem uma conta? <a href="/register">Cadastre-se</a>
-  </p>
-</div>
+        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Entrar</button>
+      </form>

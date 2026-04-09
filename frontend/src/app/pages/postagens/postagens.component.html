@@ -1,32 +1,49 @@
-<mat-card class="post-card">
-  <mat-card-header>
-    <mat-chip-option class="chip-option">Recentes</mat-chip-option>
-    <mat-chip-option class="chip-option">Trending</mat-chip-option>
-    <mat-chip-option class="chip-option">Minhas Postagens</mat-chip-option>
-  </mat-card-header>
- 
- 
-  <mat-card-content class="post-content" *ngFor="let post of posts">
-    <div class="post-item">
-      <mat-card-title>Nome do autor</mat-card-title>
-      <div mat-card-avatar class="post-avatar"></div>
-      <mat-card-content>
-        <p>
-          
-        </p>
-      </mat-card-content>
+<div class="filter-header">
+  <mat-chip-listbox aria-label="Filtros de postagem">
+    <mat-chip-option selected color="primary">Recentes</mat-chip-option>
+    <mat-chip-option>Trending</mat-chip-option>
+    <mat-chip-option>Minhas Postagens</mat-chip-option>
+  </mat-chip-listbox>
+</div>
 
-      <mat-card-actions>
-        <button mat-button>Curtir</button>
-        <button mat-button>Comentar</button>
-        <button mat-button>Compartilhar</button>
-      </mat-card-actions>
-    </div>
+<mat-card class="post-card" *ngFor="let post of postagensExibidas">
+  <mat-card-header>
+    <div mat-card-avatar class="post-avatar"></div>
+    <mat-card-title>{{ post.autor }}</mat-card-title>
+    <mat-card-subtitle>{{
+      post.dataCriacao | date: "dd/MM/yyyy"
+    }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="post-content">
+    <h3>{{ post.titulo }}</h3>
+    <p>{{ post.descricao }}</p>
   </mat-card-content>
 
-  <mat-paginator
-    [length]=""
-    [pageSize]="10"
-    [pageSizeOptions]="[5, 10, 25, 100]"
-  ></mat-paginator>
+  <mat-card-actions class="post-action">
+    <button mat-button (click)="notaPostagem(post.idPostagem, 'like')">
+      <mat-icon class="material-symbols-outlined">thumb_up</mat-icon>
+      <span>{{ post.likes }}</span>
+    </button>
+
+    <span class="space"></span>
+
+    <button
+      mat-icon-button
+      class="star-button"
+      [class.active]="post.isFavorita"
+      (click)="favoritarPostagem(post.idPostagem)"
+    >
+      <mat-icon class="material-symbols-outlined">
+        {{ post.isFavorita ? "star" : "star_outline" }}
+      </mat-icon>
+    </button>
+  </mat-card-actions>
 </mat-card>
+
+<mat-paginator
+  [length]=""
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  (page)="onPageChange($event)"
+></mat-paginator>
