@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cursos")
+@RequestMapping("/curso")
 public class CursoController extends AController<Curso, CursoDTO, Long, CursoService> {
 
     private CursoService service;
@@ -25,8 +25,8 @@ public class CursoController extends AController<Curso, CursoDTO, Long, CursoSer
         return CursoDTO.fromEntity(entity);
     }
 
-    @Override
-    @GetMapping
+
+   @GetMapping("/listar-todos")
     public ResponseEntity<ApiResponse<List<CursoDTO>>> listarTodos() {
         var cursos = service.findAll()
                 .stream()
@@ -35,9 +35,8 @@ public class CursoController extends AController<Curso, CursoDTO, Long, CursoSer
         return ResponseEntity.ok(ApiResponse.success(cursos));
     }
 
-    @Override
-    @PostMapping
-    public ResponseEntity<ApiResponse<CursoDTO>> cadastrarNovo(@RequestBody Curso curso) {
+    @PostMapping("/salvar")
+    public ResponseEntity<ApiResponse<CursoDTO>> salvar(@RequestBody Curso curso) {
         return ResponseEntity.ok(ApiResponse.success(CursoDTO.fromEntity(service.salvar(curso))));
     }
 }

@@ -30,10 +30,16 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (token != null) {
             var email = jwtService.validateToken(token);
             if (email != null) {
-                Usuario usuario = usuarioRepository.findByEmail(email)
-                        .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
-                var autenticacao = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(autenticacao);
+                // Buscamos o usuário, mas se não achar, apenas não autenticamos
+                // Em vez de Throw, usamos ifPresent ou findByEmail().ifPresent(...)
+                usuarioRepository.findByEmail(email).ifPresent(usuario -> {
+                    var autenticacao = new UsernamePasswordAuthenticationToken(
+                            usuario,
+                            null,
+                            usuario.getAuthorities()
+                    );
+                    SecurityContextHolder.getContext().setAuthentication(autenticacao);
+                });
             }
         }
         filterChain.doFilter(request, response);

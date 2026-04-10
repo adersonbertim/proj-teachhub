@@ -52,7 +52,10 @@ public class SecurityConfig {
                     req.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                     req.requestMatchers(HttpMethod.GET, "/cursos").permitAll();
-                    req.requestMatchers(HttpMethod.POST, "/ia/perguntar").permitAll();
+
+                    // mudar depois quando tiver sistema de login funcional
+                    req.requestMatchers("/ia/**").permitAll(); // Isso libera GET, POST e qualquer outro sob /ia
+
                     req.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

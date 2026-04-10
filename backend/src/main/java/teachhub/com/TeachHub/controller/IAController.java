@@ -10,10 +10,12 @@ import teachhub.com.TeachHub.model.log_ia.PerguntaDTO;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 import teachhub.com.TeachHub.service.IAService;
 
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/ia")
+@CrossOrigin(origins = "http://localhost:4200")
 public class IAController  {
 
     private final IAService iaService;
