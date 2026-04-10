@@ -1,34 +1,41 @@
-<mat-card class="login-container">
-  <mat-card-header>
-    <mat-card-title>Login TeachHub</mat-card-title>
-    <mat-card-subtitle>Bem vindo a melhor plataforma de conectividade entre professor do Planeta!</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="login-card">
-      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-        <mat-form-field appearance="fill" class="full-width">
+<div class="login-page"> <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Login TeachHub</mat-card-title>
+      <mat-card-subtitle>Conectando professores ao redor do planeta.</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
+        
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>E-mail</mat-label>
-          <input 
-            matInput 
-            type="email" 
-            id="email" 
-            name="email" 
-            [(ngModel)]="loginData.email" 
-            required 
-            placeholder="exemplo@email.com">
+          <input matInput type="email" name="email" [(ngModel)]="loginData.email" required placeholder="exemplo@email.com">
+          <mat-icon matSuffix>email</mat-icon>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Senha</mat-label>
-          <input 
-            matInput 
-            type="password" 
-            id="senha" 
-            name="senha" 
-            [(ngModel)]="loginData.senha" 
-            required 
-            placeholder="Sua senha">
+          <input matInput type="password" name="senha" [(ngModel)]="loginData.senha" required placeholder="Sua senha">
+          <mat-icon matSuffix>lock</mat-icon>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Entrar</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid" class="btn-login">
+          Entrar
+        </button>
       </form>
+
+      <div class="divider">
+        <span>ou</span>
+      </div>
+
+      <button mat-stroked-button class="btn-google" (click)="loginGoogle()">
+        <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google logo">
+        Continuar com Google
+      </button>
+
+      <div class="login-footer">
+        <p>Não tem uma conta? <a routerLink="/register">Cadastre-se</a></p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

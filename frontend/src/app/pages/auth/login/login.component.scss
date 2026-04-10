@@ -1,45 +1,112 @@
-.login-container {
+@use "variables" as *;
+
+.login-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f5f5f5;
+  min-height: 100vh;
+  background-color: var(--bg-body); // Cor de fundo do seu tema
 }
 
 .login-card {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  background: white;
-  font-family: sans-serif;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-label { display: block; margin-bottom: 0.5rem; }
-
-input {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box; /* Garante que o padding não quebre a largura */
+  max-width: 420px;
+  padding: 24px;
+  border-radius: 24px !important; // Bordas arredondadas modernas
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05) !important;
+
+  mat-card-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 32px;
+
+    mat-card-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: $primary; // Azul Azure
+      margin-bottom: 8px;
+    }
+
+    mat-card-subtitle {
+      font-size: 1rem;
+      color: var(--text-main);
+      opacity: 0.7;
+    }
+  }
 }
 
-button {
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .full-width {
+    width: 100%;
+  }
+
+  .btn-login {
+    margin-top: 16px;
+    height: 52px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+}
+
+// Estilo do divisor "ou"
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0;
+  color: var(--text-main);
+  opacity: 0.4;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  span {
+    padding: 0 10px;
+    font-size: 0.9rem;
+  }
+}
+
+// Botão customizado do Google
+.btn-google {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  height: 52px;
+  border-radius: 12px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-main) !important;
+  border: 1px solid var(--card-border) !important;
+
+  img {
+    width: 20px;
+  }
+
+  &:hover {
+    background-color: rgba($primary, 0.05) !important;
+  }
 }
 
-button:disabled { background-color: #ccc; }
-
-.error-text { color: red; font-size: 0.8rem; }
+.login-footer {
+  margin-top: 24px;
+  text-align: center;
+  color: var(--text-main);
+  
+  a {
+    color: $primary;
+    text-decoration: none;
+    font-weight: 600;
+    &:hover { text-decoration: underline; }
+  }
+}

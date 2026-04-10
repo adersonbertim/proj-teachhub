@@ -1,37 +1,55 @@
-<div class="register-card">
-  <h2>Crie sua conta no TeachHub</h2>
-  <p>Junte-se à nossa comunidade de educação.</p>
+<div class="register-page"> <mat-card class="register-card">
+    <mat-card-header>
+      <mat-card-title>Crie sua conta no TeachHub</mat-card-title>
+      <mat-card-subtitle>Junte-se à nossa comunidade de educação.</mat-card-subtitle>
+    </mat-card-header>
 
-  <form (ngSubmit)="onRegister()" #registerForm="ngForm">
-    <div class="form-group">
-      <label>Nome Completo</label>
-      <input type="text" name="nome" [(ngModel)]="registerData.nome" required placeholder="Seu nome">
-    </div>
+    <mat-card-content>
+      <form (ngSubmit)="onRegister()" #registerForm="ngForm" class="register-form">
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nome Completo</mat-label>
+          <input matInput name="nome" [(ngModel)]="registerData.nome" required placeholder="Seu nome">
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
 
-    <div class="form-group">
-      <label>E-mail</label>
-      <input type="email" name="email" [(ngModel)]="registerData.email" required placeholder="exemplo@email.com">
-    </div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" name="email" [(ngModel)]="registerData.email" required placeholder="exemplo@email.com">
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
 
-    <div class="form-group">
-      <label>Senha</label>
-      <input type="password" name="senha" [(ngModel)]="registerData.senha" required placeholder="Crie uma senha forte">
-    </div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Senha</mat-label>
+          <input matInput type="password" name="senha" [(ngModel)]="registerData.senha" required placeholder="Crie uma senha forte">
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
 
-    <div class="form-group">
-      <label>Eu sou:</label>
-      <select name="role" [(ngModel)]="registerData.role">
-        <option value="ALUNO">Aluno</option>
-        <option value="PROFESSOR">Professor</option>
-      </select>
-    </div>
+          <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Confirmar Senha</mat-label>
+          <input matInput type="password" name="confirmarSenha" [(ngModel)]="registerData.confirmarSenha" required placeholder="Confirme sua senha">
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
 
-    <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Eu sou:</mat-label>
+          <mat-select name="role" [(ngModel)]="registerData.role" required>
+            <mat-option value="ALUNO">Aluno</mat-option>
+            <mat-option value="PROFESSOR">Professor</mat-option>
+          </mat-select>
+          <mat-icon matSuffix>school</mat-icon>
+        </mat-form-field>
 
-    <button type="submit" [disabled]="!registerForm.valid">Cadastrar</button>
-  </form>
+        <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
 
-  <p class="footer-text">
-    Já tem conta? <a href="/login">Voltar ao login</a>
-  </p>
+        <button mat-flat-button color="primary" type="submit" [disabled]="!registerForm.valid" class="btn-register">
+          Cadastrar
+        </button>
+      </form>
+
+      <div class="register-footer">
+        <p>Já tem conta? <a routerLink="/login">Voltar ao login</a></p>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
