@@ -159,11 +159,11 @@ POST   /auth/register
 
 ## 👨‍💻 Autor
 
-DEV - Aderson Bertim
-DEV - Régis da Silva Soares
-Guilher Paim Zinelli
-Thilber Falcão Ribas
-Abilio Goulart Barbosa
+* DEV - Aderson Bertim
+* DEV - Régis da Silva Soares
+* Guilher Paim Zinelli
+* Thilber Falcão Ribas
+* Abilio Goulart Barbosa
 
 ---
 
