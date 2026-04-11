@@ -28,7 +28,7 @@ export class RegisterComponent {
   errorMessage: string = '';
 
   onRegister(){
-    this.authService.register(this.authService).subscribe({
+    this.authService.register(this.registerData).subscribe({
       next: () => {
         alert('Cadastro realizado! Agora faça o login');
         this.router.navigate(["/login"]);
