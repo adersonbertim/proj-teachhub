@@ -44,6 +44,23 @@ public class Postagem {
     @Column
     private Boolean visibilidade = true;
 
+    @Column
+    private boolean planoAula = false;
+
+    @Column
+    private int nota;
+
+    @Column
+    private int likes;
+    @Column
+    private int dislikes;
+
+    @Column
+    private String materia;
+
+    @Column
+    private String resumo;
+
     @ManyToOne
     @JoinColumn (name = "user_idusuario", nullable = false)
     private Usuario autor;
@@ -51,5 +68,5 @@ public class Postagem {
     @OneToMany(mappedBy = "postagem")
     private List<Midia> midias;
 
-
+    // adicionar a tabela favoritos nas Postagens, excluir a antiga do BD
 }

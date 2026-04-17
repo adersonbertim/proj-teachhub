@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PostagemDTO } from '../../services/model.service';
 import { PageEvent } from '@angular/material/paginator';
+import { PostagemService } from '../../services/postagem.service';
 
 @Component({
   selector: 'app-postagens',
@@ -19,11 +20,13 @@ posts: any;
   pageIndex: number = 0;
   pageSize: number = 10;
 
-  constructor(private router: Router) { }
-
+  constructor(private router: Router, private postagemService: PostagemService) { }
+// criar postagem
   navigateToCreatePost() {
     this.router.navigate(['/criar-postagem']);
   }
+
+  //array das postagens
   postagensExibidas: PostagemDTO[] = [];
   postagens : PostagemDTO[] = [];
 
@@ -46,7 +49,7 @@ posts: any;
       nota: true, // Aqui você pode mudar para number depois se quiser estrelas
       materia: materias[i % materias.length],
       categoria: 'Geral',
-      conteudo: '<p>Conteúdo rico aqui...</p>',
+      resumo: '<p>Conteúdo rico aqui...</p>',
       dataCriacao: new Date().toISOString()
     });
   }
@@ -61,6 +64,8 @@ posts: any;
     }
   };
 
+
+  //nao pode mecher nessas ainda, é teste
   notaPostagem(id: number, tipo : 'like' | 'dislike') {
     const postagem = this.postagens.find(post => post.idPostagem === id);
     if (postagem) {
@@ -72,9 +77,12 @@ posts: any;
     }
   };
 
-    getPostagemById(id: number) {
-    return this.postagens.find(post => post.idPostagem === id);
+
+    // navegando para detalhes da postagem
+  navigateToPostDetail(id: number) {
+    this.router.navigate(['/postagens', id]);
   }
+
 
   //testing
   

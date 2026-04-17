@@ -71,7 +71,7 @@ export class CriarPostagemComponent {
       idPostagem: 0,
       isPlanoAula: false,
       materia: '',
-      conteudo: undefined,
+      resumo: '',
       dataCriacao: '',
       isFavorita: false,
       nota: false,
