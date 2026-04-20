@@ -11,6 +11,7 @@ import path from 'path/win32';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { PostagensComponent } from './pages/postagens/postagens.component';
 import { CursosComponent } from './pages/cursos/cursos.component';
+import { PostagemDetalheComponent } from './pages/postagem-detalhe/postagem-detalhe.component';
 
 
 export const routes: Routes = [
@@ -38,7 +39,8 @@ export const routes: Routes = [
             {path: 'ia', component: IaChatComponent},
             {path: 'postagens', component: PostagensComponent},
             {path: 'cursos', component: CursosComponent},
-            {path:'**', redirectTo: 'home'} 
+            {path:'**', redirectTo: 'home'},
+            {path: 'postagens/:id', component: PostagemDetalheComponent} 
         ]
 
     }

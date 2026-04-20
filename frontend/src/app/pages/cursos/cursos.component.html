@@ -1,1 +1,43 @@
-<p>cursos works!</p>
+<div class="cursos-container">
+  
+  <section class="search-section">
+    <h1>O que você gostaria de aprender?</h1>
+    <div class="search-bar">
+      <mat-form-field appearance="outline">
+        <mat-label>Procurar</mat-label>
+        <input matInput placeholder="O que você quer procurar?">
+      </mat-form-field>
+      <button mat-flat-button color="accent">
+        <mat-icon>search</mat-icon> Pesquisa
+      </button>
+    </div>
+  </section>
+
+  <section class="themes-section">
+    <h2>Descubra nossas áreas do conhecimento</h2>
+    <div class="themes-grid">
+      <mat-card class="theme-card" *ngFor="let tema of temas">
+        <mat-icon>{{ tema.icone }}</mat-icon>
+        <mat-card-title>{{ tema.nome }}</mat-card-title>
+        <button mat-button>SAIBA MAIS <mat-icon>arrow_forward</mat-icon></button>
+      </mat-card>
+    </div>
+  </section>
+
+  <section class="list-section">
+    <div class="list-header">
+      <h2>Cursos em destaque</h2>
+      <button mat-stroked-button color="primary">VER TODOS OS CURSOS</button>
+    </div>
+
+    <mat-tab-group>
+      <mat-tab label="Cursos Livres">
+        <div class="course-list">
+          </div>
+      </mat-tab>
+      <mat-tab label="Novos"> Conteúdo novos </mat-tab>
+      <mat-tab label="Em alta"> Conteúdo em alta </mat-tab>
+    </mat-tab-group>
+  </section>
+
+</div>

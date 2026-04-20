@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import teachhub.com.TeachHub.model.usuarios.UsuarioDTO;
 
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,6 +18,15 @@ public class PostagemDTO {
     private String descricao;
     private String categoria;
     private String autor;
+    private String tag;
+    private boolean visibilidade;
+    private boolean planoAula;
+    private int nota;
+    private int likes;
+    private int deslikes;
+    private String materia;
+    private String resumo;
+
 
     private UsuarioDTO usuarioDTO;
 
@@ -30,6 +40,14 @@ public class PostagemDTO {
                 .titulo(postagem.getTitulo())
                 .descricao(postagem.getDescricao())
                 .categoria(postagem.getCategoria())
+                .tag(postagem.getTag())
+                .visibilidade(postagem.getVisibilidade())
+                .planoAula(postagem.isPlanoAula())
+                .nota(postagem.getNota())
+                .likes(postagem.getLikes())
+                .deslikes(postagem.getDislikes())
+                .materia(postagem.getMateria())
+                .resumo(postagem.getResumo())
                 .usuarioDTO(UsuarioDTO.fromEntity(postagem.getAutor()))
                 .build();
     }
