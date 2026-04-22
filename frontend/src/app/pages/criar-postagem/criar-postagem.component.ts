@@ -62,25 +62,23 @@ export class CriarPostagemComponent {
   }
 
   criarPostagem() {
-    const conteudo = this.editor.nativeElement.innerHTML;
-    const novaPostagem: PostagemDTO = {
-      autor: this.autor,
-      titulo: this.titulo,
-      descricao: this.descricao,
-      categoria: this.categoria,
-      idPostagem: 0,
-      isPlanoAula: false,
-      materia: '',
-      resumo: '',
-      dataCriacao: '',
-      isFavorita: false,
-      nota: false,
-      likes: 0,
-      dislikes: 0,
-    };
-    this.postagemService.adicionarPostagens(novaPostagem);
+  const dto = {
+    titulo: this.titulo,
+    descricao: this.editor.nativeElement.innerHTML, // usa o editor!
+    categoria: this.categoria,
+    tag: ''
+  };
+
+  console.log('DTO ENVIADO:', dto);
+
+  this.postagemService.criarPostagem(dto).subscribe((res: any) => {
+    console.log('RETORNO BACKEND:', res);
+
+    this.postagemService.adicionarPostagens(res.data);
+
     this.router.navigate(['/postagens']);
-  }
+  });
+}
     voltar() {
     if(window.history.length < 1){
       this.location.back()

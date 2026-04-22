@@ -93,9 +93,11 @@ posts: any;
   }
 
   ngOnInit() {
-    this.carregarDadosIniciais();
+  this.postagemService.listarFeed().subscribe((res: any) => {
+    this.postagens = res.data; // depende do ApiResponse
     this.atualizarPagina();
-    };
+  });
+}
   
   atualizarPagina() {
     const inicio = this.pageIndex * this.pageSize;

@@ -58,7 +58,7 @@ public class Usuario implements UserDetails {
     @JoinColumn (name = "roles_idrole", nullable = false)
     private Roles roles;
 
-    @OneToMany
+    @OneToMany(mappedBy = "autor")
     private List<Postagem> postagensCriadas;
 
     @OneToMany (mappedBy = "usuario")

@@ -21,5 +21,6 @@ public class TeachHubApplication {
 
 		// 3. Agora sim, inicia o Spring
 		SpringApplication.run(TeachHubApplication.class, args);
+
 	}
 }

@@ -36,6 +36,7 @@ public class PostagemDTO {
             return null;
         }
         return PostagemDTO.builder()
+                .autor(postagem.getAutor().getNome()) // ou getEmail()
                 .idPostagem(postagem.getId())
                 .titulo(postagem.getTitulo())
                 .descricao(postagem.getDescricao())
@@ -55,7 +56,6 @@ public class PostagemDTO {
             @NotBlank String titulo,
             @NotBlank String descricao,
             @NotBlank String categoria,
-            @NotBlank String usuario,
             String tag
     ) {}
 }
