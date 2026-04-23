@@ -55,7 +55,7 @@ public class SecurityConfig {
 
                     // mudar depois quando tiver sistema de login funcional
                     req.requestMatchers("/ia/**").permitAll(); // Isso libera GET, POST e qualquer outro sob /ia
-
+                    req.requestMatchers("/feed/**").permitAll();
                     req.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

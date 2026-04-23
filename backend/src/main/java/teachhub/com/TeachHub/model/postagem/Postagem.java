@@ -26,7 +26,7 @@ public class Postagem {
     @Column(nullable = false)
     private String titulo;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "text")
     private String descricao;
 
     @Column(nullable = false)
@@ -58,7 +58,7 @@ public class Postagem {
     @Column
     private String materia;
 
-    @Column
+    @Column(columnDefinition = "text")
     private String resumo;
 
     @ManyToOne

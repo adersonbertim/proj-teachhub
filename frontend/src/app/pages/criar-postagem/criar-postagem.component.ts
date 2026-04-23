@@ -64,7 +64,7 @@ export class CriarPostagemComponent {
   criarPostagem() {
   const dto = {
     titulo: this.titulo,
-    descricao: this.editor.nativeElement.innerHTML, // usa o editor!
+    descricao: this.editor.nativeElement.innerText, // usa o editor!
     categoria: this.categoria,
     tag: ''
   };
