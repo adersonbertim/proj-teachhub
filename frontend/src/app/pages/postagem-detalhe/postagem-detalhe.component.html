@@ -1,1 +1,14 @@
-<p>postagem-detalhe works!</p>
+<div class="header">
+  <mat-toolbar>
+    <span>Detalhes da Postagem</span>
+  </mat-toolbar>
+</div>
+
+<div class="content">
+    <div *ngIf="postagem" class="postagem-detalhe">
+        <h2>{{ postagem.titulo }}</h2>
+        <p>{{ postagem.resumo }}</p>
+        <p><strong>Autor:</strong> {{ postagem.autor }}</p>
+        <p><strong>Data de Criação:</strong> {{ postagem.dataCriacao | date:'dd/MM/yyyy' }}</p>
+    </div>
+</div>

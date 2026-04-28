@@ -26,8 +26,16 @@ public class Postagem {
     @Column(nullable = false)
     private String titulo;
 
+<<<<<<< Updated upstream
     @Column(nullable = false, columnDefinition = "text")
     private String descricao;
+=======
+    @Column(nullable = false)
+    private String resumo;
+
+    @Column
+    private String conteudo;
+>>>>>>> Stashed changes
 
     @Column(nullable = false)
     private String categoria;
@@ -58,8 +66,12 @@ public class Postagem {
     @Column
     private String materia;
 
+<<<<<<< Updated upstream
     @Column(columnDefinition = "text")
     private String resumo;
+=======
+
+>>>>>>> Stashed changes
 
     @ManyToOne
     @JoinColumn (name = "user_idusuario", nullable = false)

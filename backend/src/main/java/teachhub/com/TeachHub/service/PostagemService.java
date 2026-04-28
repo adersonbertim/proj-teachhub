@@ -29,7 +29,6 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
     public Postagem criarPostagem(PostagemDTO.PostagemRequestDTO dto, Usuario usuario) {
         Postagem postagem = new Postagem();
         postagem.setTitulo(dto.titulo());
-        postagem.setDescricao(dto.descricao());
         postagem.setCategoria(dto.categoria());
         postagem.setTag(dto.tag());
         postagem.setDataCriacao(LocalDateTime.now());
