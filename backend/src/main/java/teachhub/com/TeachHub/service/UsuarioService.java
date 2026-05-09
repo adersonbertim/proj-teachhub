@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 public class UsuarioService extends AService <Usuario, UsuarioRepository> implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
-
     private final RolesRepository rolesRepository;
 
     public UsuarioService(UsuarioRepository repository, RolesRepository rolesRepository, PasswordEncoder passwordEncoder) {
@@ -26,11 +25,11 @@ public class UsuarioService extends AService <Usuario, UsuarioRepository> implem
         this.rolesRepository = rolesRepository;
         this.passwordEncoder = passwordEncoder;
     }
-//
+
 //    @Override
 //    public Usuario salvar(Usuario novaEntidade) {
 //        if (novaEntidade.getRoles() == null) {
-
+//
 //    }
 
     public Usuario registrar(UsuarioRegistroDTO dto) {
@@ -42,17 +41,18 @@ public class UsuarioService extends AService <Usuario, UsuarioRepository> implem
         novoUsuario.setScore(0);
         novoUsuario.setDataCadastro(LocalDateTime.now());
 
+
         // 2. Criptografa a senha antes de salvar
         String senhaCriptografada = passwordEncoder.encode(dto.senha());
         novoUsuario.setSenha(senhaCriptografada);
 
         // 3. Define a Role baseada no que o usuário escolheu no Frontend
-        // Aqui assumimos que no seu banco existe uma Role com o nome "ALUNO" ou "PROFESSOR"
 // No UsuarioService.java, dentro do register
-        Roles roleEncontrada = rolesRepository.findByNomeFuncao(dto.role().toUpperCase())
-                .orElseThrow(() -> new RuntimeException("Tipo não encontrada: " + dto.role()));
+        Roles roleProfessor = rolesRepository.findByNomeFuncao("professor")
+                .orElseThrow(() -> new RuntimeException("Role não encontrado"));
 
-        novoUsuario.setRoles(roleEncontrada);
+        novoUsuario.setRoles(roleProfessor);
+
 
         // 4. Salva de fato no banco de dados
         return repository.save(novoUsuario);

@@ -31,15 +31,6 @@
           <mat-icon matSuffix>lock</mat-icon>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Eu sou:</mat-label>
-          <mat-select name="role" [(ngModel)]="registerData.role" required>
-            <mat-option value="ALUNO">Aluno</mat-option>
-            <mat-option value="PROFESSOR">Professor</mat-option>
-          </mat-select>
-          <mat-icon matSuffix>school</mat-icon>
-        </mat-form-field>
-
         <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
 
         <button mat-flat-button color="primary" type="submit" [disabled]="!registerForm.valid" class="btn-register">

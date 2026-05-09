@@ -22,7 +22,7 @@ export class RegisterComponent {
     email: '',
     senha: '',
     confirmarSenha: '',
-    role: 'ALUNO',
+    role: 'professor',
   }
 
   errorMessage: string = '';

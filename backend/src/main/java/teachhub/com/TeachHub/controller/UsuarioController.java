@@ -11,7 +11,7 @@ import teachhub.com.TeachHub.model.usuarios.UsuarioDTO;
 import teachhub.com.TeachHub.service.UsuarioService;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController extends AController <Usuario, UsuarioDTO, Long, UsuarioService>{

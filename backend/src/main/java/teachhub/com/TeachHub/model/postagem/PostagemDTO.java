@@ -39,6 +39,7 @@ public class PostagemDTO {
                 .autor(postagem.getAutor().getNome()) // ou getEmail()
                 .idPostagem(postagem.getId())
                 .titulo(postagem.getTitulo())
+                .descricao(postagem.getDescricao())
                 .categoria(postagem.getCategoria())
                 .tag(postagem.getTag())
                 .visibilidade(postagem.getVisibilidade())
