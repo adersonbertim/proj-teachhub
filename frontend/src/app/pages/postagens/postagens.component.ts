@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { PostagemDTO } from '../../services/model.service';
 import { PageEvent } from '@angular/material/paginator';
 import { PostagemService } from '../../services/postagem.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-postagens',
@@ -105,5 +106,7 @@ posts: any;
     // Lógica para atualizar a página, como recarregar os dados ou resetar o estado
     this.postagensExibidas = this.postagens.slice(inicio, fim);
   }
+
+
   
 }

@@ -46,4 +46,10 @@ public class PostagemController extends AController<Postagem, PostagemDTO, Long,
     public ResponseEntity<ApiResponse<List<PostagemDTO>>> listarMinhas(@AuthenticationPrincipal Usuario usuarioLogado){
         return ResponseEntity.ok(ApiResponse.success(service.listarMinhas(usuarioLogado)));
     }
+
+    @GetMapping("/postagens/{id}")
+    public ResponseEntity<ApiResponse<PostagemDTO>> buscarPorId(@PathVariable Long id){
+        Postagem postagem = service.findById(id);
+        return ResponseEntity.ok(ApiResponse.success(PostagemDTO.fromEntity(postagem)));
+    }
 }

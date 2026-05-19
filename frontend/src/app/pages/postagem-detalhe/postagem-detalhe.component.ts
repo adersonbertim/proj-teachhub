@@ -20,8 +20,11 @@ export class PostagemDetalheComponent implements OnInit {
     private postagemService: PostagemService
   ) { }
 
+
+
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.postagem = this.postagemService.getPostagemById(id);
+    
   }
 }

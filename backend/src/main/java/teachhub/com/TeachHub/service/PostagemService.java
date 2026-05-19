@@ -9,6 +9,7 @@ import teachhub.com.TeachHub.model.usuarios.Usuario;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostagemService extends AService<Postagem, PostagemRepository> {
@@ -51,5 +52,9 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
         return repository.findByAutor(autor).stream()
                 .map(PostagemDTO :: fromEntity)
                 .toList();
+    }
+
+    public Optional<Postagem> buscarPorId(Long id) {
+        return repository.findById(id);
     }
 }

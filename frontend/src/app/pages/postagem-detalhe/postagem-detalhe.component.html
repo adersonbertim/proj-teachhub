@@ -1,14 +1,30 @@
-<div class="header">
-  <mat-toolbar>
-    <span>Detalhes da Postagem</span>
-  </mat-toolbar>
-</div>
-
-<div class="content">
-    <div *ngIf="postagem" class="postagem-detalhe">
-        <h2>{{ postagem.titulo }}</h2>
-        <p>{{ postagem.resumo }}</p>
-        <p><strong>Autor:</strong> {{ postagem.autor }}</p>
-        <p><strong>Data de Criação:</strong> {{ postagem.dataCriacao | date:'dd/MM/yyyy' }}</p>
+<div class="detalhe-container" *ngIf="postagem">
+  <!-- Cabeçalho da Postagem -->
+  <mat-card class="header-card">
+    <div class="professor-info">
+      <img src="assets/default-avatar.png" alt="Professor" class="avatar">
+      <mat-card-title>{{ postagem.titulo }} - Prof. {{ postagem.autor }}</mat-card-title>
     </div>
+  </mat-card>
+
+  <div class="content-layout">
+    <!-- Coluna Esquerda: Conteúdo Principal -->
+    <mat-card class="main-content">
+      <div class="post-body">
+        <h2>{{ postagem.titulo }}</h2>
+
+
+        <section class="topic">
+          <h3>📚 Estrutura da Aula:</h3>
+          <div [innerHTML]="postagem.descricao"></div>
+        </section>
+
+        <div class="pedagogic-tip">
+          <mat-icon>lightbulb</mat-icon>
+          <p><em>Dica pedagógica: {{ postagem.tag }}</em></p>
+        </div>
+      </div>
+    </mat-card>
+
+  </div>
 </div>
