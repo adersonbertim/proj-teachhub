@@ -55,8 +55,8 @@ public class Usuario implements UserDetails {
     private Integer score;
 
     @ManyToOne
-    @JoinColumn (name = "roles_idrole", nullable = false)
-    private Roles roles;
+    @JoinColumn (name = "role_id", nullable = false)
+    private Roles role;
 
     @OneToMany(mappedBy = "autor")
     private List<Postagem> postagensCriadas;
@@ -64,6 +64,7 @@ public class Usuario implements UserDetails {
     @OneToMany (mappedBy = "usuario")
     private List<Favorito> favoritos;
 
+    // Remove later
     public Collection<? extends GrantedAuthority>  getAuthorities() {
         return List.of();
     }

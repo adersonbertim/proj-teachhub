@@ -61,3 +61,9 @@ export interface Comentario{
     usuario: UsuarioDTO;
     postagem: PostagemDTO;
 }
+
+export interface ApiResponse<T> {
+    status: string;
+    data: T;
+    message: string;
+}

@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { PostagemDTO } from '../../services/model.service';
 import { PageEvent } from '@angular/material/paginator';
 import { PostagemService } from '../../services/postagem.service';
-import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-postagens',
@@ -32,29 +32,29 @@ posts: any;
   postagens : PostagemDTO[] = [];
 
   //testando
-  carregarDadosIniciais() {
-  const nomes = ['Maria Rocha', 'Luis Silva', 'Marcos Dutra', 'Ana Julia'];
-  const materias = ['Matemática', 'Física', 'História', 'Ciências'];
+//   carregarDadosIniciais() {
+//   const nomes = ['Maria Rocha', 'Luis Silva', 'Marcos Dutra', 'Ana Julia'];
+//   const materias = ['Matemática', 'Física', 'História', 'Ciências'];
 
-  for (let i = 1; i <= 25; i++) {
-    this.postagens.push({
-      idPostagem: i,
-      // O símbolo % (módulo) ajuda a alternar entre os nomes da lista acima
-      autor: nomes[i % nomes.length], 
-      titulo: `Postagem Educativa #${i}`,
-      descricao: `Este é um resumo automático da postagem número ${i} para testarmos como o Angular Material se comporta com muitos cards na tela.`,
-      likes: Math.floor(Math.random() * 50), // Gera curtidas aleatórias
-      dislikes: Math.floor(Math.random() * 10),
-      isFavorita: false,
-      isPlanoAula: i % 2 === 0, // Alterna entre true e false
-      nota: true, // Aqui você pode mudar para number depois se quiser estrelas
-      materia: materias[i % materias.length],
-      categoria: 'Geral',
-      resumo: '<p>Conteúdo rico aqui...</p>',
-      dataCriacao: new Date().toISOString()
-    });
-  }
-}
+//   for (let i = 1; i <= 25; i++) {
+//     this.postagens.push({
+//       idPostagem: i,
+//       // O símbolo % (módulo) ajuda a alternar entre os nomes da lista acima
+//       autor: nomes[i % nomes.length], 
+//       titulo: `Postagem Educativa #${i}`,
+//       descricao: `Este é um resumo automático da postagem número ${i} para testarmos como o Angular Material se comporta com muitos cards na tela.`,
+//       likes: Math.floor(Math.random() * 50), // Gera curtidas aleatórias
+//       dislikes: Math.floor(Math.random() * 10),
+//       isFavorita: false,
+//       isPlanoAula: i % 2 === 0, // Alterna entre true e false
+//       nota: true, // Aqui você pode mudar para number depois se quiser estrelas
+//       materia: materias[i % materias.length],
+//       categoria: 'Geral',
+//       resumo: '<p>Conteúdo rico aqui...</p>',
+//       dataCriacao: new Date().toISOString()
+//     });
+//   }
+// }
 
 
 //nao pode mecher nessas ainda!!! 

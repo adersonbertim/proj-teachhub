@@ -24,7 +24,15 @@ export class PostagemDetalheComponent implements OnInit {
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.postagem = this.postagemService.getPostagemById(id);
-    
+    if(id){
+      this.postagemService.getPostagemById(id).subscribe({
+        next: (response) => {
+          this.postagem = response.data;
+        },
+        error: (err) => {
+          console.error('Erro ao carregar postagem:', err);
+        }
+      });
+    }
   }
 }

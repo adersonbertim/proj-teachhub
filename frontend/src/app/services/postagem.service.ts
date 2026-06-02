@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
-import { PostagemDTO } from "./model.service";
+import { BehaviorSubject, Observable } from "rxjs";
+import { ApiResponse, PostagemDTO } from "./model.service";
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -24,8 +24,8 @@ export class PostagemService{
             console.log('Postagem salva', novaPostagem);
         }
 
-        getPostagemById(id: number){
-            return this.postagens.find(post => post.idPostagem === id);
+        getPostagemById(id: number): Observable<ApiResponse<PostagemDTO>> {
+            return this.http.get<ApiResponse<PostagemDTO>>(`http://localhost:8080/postagens/${id}`);
         }
         
         listarFeed() {

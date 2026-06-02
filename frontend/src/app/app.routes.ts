@@ -39,8 +39,8 @@ export const routes: Routes = [
             {path: 'ia', component: IaChatComponent},
             {path: 'postagens', component: PostagensComponent},
             {path: 'cursos', component: CursosComponent},
-            {path:'**', redirectTo: 'home'},
-            {path: 'postagens/:id', component: PostagemDetalheComponent} 
+            {path: 'postagens/:id', component: PostagemDetalheComponent},
+            {path:'**', redirectTo: 'home'}, 
         ]
 
     }

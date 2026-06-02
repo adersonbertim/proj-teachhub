@@ -46,12 +46,10 @@ public class UsuarioService extends AService <Usuario, UsuarioRepository> implem
         String senhaCriptografada = passwordEncoder.encode(dto.senha());
         novoUsuario.setSenha(senhaCriptografada);
 
-        // 3. Define a Role baseada no que o usuário escolheu no Frontend
-// No UsuarioService.java, dentro do register
+// Setamos como padrão 'professor'
         Roles roleProfessor = rolesRepository.findByNomeFuncao("professor")
                 .orElseThrow(() -> new RuntimeException("Role não encontrado"));
-
-        novoUsuario.setRoles(roleProfessor);
+        novoUsuario.setRole(roleProfessor);
 
 
         // 4. Salva de fato no banco de dados

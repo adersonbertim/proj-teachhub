@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth/auth.service';
 
 import { Router, RouterLink } from '@angular/router';
@@ -16,11 +16,12 @@ import { MaterialModule } from '../../../material-module';
 export class RegisterComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
-
+  
+//[Validators.required, Validators.minLength(6)],
   registerData = {
     nome: '',
     email: '',
-    senha: '',
+    senha: '', 
     confirmarSenha: '',
     role: 'professor',
   }
