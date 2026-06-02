@@ -19,7 +19,7 @@ export class CriarPostagemComponent {
   titulo: string = '';
   materia: string = '';
   isPlanoAula: boolean = false;
-  descricao: string = '';
+  texto: string = '';
   categoria: string = '';
 
   constructor(
@@ -64,7 +64,7 @@ export class CriarPostagemComponent {
   criarPostagem() {
   const dto = {
     titulo: this.titulo,
-    descricao: this.editor.nativeElement.innerText, // usa o editor!
+    texto: this.editor.nativeElement.innerText, // usa o editor!
     categoria: this.categoria,
     tag: ''
   };

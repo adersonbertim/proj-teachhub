@@ -28,14 +28,10 @@ public class Postagem {
 
 
     @Column(nullable = false, columnDefinition = "text")
-    private String descricao;
+    private String texto;
 
     @Column(nullable = false)
     private String resumo;
-
-    @Column
-    private String conteudo;
-
 
     @Column(nullable = false)
     private String categoria;

@@ -30,12 +30,17 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
     public Postagem criarPostagem(PostagemDTO.PostagemRequestDTO dto, Usuario usuario) {
         Postagem postagem = new Postagem();
         postagem.setTitulo(dto.titulo());
-        postagem.setDescricao(dto.descricao());
+        postagem.setTexto(dto.texto());
         postagem.setCategoria(dto.categoria());
         postagem.setTag(dto.tag());
         postagem.setDataCriacao(LocalDateTime.now());
         postagem.setDataAtualizacao(LocalDateTime.now());
         postagem.setAutor(usuario);
+
+        if(postagem.getResumo() == null){
+            String texto = postagem.getTexto();
+            postagem.setResumo(texto.length() > 150 ? texto.substring(0, 147) + "..." : texto);
+        }
         return repository.save(postagem);
 
 

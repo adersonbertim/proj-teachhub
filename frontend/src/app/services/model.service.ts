@@ -11,7 +11,7 @@ export interface UsuarioDTO {
 export interface PostagemDTO {
   idPostagem: number;
   titulo: string;
-  descricao: string;
+  texto: string;
   categoria: string;
   autor: string;
   tag?: string;

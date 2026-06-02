@@ -39,7 +39,7 @@ public class PostagemDTO {
                 .autor(postagem.getAutor().getNome()) // ou getEmail()
                 .idPostagem(postagem.getId())
                 .titulo(postagem.getTitulo())
-                .descricao(postagem.getDescricao())
+                .descricao(postagem.getTexto())
                 .categoria(postagem.getCategoria())
                 .tag(postagem.getTag())
                 .visibilidade(postagem.getVisibilidade())
@@ -54,7 +54,7 @@ public class PostagemDTO {
     }
     public record PostagemRequestDTO(
             @NotBlank String titulo,
-            @NotBlank String descricao,
+            @NotBlank String texto,
             @NotBlank String categoria,
             String tag
     ) {}
