@@ -24,8 +24,10 @@ public class AuthController {
     public ResponseEntity<ApiResponse<LoginResponseDTO>> login (@RequestBody @Valid UsuarioLoginDTO dto){
         // Serve para preparar as credenciais para o Spring Security
         var credenciais = new UsernamePasswordAuthenticationToken(dto.email(), dto.senha());
+
         // Vai tentar autenticar chamando o banco, valida a senha criptografada
         var auth = authenticationManager.authenticate(credenciais);
+
         //Vai gerar o token
         Usuario user  = (Usuario) auth.getPrincipal();
         String token = jwtService.generateToken(user);

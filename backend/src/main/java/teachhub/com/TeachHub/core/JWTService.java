@@ -2,6 +2,7 @@ package teachhub.com.TeachHub.core;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.stereotype.Service;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 
@@ -13,18 +14,26 @@ import java.time.ZoneOffset;
 @Service
 public class JWTService {
 
-    //Vai ser mudado depois usando o application.properties para ser secreto!
-    // variavel de ambiente
-    private final String SECRET_KEY = "aqui vai ir a chave";
+    private final String SECRET_KEY;
+    private final Algorithm algorithm;
+
+    public JWTService() {
+        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+        this.SECRET_KEY = dotenv.get("JWT_SECRET", null);
+
+        if(this.SECRET_KEY == null || this.SECRET_KEY.isBlank()) {
+            throw new IllegalStateException("SECRET_KEY não configurada, conferir a .env");
+        }
+        this.algorithm = Algorithm.HMAC256(this.SECRET_KEY);
+    }
 
     public String generateToken(Usuario usuario){
-        Algorithm algoritimo = Algorithm.HMAC256(SECRET_KEY);
 
         return JWT.create()
                 .withIssuer("TeachHub")
                 .withSubject(usuario.getEmail())
                 .withExpiresAt(genExpirationDate())
-                .sign(algoritimo);
+                .sign(algorithm);
 
     }
 
