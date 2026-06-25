@@ -1,10 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { PostagemService } from '../../services/postagem.service';
 import { Router } from '@angular/router';
-import { PostagemDTO } from '../../services/model.service';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterialModule } from '../../material-module';
+import { MaterialModule } from '../../../material-module';
+import { PostagemService } from '../../../services/postagem.service';
+
 
 @Component({
   selector: 'app-criar-postagem',
@@ -28,20 +28,20 @@ export class CriarPostagemComponent {
     private location: Location,
   ) {}
 
-  execCommand(command: string) {
+  executar(command: string) {
     document.execCommand(command, false, '');
   }
-  promptLink() {
+  link() {
     const url = prompt('Insira a URL do link: ');
     if (url) document.execCommand('createLink', false, url);
   }
-  triggerImage() {
+  imagemUrl() {
     const img = prompt('Insira a url da imagem: ');
     if (img) document.execCommand('insertImage', false, img);
   }
 
   //metodo para enviar arquivos do compudator
-  onFileSelected(event: any) {
+  selecionarArquivo(event: any) {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -49,14 +49,14 @@ export class CriarPostagemComponent {
       reader.onload = (e: any) => {
         const base64Image = e.target.result;
         // Inserimos a imagem no exato ponto do cursor
-        this.insertImageAtCursor(base64Image);
+        this.inserirImagem(base64Image);
       };
 
       reader.readAsDataURL(file); // Converte imagem para string Base64
     }
   }
 
-  private insertImageAtCursor(src: string) {
+  private inserirImagem(src: string) {
     this.editor.nativeElement.focus();
     document.execCommand('insertImage', false, src);
   }

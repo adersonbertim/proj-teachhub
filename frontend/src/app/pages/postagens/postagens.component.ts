@@ -17,13 +17,13 @@ import { PostagemService } from '../../services/postagem.service';
 export class PostagensComponent {
 
   //this need to fix :)
-posts: any;
+  posts: any;
   pageIndex: number = 0;
   pageSize: number = 10;
 
   constructor(private router: Router, private postagemService: PostagemService) { }
 // criar postagem
-  navigateToCreatePost() {
+  navegarCriarPostagem() {
     this.router.navigate(['/criar-postagem']);
   }
 
@@ -31,30 +31,6 @@ posts: any;
   postagensExibidas: PostagemDTO[] = [];
   postagens : PostagemDTO[] = [];
 
-  //testando
-//   carregarDadosIniciais() {
-//   const nomes = ['Maria Rocha', 'Luis Silva', 'Marcos Dutra', 'Ana Julia'];
-//   const materias = ['Matemática', 'Física', 'História', 'Ciências'];
-
-//   for (let i = 1; i <= 25; i++) {
-//     this.postagens.push({
-//       idPostagem: i,
-//       // O símbolo % (módulo) ajuda a alternar entre os nomes da lista acima
-//       autor: nomes[i % nomes.length], 
-//       titulo: `Postagem Educativa #${i}`,
-//       descricao: `Este é um resumo automático da postagem número ${i} para testarmos como o Angular Material se comporta com muitos cards na tela.`,
-//       likes: Math.floor(Math.random() * 50), // Gera curtidas aleatórias
-//       dislikes: Math.floor(Math.random() * 10),
-//       isFavorita: false,
-//       isPlanoAula: i % 2 === 0, // Alterna entre true e false
-//       nota: true, // Aqui você pode mudar para number depois se quiser estrelas
-//       materia: materias[i % materias.length],
-//       categoria: 'Geral',
-//       resumo: '<p>Conteúdo rico aqui...</p>',
-//       dataCriacao: new Date().toISOString()
-//     });
-//   }
-// }
 
 
 //nao pode mecher nessas ainda!!! 
@@ -80,14 +56,14 @@ posts: any;
 
 
     // navegando para detalhes da postagem
-  navigateToPostDetail(id: number) {
+  detalhesPostagens(id: number) {
     this.router.navigate(['/postagens', id]);
   }
 
 
   //testing
   
-  onPageChange(event: PageEvent) {
+  mudancaPagina(event: PageEvent) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.atualizarPagina();

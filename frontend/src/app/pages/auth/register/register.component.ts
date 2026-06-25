@@ -28,7 +28,7 @@ export class RegisterComponent {
 
   errorMessage: string = '';
 
-  onRegister(){
+  registrarNovaConta(){
     this.authService.register(this.registerData).subscribe({
       next: () => {
         alert('Cadastro realizado! Agora faça o login');

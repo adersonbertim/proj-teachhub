@@ -23,7 +23,7 @@ export class LoginComponent {
 
   errorMessage: string = '';
 
-  onSubmit() {
+  login() {
     this.authService.login(this.loginData).subscribe({
       next: (response) => {
         console.log('login realizado', response);

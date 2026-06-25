@@ -13,35 +13,35 @@
 
       <div class="toolbar">
         <div class="tool-group">
-          <button mat-icon-button (click)="execCommand('bold')" title="Negrito">
+          <button mat-icon-button (click)="executar('bold')" title="Negrito">
             <mat-icon class="material-symbols-outlined">format_bold</mat-icon>
           </button>
-          <button mat-icon-button (click)="execCommand('italic')" title="Itálico">
+          <button mat-icon-button (click)="executar('italic')" title="Itálico">
             <mat-icon class="material-symbols-outlined">format_italic</mat-icon>
           </button>
-          <button mat-icon-button (click)="execCommand('underline')" title="Sublinhado">
+          <button mat-icon-button (click)="executar('underline')" title="Sublinhado">
             <mat-icon class="material-symbols-outlined">format_underlined</mat-icon>
           </button>
         </div>
 
         <div class="tool-group">
-          <button mat-icon-button (click)="execCommand('justifyLeft')" title="Esquerda">
+          <button mat-icon-button (click)="executar('justifyLeft')" title="Esquerda">
             <mat-icon class="material-symbols-outlined">format_align_left</mat-icon>
           </button>
-          <button mat-icon-button (click)="execCommand('justifyCenter')" title="Centro">
+          <button mat-icon-button (click)="executar('justifyCenter')" title="Centro">
             <mat-icon class="material-symbols-outlined">format_align_center</mat-icon>
           </button>
-          <button mat-icon-button (click)="execCommand('justifyRight')" title="Direita">
+          <button mat-icon-button (click)="executar('justifyRight')" title="Direita">
             <mat-icon class="material-symbols-outlined">format_align_right</mat-icon>
           </button>
         </div>
 
         <div class="tool-group">
-          <button mat-icon-button (click)="promptLink()" title="Inserir Link">
+          <button mat-icon-button (click)="link()" title="Inserir Link">
             <mat-icon class="material-symbols-outlined">link</mat-icon>
           </button>
           
-          <input type="file" #fileInput style="display: none" accept="image/*" (change)="onFileSelected($event)" />
+          <input type="file" #fileInput style="display: none" accept="image/*" (change)="selecionarArquivo($event)" />
           <button mat-icon-button (click)="fileInput.click()" title="Upload de Imagem">
             <mat-icon class="material-symbols-outlined">image</mat-icon>
           </button>

@@ -15,7 +15,7 @@ export class HomeComponent {
   constructor(private router : Router){}
 
 
-  navigateTo(route: string){
+  navegarPara(route: string){
     this.router.navigate([route]);
   }
 }
