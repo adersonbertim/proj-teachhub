@@ -145,7 +145,7 @@ frontend/
 
 ---
 
-## 🔗 API (Exemplo de Endpoints)
+## 🔗 API (Endpoints)
 
 ```
 GET    /postagens  
@@ -161,9 +161,9 @@ POST   /auth/register
 
 * DEV - Aderson Bertim
 * DEV - Régis da Silva Soares
-* Guilher Paim Zinelli
-* Thilber Falcão Ribas
-* Abilio Goulart Barbosa
+* PAPER/QA - Guilher Paim Zinelli
+* PAPER - Thilber Falcão Ribas
+* PAPER/QA - Abilio Goulart Barbosa
 
 ---
 
