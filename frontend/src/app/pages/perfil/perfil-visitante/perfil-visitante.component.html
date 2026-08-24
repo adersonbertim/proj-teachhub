@@ -25,9 +25,6 @@
             [alt]="'Foto de ' + perfil.nome"
             (error)="perfil.imagemPerfil = 'assets/default-avatar.png'"
           >
-          <div class="status-badge" [class.publico]="perfil.visibilidade === 'PUBLICO'">
-            {{ perfil.visibilidade === 'PUBLICO' ? '🌍' : '🔒' }}
-          </div>
         </div>
 
         <div class="acoes-topo">
