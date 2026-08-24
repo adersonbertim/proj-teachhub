@@ -33,14 +33,17 @@ public class PerfilController {
 
     // Atalho para o próprio usuário logado ver o próprio perfil completo (tela de config)
     @GetMapping("/me")
-    public ResponseEntity<ApiResponse<PerfilResponseDTO>> meuPerfil(
-            @AuthenticationPrincipal Usuario usuarioLogado
-    ) {
-        if (usuarioLogado == null) {
-            return ResponseEntity.status(401).body(ApiResponse.error("Não autenticado"));
+    public ResponseEntity<?> meuPerfil(@AuthenticationPrincipal Usuario usuarioLogado) {
+        try {
+            if (usuarioLogado == null) {
+                return ResponseEntity.status(401).body(ApiResponse.error("Não autenticado"));
+            }
+            PerfilResponseDTO perfil = perfilService.buscarPerfil(usuarioLogado.getId(), usuarioLogado);
+            return ResponseEntity.ok(ApiResponse.success(perfil));
+        } catch (Exception e) {
+            e.printStackTrace(); // temporário, só pra ver a linha exata no console
+            throw e;
         }
-        PerfilResponseDTO perfil = perfilService.buscarPerfil(usuarioLogado.getId(), usuarioLogado);
-        return ResponseEntity.ok(ApiResponse.success(perfil));
     }
 
     // Atualização do próprio perfil — sempre a partir do usuário autenticado, nunca por id na URL

@@ -81,9 +81,16 @@
 
     .acoes-form {
       display: flex;
+      align-items: center;
       justify-content: flex-end;
       gap: 12px;
       margin-top: 8px;
+
+      .msg-salvo {
+        font-size: 13px;
+        color: #2e7d32;
+        margin-right: auto;
+      }
 
       button {
         border-radius: 999px;

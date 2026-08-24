@@ -41,29 +41,28 @@
     <div class="redes-grid">
       <mat-form-field appearance="outline">
         <mat-label>Instagram</mat-label>
-        <span matPrefix>@&nbsp;</span>
-        <input matInput [(ngModel)]="perfil.redesSociais!.instagram" name="instagram" placeholder="seu.usuario">
+        <input matInput [(ngModel)]="perfil.redesSociais!.instagram" name="Instagram">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Twitter / X</mat-label>
-        <span matPrefix>@&nbsp;</span>
-        <input matInput [(ngModel)]="perfil.redesSociais!.twitter" name="twitter" placeholder="seu_usuario">
+        <input matInput [(ngModel)]="perfil.redesSociais!.twitter" name="X">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>LinkedIn</mat-label>
-        <input matInput [(ngModel)]="perfil.redesSociais!.linkedin" name="linkedin" placeholder="seu-usuario">
+        <input matInput [(ngModel)]="perfil.redesSociais!.linkedin" name="Linkedin" >
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Facebook</mat-label>
-        <input matInput [(ngModel)]="perfil.redesSociais!.facebook" name="facebook" placeholder="seu.usuario">
+        <input matInput [(ngModel)]="perfil.redesSociais!.facebook" name="Facebook" >
       </mat-form-field>
     </div>
 
     <div class="acoes-form">
-      <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
+      <span class="msg-salvo" *ngIf="salvo">✓ Perfil atualizado</span>
+      <button mat-stroked-button type="button" (click)="cancelar()">Voltar</button>
       <button mat-flat-button color="primary" type="submit" [disabled]="salvando">
         {{ salvando ? 'Salvando...' : 'Salvar alterações' }}
       </button>

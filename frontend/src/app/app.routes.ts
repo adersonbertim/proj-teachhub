@@ -12,6 +12,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { CriarPostagemComponent } from './pages/postagens/criar-postagem/criar-postagem.component';
 import { PerfilVisitanteComponent } from './pages/perfil/perfil-visitante/perfil-visitante.component';
+import { PerfilConfigComponent } from './pages/perfil/perfil-config/perfil-config.component';
 
 
 export const routes: Routes = [
@@ -35,7 +36,8 @@ export const routes: Routes = [
         children: [
             {path: 'home', component: HomeComponent},
             {path: 'criar-postagem', component: CriarPostagemComponent},
-            {path: 'perfil', component: PerfilVisitanteComponent},
+            { path: 'perfil/config', component: PerfilConfigComponent },
+            { path: 'perfil', component: PerfilVisitanteComponent },
             {path: 'ia', component: IaChatComponent},
             {path: 'postagens', component: PostagensComponent},
             {path: 'cursos', component: CursosComponent},

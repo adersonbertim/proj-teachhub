@@ -16,6 +16,7 @@ export class PerfilConfigComponent implements OnInit {
   perfil?: Perfil;
   carregando = true;
   salvando = false;
+  salvo = false;
 
   constructor(
     private perfilService: PerfilService,
@@ -26,7 +27,6 @@ export class PerfilConfigComponent implements OnInit {
     this.perfilService.buscarMeuPerfil().subscribe({
       next: (response) => {
         this.perfil = response.data;
-        
         if (!this.perfil.redesSociais) {
           this.perfil.redesSociais = {};
         }
@@ -42,6 +42,7 @@ export class PerfilConfigComponent implements OnInit {
   salvar() {
     if (!this.perfil) return;
     this.salvando = true;
+    this.salvo = false;
 
     const dto = {
       descricao: this.perfil.descricao,
@@ -53,7 +54,8 @@ export class PerfilConfigComponent implements OnInit {
     this.perfilService.atualizarPerfil(dto).subscribe({
       next: (response) => {
         this.salvando = false;
-        this.router.navigate(['/perfil', response.data.id]);
+        this.salvo = true;
+        this.router.navigate(['/perfil']);
       },
       error: (err) => {
         console.error('Erro ao salvar perfil:', err);
@@ -63,10 +65,6 @@ export class PerfilConfigComponent implements OnInit {
   }
 
   cancelar() {
-    if (this.perfil) {
-      this.router.navigate(['/perfil', this.perfil.id]);
-    } else {
-      this.router.navigate(['/home']);
-    }
+    this.router.navigate(['/perfil']);
   }
 }

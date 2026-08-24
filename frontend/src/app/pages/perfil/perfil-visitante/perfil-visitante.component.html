@@ -1,10 +1,12 @@
 <div class="perfil-visitante-container">
 
+
   <div class="estado-carregando" *ngIf="carregando">
     <mat-spinner diameter="40"></mat-spinner>
     <p>Carregando perfil...</p>
   </div>
 
+ 
   <div class="estado-erro" *ngIf="erro && !carregando">
     <mat-icon class="material-symbols-outlined">error_outline</mat-icon>
     <p>Não foi possível carregar este perfil.</p>
@@ -12,6 +14,7 @@
 
   <ng-container *ngIf="perfil && !carregando && !erro">
 
+  
     <div class="perfil-banner">
       <div class="banner-bg"></div>
 
@@ -41,6 +44,7 @@
       </div>
     </div>
 
+    
     <div class="perfil-info">
       <h1>{{ perfil.nome }}</h1>
 
@@ -51,6 +55,7 @@
 
       <p class="descricao">{{ perfil.descricao || 'Sem descrição' }}</p>
 
+  
       <div class="perfil-stats">
         <div class="stat-item">
           <strong>{{ perfil.postagens?.length || 0 }}</strong>
@@ -66,6 +71,7 @@
           <span>Redes conectadas</span>
         </div>
       </div>
+
 
       <div class="redes-sociais-chips" *ngIf="perfil.redesSociais">
         <a
@@ -112,6 +118,7 @@
 
     <mat-divider></mat-divider>
 
+    
     <div class="perfil-conteudos">
       <div class="secao-titulo">
         <mat-icon class="material-symbols-outlined">library_books</mat-icon>
