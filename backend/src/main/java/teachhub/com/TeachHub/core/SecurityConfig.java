@@ -56,6 +56,12 @@ public class SecurityConfig {
                     // mudar depois quando tiver sistema de login funcional
                     req.requestMatchers("/ia/**").permitAll(); // Isso libera GET, POST e qualquer outro sob /ia
                     req.requestMatchers("/feed/**").permitAll();
+
+                    // "/perfil/me" TEM que vir antes de "/perfil/*" na lista, senão a regra
+                    // de baixo (permitAll) já libera ele também, já que casam com o mesmo padrão.
+                    req.requestMatchers(HttpMethod.GET, "/perfil/me").authenticated();
+                    req.requestMatchers(HttpMethod.GET, "/perfil/*").permitAll();
+
                     req.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

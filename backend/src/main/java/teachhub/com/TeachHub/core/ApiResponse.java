@@ -1,5 +1,7 @@
 package teachhub.com.TeachHub.core;
 
+import teachhub.com.TeachHub.model.usuarios.PerfilResponseDTO;
+
 public record ApiResponse<T>(
         String status,
         String message,
@@ -15,4 +17,5 @@ public record ApiResponse<T>(
     public static <T> ApiResponse<T> error(String message) {
         return new ApiResponse<>(CNT.API.STATUS.ERROR, message, null);
     }
+
 }

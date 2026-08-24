@@ -1,0 +1,72 @@
+<div class="perfil-config-container">
+
+  <div class="estado-carregando" *ngIf="carregando">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Carregando seus dados...</p>
+  </div>
+
+  <form class="config-form" *ngIf="perfil && !carregando" (ngSubmit)="salvar()">
+    <div class="config-header">
+      <h1>Editar perfil</h1>
+      <p>Essas informações aparecem para quem visita seu perfil público.</p>
+    </div>
+
+    <div class="foto-preview">
+      <img [src]="perfil.imagemPerfil || 'assets/default-avatar.png'" [alt]="'Foto de ' + perfil.nome">
+      <mat-form-field appearance="outline" class="campo-full">
+        <mat-label>URL da foto de perfil</mat-label>
+        <input matInput [(ngModel)]="perfil.imagemPerfil" name="imagemPerfil" placeholder="https://...">
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="campo-full">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput rows="3" [(ngModel)]="perfil.descricao" name="descricao" maxlength="280" placeholder="Fale um pouco sobre você"></textarea>
+      <mat-hint align="end">{{ perfil.descricao?.length || 0 }}/280</mat-hint>
+    </mat-form-field>
+
+    <div class="campo-visibilidade">
+      <span>Visibilidade do perfil</span>
+      <mat-slide-toggle
+        [checked]="perfil.visibilidade === 'PUBLICO'"
+        (change)="perfil.visibilidade = $event.checked ? 'PUBLICO' : 'PRIVADO'"
+      >
+        {{ perfil.visibilidade === 'PUBLICO' ? 'Público' : 'Privado' }}
+      </mat-slide-toggle>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <h2>Redes sociais</h2>
+    <div class="redes-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Instagram</mat-label>
+        <span matPrefix>@&nbsp;</span>
+        <input matInput [(ngModel)]="perfil.redesSociais!.instagram" name="instagram" placeholder="seu.usuario">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Twitter / X</mat-label>
+        <span matPrefix>@&nbsp;</span>
+        <input matInput [(ngModel)]="perfil.redesSociais!.twitter" name="twitter" placeholder="seu_usuario">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>LinkedIn</mat-label>
+        <input matInput [(ngModel)]="perfil.redesSociais!.linkedin" name="linkedin" placeholder="seu-usuario">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Facebook</mat-label>
+        <input matInput [(ngModel)]="perfil.redesSociais!.facebook" name="facebook" placeholder="seu.usuario">
+      </mat-form-field>
+    </div>
+
+    <div class="acoes-form">
+      <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="salvando">
+        {{ salvando ? 'Salvando...' : 'Salvar alterações' }}
+      </button>
+    </div>
+  </form>
+</div>

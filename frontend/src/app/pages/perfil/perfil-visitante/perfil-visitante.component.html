@@ -1,0 +1,145 @@
+<div class="perfil-visitante-container">
+
+  <div class="estado-carregando" *ngIf="carregando">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Carregando perfil...</p>
+  </div>
+
+  <div class="estado-erro" *ngIf="erro && !carregando">
+    <mat-icon class="material-symbols-outlined">error_outline</mat-icon>
+    <p>Não foi possível carregar este perfil.</p>
+  </div>
+
+  <ng-container *ngIf="perfil && !carregando && !erro">
+
+    <div class="perfil-banner">
+      <div class="banner-bg"></div>
+
+      <div class="perfil-topo">
+        <div class="foto-perfil">
+          <img
+            [src]="perfil.imagemPerfil || 'assets/default-avatar.png'"
+            [alt]="'Foto de ' + perfil.nome"
+            (error)="perfil.imagemPerfil = 'assets/default-avatar.png'"
+          >
+          <div class="status-badge" [class.publico]="perfil.visibilidade === 'PUBLICO'">
+            {{ perfil.visibilidade === 'PUBLICO' ? '🌍' : '🔒' }}
+          </div>
+        </div>
+
+        <div class="acoes-topo">
+          <button mat-flat-button color="primary" class="btn-editar" *ngIf="perfil.souDono" (click)="editarPerfil()">
+            <mat-icon class="material-symbols-outlined">edit</mat-icon>
+            Editar perfil
+          </button>
+
+          <button mat-stroked-button class="btn-compartilhar" (click)="compartilharPerfil()">
+            <mat-icon class="material-symbols-outlined">share</mat-icon>
+            Compartilhar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="perfil-info">
+      <h1>{{ perfil.nome }}</h1>
+
+      <span class="tag visibilidade-tag" [class.publico]="perfil.visibilidade === 'PUBLICO'">
+        <mat-icon class="material-symbols-outlined">{{ perfil.visibilidade === 'PUBLICO' ? 'public' : 'lock' }}</mat-icon>
+        {{ perfil.visibilidade === 'PUBLICO' ? 'Público' : 'Privado' }}
+      </span>
+
+      <p class="descricao">{{ perfil.descricao || 'Sem descrição' }}</p>
+
+      <div class="perfil-stats">
+        <div class="stat-item">
+          <strong>{{ perfil.postagens?.length || 0 }}</strong>
+          <span>Publicações</span>
+        </div>
+        <div class="stat-item" *ngIf="perfil.redesSociais">
+          <strong>
+            {{ (perfil.redesSociais.instagram ? 1 : 0) +
+               (perfil.redesSociais.linkedin ? 1 : 0) +
+               (perfil.redesSociais.twitter ? 1 : 0) +
+               (perfil.redesSociais.facebook ? 1 : 0) }}
+          </strong>
+          <span>Redes conectadas</span>
+        </div>
+      </div>
+
+      <div class="redes-sociais-chips" *ngIf="perfil.redesSociais">
+        <a
+          *ngIf="perfil.redesSociais?.instagram"
+          [href]="'https://instagram.com/' + perfil.redesSociais.instagram"
+          target="_blank"
+          class="rede-chip instagram"
+        >
+          <mat-icon class="material-symbols-outlined">photo_camera</mat-icon>
+          <span>{{ perfil.redesSociais.instagram }}</span>
+        </a>
+
+        <a
+          *ngIf="perfil.redesSociais?.linkedin"
+          [href]="'https://linkedin.com/in/' + perfil.redesSociais.linkedin"
+          target="_blank"
+          class="rede-chip linkedin"
+        >
+          <mat-icon class="material-symbols-outlined">business_center</mat-icon>
+          <span>{{ perfil.redesSociais.linkedin }}</span>
+        </a>
+
+        <a
+          *ngIf="perfil.redesSociais?.twitter"
+          [href]="'https://twitter.com/' + perfil.redesSociais.twitter"
+          target="_blank"
+          class="rede-chip twitter"
+        >
+          <mat-icon class="material-symbols-outlined">alternate_email</mat-icon>
+          <span>{{ perfil.redesSociais.twitter }}</span>
+        </a>
+
+        <a
+          *ngIf="perfil.redesSociais?.facebook"
+          [href]="'https://facebook.com/' + perfil.redesSociais.facebook"
+          target="_blank"
+          class="rede-chip facebook"
+        >
+          <mat-icon class="material-symbols-outlined">facebook</mat-icon>
+          <span>{{ perfil.redesSociais.facebook }}</span>
+        </a>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="perfil-conteudos">
+      <div class="secao-titulo">
+        <mat-icon class="material-symbols-outlined">library_books</mat-icon>
+        <h2>Conteúdos</h2>
+      </div>
+
+      <div class="conteudos-lista" *ngIf="perfil.postagens && perfil.postagens.length > 0">
+        <mat-card
+          class="conteudo-item"
+          appearance="outlined"
+          *ngFor="let conteudo of perfil.postagens"
+          [routerLink]="['/postagem', conteudo.idPostagem]"
+        >
+          <mat-card-content>
+            <mat-icon class="material-symbols-outlined">description</mat-icon>
+            <div class="conteudo-texto">
+              <span class="conteudo-titulo">{{ conteudo.titulo }}</span>
+              <span class="conteudo-data">{{ conteudo.dataCriacao | date:'dd/MM/yyyy' }}</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="sem-conteudo" *ngIf="!perfil.postagens || perfil.postagens.length === 0">
+        <mat-icon class="material-symbols-outlined">inbox</mat-icon>
+        <p>Nenhum conteúdo publicado ainda</p>
+        <span class="subtle-text">Volte em breve para novidades</span>
+      </div>
+    </div>
+  </ng-container>
+</div>

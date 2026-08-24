@@ -8,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class PerfilComponent {
 
+getPerfil(id: number){
+
+  
 }
+
+
+}
+

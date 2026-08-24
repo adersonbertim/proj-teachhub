@@ -67,3 +67,22 @@ export interface ApiResponse<T> {
     data: T;
     message: string;
 }
+
+export interface Perfil{
+  id: number;
+  nome: string;
+  descricao: string;
+  imagemPerfil?: string;
+
+  visibilidade: 'PUBLICO' | 'PRIVADO';
+
+  redesSociais?: {
+    instagram?: string;
+    facebook?: string;
+    twitter?: string;
+    linkedin?: string;
+  };
+
+  postagens?: PostagemDTO[];
+  souDono?: boolean;
+}

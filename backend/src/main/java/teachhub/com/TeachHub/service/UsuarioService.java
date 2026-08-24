@@ -15,7 +15,7 @@ import teachhub.com.TeachHub.model.usuarios.UsuarioRepository;
 import java.time.LocalDateTime;
 
 @Service
-public class UsuarioService extends AService <Usuario, UsuarioRepository> implements UserDetailsService {
+public class UsuarioService extends AService <Usuario, UsuarioRepository>{
 
     private final PasswordEncoder passwordEncoder;
     private final RolesRepository rolesRepository;
@@ -55,11 +55,7 @@ public class UsuarioService extends AService <Usuario, UsuarioRepository> implem
         // 4. Salva de fato no banco de dados
         return repository.save(novoUsuario);
     }
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return repository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario não encontrado!"));
-    }
+
 
     public Usuario buscarPorId(Long id) {
         return  repository.findById(id).orElse(null);

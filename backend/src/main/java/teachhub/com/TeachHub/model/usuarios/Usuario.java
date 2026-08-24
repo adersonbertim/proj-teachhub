@@ -1,5 +1,7 @@
 package teachhub.com.TeachHub.model.usuarios;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -54,19 +56,34 @@ public class Usuario implements UserDetails{
     @Column
     private Integer score;
 
+    @Column(columnDefinition = "text")
+    private String descricao;
+
+    @Column
+    private String imagemPerfil;
+
+    @Column
+    private String visibilidade = "PUBLICO";
+
+    private RedesSociais redesSociais = new RedesSociais();
+
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn (name = "role_id", nullable = false)
     private Roles role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "autor")
     private List<Postagem> postagensCriadas;
 
+    @JsonIgnore
     @OneToMany (mappedBy = "usuario")
     private List<Favorito> favoritos;
 
 
     public Collection<? extends GrantedAuthority>  getAuthorities() {
-        return List.of(this.role);
+        String nomePermissao = "ROLE_" + this.role.getNomeFuncao().toUpperCase();
+        return List.of(new SimpleGrantedAuthority(nomePermissao));
     }
 
     public String getPassword() {

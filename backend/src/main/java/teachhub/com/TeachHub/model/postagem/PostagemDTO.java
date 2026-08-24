@@ -19,7 +19,7 @@ public class PostagemDTO {
     private String categoria;
     private String autor;
     private String tag;
-    private boolean visibilidade;
+    public boolean visibilidade;
     private boolean planoAula;
     private int nota;
     private int likes;
@@ -52,6 +52,11 @@ public class PostagemDTO {
                 .usuarioDTO(UsuarioDTO.fromEntity(postagem.getAutor()))
                 .build();
     }
+
+    public Boolean visibilidade() {
+        return this.visibilidade;
+    }
+
     public record PostagemRequestDTO(
             @NotBlank String titulo,
             @NotBlank String texto,

@@ -1,0 +1,410 @@
+@use "variables" as *;
+
+.perfil-visitante-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 680px;
+  margin: 0 auto;
+  padding-bottom: 32px;
+  color: inherit;
+
+  .estado-carregando,
+  .estado-erro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 64px 16px;
+    color: rgba(0, 0, 0, 0.6);
+
+    p {
+      margin: 0;
+      font-size: 14px;
+    }
+  }
+
+  .estado-erro .material-symbols-outlined {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #d32f2f;
+  }
+
+  .perfil-banner {
+    position: relative;
+    margin-bottom: 64px;
+
+    .banner-bg {
+      height: 180px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary, #1976d2) 0%, #4fc3f7 100%);
+    }
+
+    .perfil-topo {
+      position: absolute;
+      bottom: -56px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      .foto-perfil {
+        position: relative;
+        width: 112px;
+        height: 112px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+          background-color: var(--bg-card, #fff);
+          border: 4px solid var(--bg-card, #fff);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .status-badge {
+          position: absolute;
+          bottom: 4px;
+          right: 4px;
+          width: 28px;
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 13px;
+          border-radius: 50%;
+          background: #757575;
+          border: 2px solid var(--bg-card, #fff);
+
+          &.publico {
+            background: #4fc3f7;
+          }
+        }
+      }
+
+      .acoes-topo {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+
+        .btn-editar,
+        .btn-compartilhar {
+          border-radius: 999px;
+
+          mat-icon {
+            margin-right: 6px;
+          }
+        }
+      }
+    }
+  }
+
+  .perfil-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 4px;
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      align-self: flex-start;
+      padding: 3px 10px 3px 6px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      background: rgba(0, 0, 0, 0.06);
+      color: rgba(0, 0, 0, 0.6);
+
+      .material-symbols-outlined {
+        font-size: 15px;
+        width: 15px;
+        height: 15px;
+      }
+
+      &.publico {
+        background: rgba(79, 195, 247, 0.15);
+        color: #0288d1;
+      }
+    }
+
+    .descricao {
+      margin: 4px 0 0;
+      font-size: 15px;
+      line-height: 1.5;
+      color: rgba(0, 0, 0, 0.75);
+    }
+
+    .perfil-stats {
+      display: flex;
+      gap: 24px;
+      margin-top: 8px;
+
+      .stat-item {
+        display: flex;
+        align-items: baseline;
+        gap: 4px;
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.6);
+
+        strong {
+          font-size: 15px;
+          color: inherit;
+          font-weight: 700;
+        }
+      }
+    }
+
+    .redes-sociais-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+
+      .rede-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 500;
+        color: inherit;
+        background: rgba(0, 0, 0, 0.05);
+        transition: background 0.2s ease, transform 0.15s ease;
+
+        .material-symbols-outlined {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+        }
+
+        &:hover {
+          transform: translateY(-1px);
+          background: rgba(0, 0, 0, 0.08);
+        }
+
+        &.instagram .material-symbols-outlined { color: #e1306c; }
+        &.linkedin .material-symbols-outlined { color: #0077b5; }
+        &.twitter .material-symbols-outlined { color: #1da1f2; }
+        &.facebook .material-symbols-outlined { color: #1877f2; }
+      }
+    }
+  }
+
+  mat-divider {
+    margin: 24px 0;
+  }
+
+  .perfil-conteudos {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 4px;
+
+    .secao-titulo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+
+      .material-symbols-outlined {
+        color: var(--primary, #1976d2);
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 600;
+      }
+    }
+
+    .conteudos-lista {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .conteudo-item {
+        border-radius: 12px;
+        background-color: var(--bg-card, #fff);
+        cursor: pointer;
+        transition: background 0.2s ease;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        mat-card-content {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 14px 16px !important;
+
+          .material-symbols-outlined {
+            color: var(--primary, #1976d2);
+            flex-shrink: 0;
+          }
+
+          .conteudo-texto {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+            min-width: 0;
+
+            .conteudo-titulo {
+              font-size: 14px;
+              font-weight: 500;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+
+            .conteudo-data {
+              font-size: 12px;
+              color: rgba(0, 0, 0, 0.5);
+            }
+          }
+        }
+      }
+    }
+
+    .sem-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 16px;
+      text-align: center;
+      color: rgba(0, 0, 0, 0.55);
+      border: 1px dashed rgba(0, 0, 0, 0.12);
+      border-radius: 12px;
+
+      .material-symbols-outlined {
+        font-size: 40px;
+        width: 40px;
+        height: 40px;
+        margin-bottom: 8px;
+        opacity: 0.5;
+      }
+
+      p {
+        margin: 0 0 4px;
+        font-weight: 500;
+      }
+
+      .subtle-text {
+        font-size: 12px;
+        opacity: 0.7;
+      }
+    }
+  }
+}
+
+.dark-theme {
+  .perfil-visitante-container {
+    .estado-carregando,
+    .estado-erro {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .perfil-banner .perfil-topo .foto-perfil {
+      img {
+        background-color: var(--bg-card, #242424);
+        border-color: var(--bg-card, #242424);
+      }
+
+      .status-badge {
+        border-color: var(--bg-card, #242424);
+      }
+    }
+
+    .perfil-info {
+      .tag {
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.7);
+
+        &.publico {
+          background: rgba(79, 195, 247, 0.18);
+          color: #4fc3f7;
+        }
+      }
+
+      .descricao {
+        color: rgba(255, 255, 255, 0.75);
+      }
+
+      .perfil-stats .stat-item {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .redes-sociais-chips .rede-chip {
+        background: rgba(255, 255, 255, 0.08);
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.14);
+        }
+      }
+    }
+
+    .perfil-conteudos {
+      .conteudos-lista .conteudo-item {
+        background-color: var(--bg-card, #242424);
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .conteudo-data {
+          color: rgba(255, 255, 255, 0.5);
+        }
+      }
+
+      .sem-conteudo {
+        color: rgba(255, 255, 255, 0.6);
+        border-color: rgba(255, 255, 255, 0.15);
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .perfil-visitante-container {
+    padding: 0 8px 24px;
+
+    .perfil-banner {
+      margin-bottom: 60px;
+
+      .banner-bg {
+        height: 130px;
+        border-radius: 12px;
+      }
+
+      .perfil-topo {
+        left: 12px;
+        right: 12px;
+        bottom: -48px;
+
+        .foto-perfil {
+          width: 88px;
+          height: 88px;
+        }
+
+        .acoes-topo .btn-compartilhar span {
+          display: none;
+        }
+      }
+    }
+  }
+}
