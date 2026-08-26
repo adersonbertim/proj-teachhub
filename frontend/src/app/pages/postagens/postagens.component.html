@@ -6,23 +6,22 @@
   </mat-chip-listbox>
 </div>
 
-<mat-card
-  class="post-card"
-  *ngFor="let post of postagensExibidas"
-  (click)="navegarCriarPostagem()"
-  style="cursor: pointer"
->
-  <mat-card-header>
+<mat-card class="post-card" *ngFor="let post of postagensExibidas">
+  <mat-card-header class="post-header-clickable">
     <div mat-card-avatar class="post-avatar"></div>
-    <mat-card-title>{{ post.autor }}</mat-card-title>
-    <mat-card-subtitle>{{
-      post.dataCriacao | date: "dd/MM/yyyy"
-    }}</mat-card-subtitle>
+    <a class="post-header-content" [routerLink]="['/perfil', post.usuarioDTO?.id]">
+      <mat-card-title>{{ post.autor }}</mat-card-title>
+      <mat-card-subtitle>{{
+        post.dataCriacao | date: "dd/MM/yyyy"
+      }}</mat-card-subtitle>
+    </a>
   </mat-card-header>
 
   <mat-card-content class="post-content">
-    <h3>{{ post.titulo }}</h3>
-    <p>{{ post.texto }}</p>
+    <a class="post-content-clickable" [routerLink]="['/postagens', post.idPostagem]">
+      <h3>{{ post.titulo }}</h3>
+      <p>{{ post.descricao }}</p>
+    </a>
   </mat-card-content>
 
   <mat-card-actions class="post-action">

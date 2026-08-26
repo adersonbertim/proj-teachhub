@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 export interface UsuarioDTO {
-  idUsuario: number;
+  id: number;
   email: string;
   nome: string;
   dataCadastro: Date | string | number;
@@ -9,13 +9,14 @@ export interface UsuarioDTO {
   score: number;
 }
 export interface PostagemDTO {
+  texto: string;
   idPostagem: number;
   titulo: string;
-  texto: string;
+  descricao: string;
   categoria: string;
   autor: string;
   tag?: string;
-  visibilidade?: string;
+  visibilidade?: boolean;
   isFavorita?: boolean;
   isPlanoAula: boolean;
   nota: boolean;
@@ -24,6 +25,7 @@ export interface PostagemDTO {
   materia: string;
   resumo: string;
   dataCriacao: string | number | Date;
+  usuarioDTO?: UsuarioDTO;
 }
 
 export interface CursoDTO {
@@ -84,5 +86,6 @@ export interface Perfil{
   };
 
   postagens?: PostagemDTO[];
+
   souDono?: boolean;
 }

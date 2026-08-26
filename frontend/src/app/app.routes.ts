@@ -38,6 +38,7 @@ export const routes: Routes = [
             {path: 'criar-postagem', component: CriarPostagemComponent},
             { path: 'perfil/config', component: PerfilConfigComponent },
             { path: 'perfil', component: PerfilVisitanteComponent },
+            { path: 'perfil/:id', component: PerfilVisitanteComponent }, 
             {path: 'ia', component: IaChatComponent},
             {path: 'postagens', component: PostagensComponent},
             {path: 'cursos', component: CursosComponent},

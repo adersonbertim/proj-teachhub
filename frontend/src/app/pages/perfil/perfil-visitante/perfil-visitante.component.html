@@ -1,12 +1,12 @@
 <div class="perfil-visitante-container">
 
-
+  <!-- Estado de carregamento -->
   <div class="estado-carregando" *ngIf="carregando">
     <mat-spinner diameter="40"></mat-spinner>
     <p>Carregando perfil...</p>
   </div>
 
- 
+  <!-- Estado de erro -->
   <div class="estado-erro" *ngIf="erro && !carregando">
     <mat-icon class="material-symbols-outlined">error_outline</mat-icon>
     <p>Não foi possível carregar este perfil.</p>
@@ -14,7 +14,7 @@
 
   <ng-container *ngIf="perfil && !carregando && !erro">
 
-  
+    <!-- Banner + Avatar (estilo Twitter/Reddit) -->
     <div class="perfil-banner">
       <div class="banner-bg"></div>
 
@@ -25,6 +25,7 @@
             [alt]="'Foto de ' + perfil.nome"
             (error)="perfil.imagemPerfil = 'assets/default-avatar.png'"
           >
+
         </div>
 
         <div class="acoes-topo">
@@ -41,7 +42,7 @@
       </div>
     </div>
 
-    
+    <!-- Informações principais -->
     <div class="perfil-info">
       <h1>{{ perfil.nome }}</h1>
 
@@ -52,7 +53,7 @@
 
       <p class="descricao">{{ perfil.descricao || 'Sem descrição' }}</p>
 
-  
+      <!-- Stats estilo Twitter/Reddit -->
       <div class="perfil-stats">
         <div class="stat-item">
           <strong>{{ perfil.postagens?.length || 0 }}</strong>
@@ -69,7 +70,7 @@
         </div>
       </div>
 
-
+      <!-- Redes sociais como chips -->
       <div class="redes-sociais-chips" *ngIf="perfil.redesSociais">
         <a
           *ngIf="perfil.redesSociais?.instagram"
@@ -115,7 +116,7 @@
 
     <mat-divider></mat-divider>
 
-    
+    <!-- Feed de conteúdos -->
     <div class="perfil-conteudos">
       <div class="secao-titulo">
         <mat-icon class="material-symbols-outlined">library_books</mat-icon>
@@ -127,7 +128,7 @@
           class="conteudo-item"
           appearance="outlined"
           *ngFor="let conteudo of perfil.postagens"
-          [routerLink]="['/postagem', conteudo.idPostagem]"
+          [routerLink]="['/postagens', conteudo.idPostagem]"
         >
           <mat-card-content>
             <mat-icon class="material-symbols-outlined">description</mat-icon>

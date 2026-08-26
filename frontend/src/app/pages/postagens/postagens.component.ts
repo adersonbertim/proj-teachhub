@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MaterialModule } from '../../material-module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PostagemDTO } from '../../services/model.service';
 import { PageEvent } from '@angular/material/paginator';
 import { PostagemService } from '../../services/postagem.service';
@@ -10,7 +10,7 @@ import { PostagemService } from '../../services/postagem.service';
 
 @Component({
   selector: 'app-postagens',
-  imports: [MaterialModule, CommonModule, FormsModule ],
+  imports: [MaterialModule, CommonModule, FormsModule, RouterLink],
   templateUrl: './postagens.component.html',
   styleUrl: './postagens.component.scss'
 })
