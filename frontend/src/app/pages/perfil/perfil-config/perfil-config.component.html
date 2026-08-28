@@ -12,11 +12,28 @@
     </div>
 
     <div class="foto-preview">
-      <img [src]="perfil.imagemPerfil || 'assets/default-avatar.png'" [alt]="'Foto de ' + perfil.nome">
-      <mat-form-field appearance="outline" class="campo-full">
-        <mat-label>URL da foto de perfil</mat-label>
-        <input matInput [(ngModel)]="perfil.imagemPerfil" name="imagemPerfil" placeholder="https://...">
-      </mat-form-field>
+      <div class="avatar-wrapper">
+        <img [src]="fotoPreview || perfil.imagemPerfil || 'assets/default-avatar.png'" [alt]="'Foto de ' + perfil.nome">
+        <div class="avatar-loading" *ngIf="enviandoFoto">
+          <mat-spinner diameter="24"></mat-spinner>
+        </div>
+      </div>
+
+      <div class="avatar-acoes">
+        <button mat-stroked-button type="button" (click)="inputFoto.click()" [disabled]="enviandoFoto">
+          <mat-icon class="material-symbols-outlined">photo_camera</mat-icon>
+          {{ enviandoFoto ? 'Enviando...' : 'Escolher foto' }}
+        </button>
+        <span class="hint-foto">JPG, PNG ou WEBP, até 5MB</span>
+      </div>
+
+      <input
+        #inputFoto
+        type="file"
+        accept="image/png, image/jpeg, image/webp"
+        hidden
+        (change)="selecionarFoto($event)"
+      >
     </div>
 
     <mat-form-field appearance="outline" class="campo-full">
@@ -41,22 +58,22 @@
     <div class="redes-grid">
       <mat-form-field appearance="outline">
         <mat-label>Instagram</mat-label>
-        <input matInput [(ngModel)]="perfil.redesSociais!.instagram" name="Instagram">
+        <input matInput [(ngModel)]="perfil.redesSociais!.instagram" name="instagram" >
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Twitter / X</mat-label>
-        <input matInput [(ngModel)]="perfil.redesSociais!.twitter" name="X">
+        <input matInput [(ngModel)]="perfil.redesSociais!.twitter" name="twitter" >
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>LinkedIn</mat-label>
-        <input matInput [(ngModel)]="perfil.redesSociais!.linkedin" name="Linkedin" >
+        <input matInput [(ngModel)]="perfil.redesSociais!.linkedin" name="linkedin" >
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Facebook</mat-label>
-        <input matInput [(ngModel)]="perfil.redesSociais!.facebook" name="Facebook" >
+        <input matInput [(ngModel)]="perfil.redesSociais!.facebook" name="facebook">
       </mat-form-field>
     </div>
 

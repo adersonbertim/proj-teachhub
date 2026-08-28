@@ -52,4 +52,15 @@ public class PostagemController extends AController<Postagem, PostagemDTO, Long,
         Postagem postagem = service.findById(id);
         return ResponseEntity.ok(ApiResponse.success(PostagemDTO.fromEntity(postagem)));
     }
+    @DeleteMapping("/postagens/{id}")
+    public ResponseEntity<ApiResponse<Void>> deletar(
+            @PathVariable Long id,
+            @AuthenticationPrincipal Usuario usuarioLogado
+    ) {
+        if (usuarioLogado == null) {
+            return ResponseEntity.status(401).body(ApiResponse.error("Não autenticado"));
+        }
+        service.deletarPostagem(id, usuarioLogado);
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
 }

@@ -8,7 +8,12 @@
 
 <mat-card class="post-card" *ngFor="let post of postagensExibidas">
   <mat-card-header class="post-header-clickable">
-    <div mat-card-avatar class="post-avatar"></div>
+    <img
+      mat-card-avatar
+      class="post-avatar"
+      [src]="post.usuarioDTO?.imagemPerfil || 'assets/default-avatar.png'"
+      [alt]="'Foto de ' + post.autor"
+    >
     <a class="post-header-content" [routerLink]="['/perfil', post.usuarioDTO?.id]">
       <mat-card-title>{{ post.autor }}</mat-card-title>
       <mat-card-subtitle>{{

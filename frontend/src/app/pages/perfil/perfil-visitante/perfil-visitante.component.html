@@ -25,7 +25,6 @@
             [alt]="'Foto de ' + perfil.nome"
             (error)="perfil.imagemPerfil = 'assets/default-avatar.png'"
           >
-
         </div>
 
         <div class="acoes-topo">
@@ -136,6 +135,15 @@
               <span class="conteudo-titulo">{{ conteudo.titulo }}</span>
               <span class="conteudo-data">{{ conteudo.dataCriacao | date:'dd/MM/yyyy' }}</span>
             </div>
+            <button
+              mat-icon-button
+              class="btn-excluir"
+              *ngIf="perfil.souDono"
+              (click)="excluirPostagem(conteudo.idPostagem); $event.stopPropagation()"
+              aria-label="Excluir postagem"
+            >
+              <mat-icon class="material-symbols-outlined">delete</mat-icon>
+            </button>
           </mat-card-content>
         </mat-card>
       </div>

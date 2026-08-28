@@ -12,7 +12,8 @@ public record UsuarioDTO (
         String nome,
         LocalDateTime dataCadastro,
         String areaEnsino,
-        Integer score
+        Integer score,
+        String imagemPerfil
 ){
     public static UsuarioDTO fromEntity(Usuario u) {
         return new UsuarioDTO(
@@ -21,7 +22,8 @@ public record UsuarioDTO (
                 u.getNome(),
                 u.getDataCadastro(),
                 u.getAreaEnsino(),
-                u.getScore()
+                u.getScore(),
+                u.getImagemPerfil()
         );
     }
 }

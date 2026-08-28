@@ -18,6 +18,9 @@ export class PerfilConfigComponent implements OnInit {
   salvando = false;
   salvo = false;
 
+  enviandoFoto = false;
+  fotoPreview?: string;
+
   constructor(
     private perfilService: PerfilService,
     private router: Router
@@ -27,6 +30,7 @@ export class PerfilConfigComponent implements OnInit {
     this.perfilService.buscarMeuPerfil().subscribe({
       next: (response) => {
         this.perfil = response.data;
+        // garante que o objeto existe para o ngModel não quebrar nos inputs de redes sociais
         if (!this.perfil.redesSociais) {
           this.perfil.redesSociais = {};
         }
@@ -39,6 +43,45 @@ export class PerfilConfigComponent implements OnInit {
     });
   }
 
+  selecionarFoto(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const arquivo = input.files?.[0];
+    if (!arquivo) return;
+
+    if (!arquivo.type.startsWith('image/')) {
+      alert('Selecione um arquivo de imagem (JPG, PNG ou WEBP).');
+      input.value = '';
+      return;
+    }
+
+    const tamanhoMaximoMB = 5;
+    if (arquivo.size > tamanhoMaximoMB * 1024 * 1024) {
+      alert(`A imagem precisa ter no máximo ${tamanhoMaximoMB}MB.`);
+      input.value = '';
+      return;
+    }
+
+    // Preview instantâneo, antes mesmo do upload terminar
+    this.fotoPreview = URL.createObjectURL(arquivo);
+    this.enviandoFoto = true;
+
+    this.perfilService.enviarFotoPerfil(arquivo).subscribe({
+      next: (response) => {
+        if (this.perfil) {
+          this.perfil.imagemPerfil = response.data.imagemPerfil;
+        }
+        this.enviandoFoto = false;
+      },
+      error: (err) => {
+        console.error('Erro ao enviar foto:', err);
+        this.enviandoFoto = false;
+        this.fotoPreview = undefined;
+      }
+    });
+
+    input.value = ''; // permite escolher o mesmo arquivo de novo depois, se quiser
+  }
+
   salvar() {
     if (!this.perfil) return;
     this.salvando = true;
@@ -46,7 +89,6 @@ export class PerfilConfigComponent implements OnInit {
 
     const dto = {
       descricao: this.perfil.descricao,
-      imagemPerfil: this.perfil.imagemPerfil,
       visibilidade: this.perfil.visibilidade,
       redesSociais: this.perfil.redesSociais
     };
@@ -64,6 +106,7 @@ export class PerfilConfigComponent implements OnInit {
     });
   }
 
+  // Volta pra visão de fora do seu próprio perfil (usa /perfil, sem precisar do id)
   cancelar() {
     this.router.navigate(['/perfil']);
   }

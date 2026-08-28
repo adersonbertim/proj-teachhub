@@ -1,30 +1,56 @@
-<div class="detalhe-container" *ngIf="postagem">
-  <!-- Cabeçalho da Postagem -->
-  <mat-card class="header-card">
-    <div class="professor-info">
-      <img src="assets/default-avatar.png" alt="Professor" class="avatar">
-      <mat-card-title>{{ postagem.titulo }} - Prof. {{ postagem.autor }}</mat-card-title>
+<div class="postagem-detalhe-container">
+
+  <button mat-icon-button class="btn-voltar" (click)="voltar()" aria-label="Voltar">
+    <mat-icon class="material-symbols-outlined">arrow_back</mat-icon>
+  </button>
+
+  <div class="estado-carregando" *ngIf="carregando">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Carregando postagem...</p>
+  </div>
+
+  <div class="estado-erro" *ngIf="erro && !carregando">
+    <mat-icon class="material-symbols-outlined">error_outline</mat-icon>
+    <p>Não foi possível carregar esta postagem.</p>
+  </div>
+
+  <mat-card class="postagem-card" appearance="outlined" *ngIf="postagem && !carregando && !erro">
+
+    <div class="autor-info" [routerLink]="['/perfil', postagem.usuarioDTO?.id]">
+      <img [src]="postagem.usuarioDTO?.imagemPerfil || 'assets/default-avatar.png'" [alt]="'Foto de ' + postagem.autor" class="avatar">
+      <div class="autor-texto">
+        <span class="autor-nome">{{ postagem.autor }}</span>
+        <span class="data-criacao">{{ postagem.dataCriacao | date: 'dd/MM/yyyy' }}</span>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="postagem-corpo">
+      <h1>{{ postagem.titulo }}</h1>
+
+      <div class="tags-linha">
+        <span class="chip" *ngIf="postagem.categoria">{{ postagem.categoria }}</span>
+        <span class="chip" *ngIf="postagem.materia">{{ postagem.materia }}</span>
+        <span class="chip plano-aula" *ngIf="postagem.isPlanoAula">
+          <mat-icon class="material-symbols-outlined">school</mat-icon>
+          Plano de aula
+        </span>
+      </div>
+
+      <div class="texto-completo" [innerHTML]="descricaoSegura"></div>
+
+      <div class="tag-extra" *ngIf="postagem.tag">
+        <mat-icon class="material-symbols-outlined">sell</mat-icon>
+        <span>{{ postagem.tag }}</span>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="postagem-stats">
+      <mat-icon class="material-symbols-outlined">thumb_up</mat-icon>
+      <span>{{ postagem.likes }} curtida{{ postagem.likes === 1 ? '' : 's' }}</span>
     </div>
   </mat-card>
-
-  <div class="content-layout">
-    <!-- Coluna Esquerda: Conteúdo Principal -->
-    <mat-card class="main-content">
-      <div class="post-body">
-        <h2>{{ postagem.titulo }}</h2>
-
-
-        <section class="topic">
-          <h3>📚 Estrutura da Aula:</h3>
-          <div [innerHTML]="postagem.texto"></div>
-        </section>
-
-        <div class="pedagogic-tip">
-          <mat-icon>lightbulb</mat-icon>
-          <p><em>Dica pedagógica: {{ postagem.tag }}</em></p>
-        </div>
-      </div>
-    </mat-card>
-
-  </div>
 </div>

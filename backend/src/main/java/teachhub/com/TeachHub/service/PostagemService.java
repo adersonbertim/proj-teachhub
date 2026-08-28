@@ -59,6 +59,17 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
                 .toList();
     }
 
+    public void deletarPostagem(Long id, Usuario usuarioLogado) {
+        Postagem postagem = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Postagem não encontrada"));
+
+        if (!postagem.getAutor().getId().equals(usuarioLogado.getId())) {
+            throw new RuntimeException("Você não tem permissão para excluir essa postagem");
+        }
+
+        repository.delete(postagem);
+    }
+
     public Optional<Postagem> buscarPorId(Long id) {
         return repository.findById(id);
     }

@@ -25,12 +25,15 @@ export class PostagemService{
         }
 
         getPostagemById(id: number): Observable<ApiResponse<PostagemDTO>> {
-            return this.http.get<ApiResponse<PostagemDTO>>(`http://localhost:8080/postagens/${id}`);
+            return this.http.get<ApiResponse<PostagemDTO>>(`http://localhost:8080/feed/postagens/${id}`);
         }
         
         listarFeed() {
         return this.http.get<any>('http://localhost:8080/feed/listar-feed');
         }
 
+        deletarPostagem(id: number): Observable<ApiResponse<any>> {
+            return this.http.delete<ApiResponse<any>>(`http://localhost:8080/feed/postagens/${id}`);
+        }
 
 }

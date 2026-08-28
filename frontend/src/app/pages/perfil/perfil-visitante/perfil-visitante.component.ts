@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { MaterialModule } from '../../../material-module';
 import { PerfilService } from '../../../services/perfil.service';
+import { PostagemService } from '../../../services/postagem.service';
 import { ApiResponse, Perfil } from '../../../services/model.service';
 
 @Component({
@@ -20,10 +21,14 @@ export class PerfilVisitanteComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private perfilService: PerfilService
+    private perfilService: PerfilService,
+    private postagemService: PostagemService
   ) {}
 
   ngOnInit() {
+    // Sem :id na rota (ex: "Meu Perfil" no dashboard) => você mesmo, via /perfil/me.
+    // Com :id => perfil de qualquer pessoa (inclusive você, se o id bater —
+    // nesse caso "souDono" só controla se aparece o botão de editar).
     const idParam = this.route.snapshot.paramMap.get('id');
 
     if (!idParam) {
@@ -57,6 +62,22 @@ export class PerfilVisitanteComponent implements OnInit {
 
   editarPerfil() {
     this.router.navigate(['/perfil/config']);
+  }
+
+  excluirPostagem(id: number) {
+    if (!confirm('Tem certeza que deseja excluir esta postagem?')) return;
+
+    this.postagemService.deletarPostagem(id).subscribe({
+      next: () => {
+        if (this.perfil?.postagens) {
+          this.perfil.postagens = this.perfil.postagens.filter(p => p.idPostagem !== id);
+        }
+      },
+      error: (err) => {
+        console.error('Erro ao excluir postagem:', err);
+        alert('Não foi possível excluir a postagem.');
+      }
+    });
   }
 
   compartilharPerfil() {

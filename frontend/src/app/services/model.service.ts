@@ -7,9 +7,9 @@ export interface UsuarioDTO {
   dataCadastro: Date | string | number;
   areaEnsino: string;
   score: number;
+  imagemPerfil?: string;
 }
 export interface PostagemDTO {
-  texto: string;
   idPostagem: number;
   titulo: string;
   descricao: string;

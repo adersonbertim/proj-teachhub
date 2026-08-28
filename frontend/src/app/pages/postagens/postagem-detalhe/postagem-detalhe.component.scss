@@ -1,92 +1,201 @@
 @use "variables" as *;
 
-.detalhe-container {
-  padding: 24px;
-  max-width: 1200px;
+.postagem-detalhe-container {
+  max-width: 720px;
   margin: 0 auto;
+  padding: 16px 8px 40px;
+  position: relative;
 
-  .header-card {
-    margin-bottom: 24px;
-    padding: 16px 24px;
-    border-radius: 15px !important;
-    background: var(--bg-card);
+  .btn-voltar {
+    margin-bottom: 8px;
+  }
 
-    .professor-info {
+  .estado-carregando,
+  .estado-erro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 64px 16px;
+    color: rgba(0, 0, 0, 0.6);
+
+    p {
+      margin: 0;
+      font-size: 14px;
+    }
+  }
+
+  .estado-erro .material-symbols-outlined {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #d32f2f;
+  }
+
+  .postagem-card {
+    border-radius: 14px;
+    background-color: var(--bg-card, #fff);
+    padding: 20px;
+
+    .autor-info {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
+      cursor: pointer;
+      padding-bottom: 16px;
+      width: fit-content;
 
       .avatar {
-        width: 50px;
-        height: 50px;
+        width: 44px;
+        height: 44px;
         border-radius: 50%;
-        border: 2px solid $primary;
+        object-fit: cover;
+        background-color: rgba(0, 0, 0, 0.05);
       }
 
-      mat-card-title {
-        margin: 0;
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: var(--text-main);
+      .autor-texto {
+        display: flex;
+        flex-direction: column;
+
+        .autor-nome {
+          font-size: 15px;
+          font-weight: 600;
+        }
+
+        .data-criacao {
+          font-size: 12px;
+          color: rgba(0, 0, 0, 0.55);
+        }
+      }
+
+      &:hover .autor-nome {
+        text-decoration: underline;
       }
     }
-  }
-}
 
-.content-layout {
-  display: flex;
-  gap: 24px;
-  align-items: flex-start;
-
-  .main-content {
-    flex: 3; // Ocupa 3 partes do espaço
-    padding: 32px;
-    border-radius: 15px !important;
-    min-height: 600px;
-
-    h2 { color: var(--text-main); margin-bottom: 24px; }
-    
-    .topic {
-      margin-bottom: 24px;
-      h3 { color: $primary; font-size: 1.1rem; margin-bottom: 8px; }
-      p { line-height: 1.6; color: var(--text-main); opacity: 0.8; }
+    mat-divider {
+      margin: 0 -20px;
+      width: calc(100% + 40px);
     }
 
-    .pedagogic-tip {
-      background: rgba($primary, 0.05);
-      border-left: 4px solid #ffd700; // Amarelo para a lâmpada
-      padding: 16px;
+    .postagem-corpo {
+      padding: 20px 0;
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .tags-linha {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+
+        .chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          padding: 4px 12px;
+          border-radius: 999px;
+          font-size: 12px;
+          font-weight: 500;
+          background: rgba(25, 118, 210, 0.1);
+          color: var(--primary, #1976d2);
+
+          .material-symbols-outlined {
+            font-size: 14px;
+            width: 14px;
+            height: 14px;
+          }
+
+          &.plano-aula {
+            background: rgba(79, 195, 247, 0.15);
+            color: #0288d1;
+          }
+        }
+      }
+
+      .texto-completo {
+        font-size: 15px;
+        line-height: 1.7;
+
+        ::ng-deep img {
+          max-width: 100%;
+          border-radius: 8px;
+          margin: 12px 0;
+        }
+      }
+
+      .tag-extra {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 16px;
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.6);
+
+        .material-symbols-outlined {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+
+    .postagem-stats {
       display: flex;
-      gap: 12px;
       align-items: center;
-      border-radius: 8px;
-    }
-  }
+      gap: 6px;
+      padding-top: 16px;
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.7);
 
-  .sidebar {
-    flex: 1; // Ocupa 1 parte do espaço
-
-    .sidebar-card {
-      border-radius: 15px !important;
-      padding: 16px;
-
-      h3 { font-weight: 600; margin-bottom: 16px; color: var(--text-main); }
-      
-      mat-list-item {
-        background: rgba(0,0,0,0.03);
-        margin-bottom: 8px;
-        border-radius: 8px;
-        transition: 0.2s;
-        &:hover { background: rgba($primary, 0.1); }
+      .material-symbols-outlined {
+        font-size: 18px;
+        color: var(--primary, #1976d2);
       }
     }
   }
 }
 
-// Responsividade para telas pequenas
-@media (max-width: 900px) {
-  .content-layout {
-    flex-direction: column;
-    .main-content, .sidebar { width: 100%; flex: none; }
+.dark-theme {
+  .postagem-detalhe-container {
+    .estado-carregando,
+    .estado-erro {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .postagem-card {
+      background-color: var(--bg-card, #242424);
+
+      .autor-info .data-criacao {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .postagem-corpo .tag-extra {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .postagem-stats {
+        color: rgba(255, 255, 255, 0.75);
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .postagem-detalhe-container {
+    padding: 8px 4px 32px;
+
+    .postagem-card {
+      padding: 16px;
+
+      .postagem-corpo h1 {
+        font-size: 20px;
+      }
+    }
   }
 }
