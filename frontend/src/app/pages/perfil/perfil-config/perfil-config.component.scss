@@ -125,6 +125,19 @@
       }
     }
   }
+
+  .divisor-conta {
+    margin: 32px 0 20px;
+  }
+
+  .zona-conta {
+    display: flex;
+    justify-content: center;
+
+    button {
+      border-radius: 999px;
+    }
+  }
 }
 
 .dark-theme {

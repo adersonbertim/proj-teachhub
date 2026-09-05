@@ -39,13 +39,6 @@ public class PerfilService {
 
         List<PostagemDTO> postagens = postagemService.listarMinhas(dono);
 
-         if (!souDono) {
-            postagens = postagens.stream()
-
-                    .filter(p -> Boolean.TRUE.equals(p.visibilidade()))
-                    .toList();
-        }
-
         return PerfilResponseDTO.fromEntity(dono, postagens, souDono);
     }
 

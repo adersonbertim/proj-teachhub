@@ -22,15 +22,15 @@ export class IaChatComponent implements OnInit {
   }
 
   message = [{
-     text: 'Olá! Eu sou o assistente do TeachHub. Como posso te ajudar com seus estudos hoje?', type: 'ai' 
+     text: 'Olá! Eu sou o assistente do TeachHub. Como posso te ajudar com seus estudos hoje?', type: 'ia' 
   }];
 
   ngOnInit() {
     this.iaService.getHistorico().subscribe({
       next: (res) => {
-        if (res.data) {
-          // mapeia o histórico para o formato esperado pelo componente de chat
-          this.message = res.data.map((log: any) => [
+        if (res.data && res.data.length > 0) {
+          const historicoOrdenado = [...res.data].reverse();
+          this.message = historicoOrdenado.map((log: any) => [
             { text: log.pergunta, type: 'user' },
             { text: log.resposta, type: 'ia' }
           ]).flat();
@@ -40,21 +40,18 @@ export class IaChatComponent implements OnInit {
     });
   }
 
-  // sendMessage agora faz logica de adicionar a pergunta do usuário imediatamente e depois chama o backend para obter a resposta
   sendMessage() {
   if (this.userInput.trim()) {
     const question = this.userInput;
     
-    // adiciona a pergunta do usuário na tela 
     this.message.push({
       text: question,
       type: 'user',
     });
-    this.scrollToBottom(); // rola para o final do chat após adicionar a pergunta
+    this.scrollToBottom(); 
 
     this.userInput = ''; 
 
-    // faz chamada para o Backend
     this.iaService.perguntar(question).subscribe({
       next: (res) => {
 
@@ -62,20 +59,19 @@ export class IaChatComponent implements OnInit {
           text: res.data, 
           type: 'ia',
         });
-        this.scrollToBottom(); // rola para o final do chat após adicionar a resposta
+        this.scrollToBottom(); 
       },
       error: (err) => {
         this.message.push({
           text: "Problema de conexão com o servidor.",
           type: 'ia',
         });
-        this.scrollToBottom(); // rola para o final do chat após adicionar a mensagem de erro
+        this.scrollToBottom(); 
       }
     });
   }
 }
 
-// função para rolar o chat para o final sempre que uma nova mensagem for adicionada
   scrollToBottom() {
     setTimeout(() => {
       const chatContainer = document.querySelector('.messages-container');

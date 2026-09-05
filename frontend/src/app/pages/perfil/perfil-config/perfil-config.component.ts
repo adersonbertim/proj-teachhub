@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material-module';
 import { PerfilService } from '../../../services/perfil.service';
+import { AuthService } from '../../../core/services/auth/auth.service';
 import { Perfil } from '../../../services/model.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class PerfilConfigComponent implements OnInit {
 
   constructor(
     private perfilService: PerfilService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -30,7 +32,6 @@ export class PerfilConfigComponent implements OnInit {
     this.perfilService.buscarMeuPerfil().subscribe({
       next: (response) => {
         this.perfil = response.data;
-        // garante que o objeto existe para o ngModel não quebrar nos inputs de redes sociais
         if (!this.perfil.redesSociais) {
           this.perfil.redesSociais = {};
         }
@@ -61,7 +62,6 @@ export class PerfilConfigComponent implements OnInit {
       return;
     }
 
-    // Preview instantâneo, antes mesmo do upload terminar
     this.fotoPreview = URL.createObjectURL(arquivo);
     this.enviandoFoto = true;
 
@@ -79,7 +79,7 @@ export class PerfilConfigComponent implements OnInit {
       }
     });
 
-    input.value = ''; // permite escolher o mesmo arquivo de novo depois, se quiser
+    input.value = ''; 
   }
 
   salvar() {
@@ -106,8 +106,12 @@ export class PerfilConfigComponent implements OnInit {
     });
   }
 
-  // Volta pra visão de fora do seu próprio perfil (usa /perfil, sem precisar do id)
   cancelar() {
     this.router.navigate(['/perfil']);
+  }
+
+  sair() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

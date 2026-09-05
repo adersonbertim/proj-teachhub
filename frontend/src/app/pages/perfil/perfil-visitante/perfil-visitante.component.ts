@@ -26,9 +26,6 @@ export class PerfilVisitanteComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Sem :id na rota (ex: "Meu Perfil" no dashboard) => você mesmo, via /perfil/me.
-    // Com :id => perfil de qualquer pessoa (inclusive você, se o id bater —
-    // nesse caso "souDono" só controla se aparece o botão de editar).
     const idParam = this.route.snapshot.paramMap.get('id');
 
     if (!idParam) {

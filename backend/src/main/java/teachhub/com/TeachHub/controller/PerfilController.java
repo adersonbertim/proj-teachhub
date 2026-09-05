@@ -21,8 +21,6 @@ public class PerfilController {
         this.perfilService = perfilService;
     }
 
-    // Perfil visitante — acessível para qualquer um, logado ou não.
-    // Garanta que essa rota esteja liberada (permitAll) no SecurityConfig.
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<PerfilResponseDTO>> visualizarPerfil(
             @PathVariable Long id,
@@ -32,7 +30,6 @@ public class PerfilController {
         return ResponseEntity.ok(ApiResponse.success(perfil));
     }
 
-    // Atalho para o próprio usuário logado ver o próprio perfil completo (tela de config)
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<PerfilResponseDTO>> meuPerfil(
             @AuthenticationPrincipal Usuario usuarioLogado
@@ -44,7 +41,6 @@ public class PerfilController {
         return ResponseEntity.ok(ApiResponse.success(perfil));
     }
 
-    // Atualização do próprio perfil (descrição, visibilidade, redes sociais)
     @PutMapping("/me")
     public ResponseEntity<ApiResponse<PerfilResponseDTO>> atualizarPerfil(
             @RequestBody PerfilUpdateDTO dto,
@@ -54,7 +50,6 @@ public class PerfilController {
         return ResponseEntity.ok(ApiResponse.success(atualizado));
     }
 
-    // Upload da foto de perfil — endpoint separado porque é multipart, não JSON
     @PostMapping(value = "/me/foto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<PerfilResponseDTO>> atualizarFotoPerfil(
             @RequestParam("arquivo") MultipartFile arquivo,

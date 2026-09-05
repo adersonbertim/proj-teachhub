@@ -53,18 +53,13 @@ public class SecurityConfig {
                     req.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                     req.requestMatchers(HttpMethod.GET, "/cursos").permitAll();
 
-                    // mudar depois quando tiver sistema de login funcional
                     req.requestMatchers("/ia/**").permitAll(); // Isso libera GET, POST e qualquer outro sob /ia
                     req.requestMatchers("/feed/**").permitAll();
 
-                    // Perfil visitante: qualquer um pode ver, logado ou não.
-                    // "/perfil/me" TEM que vir antes de "/perfil/*" na lista, senão a regra
-                    // de baixo (permitAll) já libera ele também, já que casam com o mesmo padrão.
                     req.requestMatchers(HttpMethod.GET, "/perfil/me").authenticated();
                     req.requestMatchers(HttpMethod.GET, "/perfil/*").permitAll();
 
-                    // Fotos de perfil precisam carregar mesmo pra quem não está logado
-                    // (visitante vendo um perfil público)
+
                     req.requestMatchers(HttpMethod.GET, "/uploads/**").permitAll();
 
                     req.anyRequest().authenticated();
