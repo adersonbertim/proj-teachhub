@@ -1,42 +1,78 @@
 <div class="cursos-container">
-  
+
+  <!-- Busca -->
   <section class="search-section">
     <h1>O que você gostaria de aprender?</h1>
+    <p class="subtitulo">Explore cursos e conteúdos selecionados pra você evoluir na sua área</p>
+
     <div class="search-bar">
-      <mat-form-field appearance="outline">
+      <mat-form-field class="campo-busca">
         <mat-label>Procurar</mat-label>
+        <mat-icon matPrefix class="material-symbols-outlined">search</mat-icon>
         <input matInput placeholder="O que você quer procurar?">
       </mat-form-field>
-      <button mat-flat-button color="accent">
-        <mat-icon>search</mat-icon> Pesquisa
+      <button mat-flat-button color="primary" class="btn-buscar">
+        <mat-icon class="material-symbols-outlined">search</mat-icon>
+        Pesquisar
       </button>
     </div>
   </section>
 
+  <!-- Áreas do conhecimento -->
   <section class="themes-section">
     <h2>Descubra nossas áreas do conhecimento</h2>
+
     <div class="themes-grid">
-      <mat-card class="theme-card" *ngFor="let tema of temas">
-        <mat-icon>{{ tema.icone }}</mat-icon>
+      <mat-card class="theme-card" appearance="outlined" *ngFor="let tema of temas">
+        <div class="icon-wrapper">
+          <mat-icon class="material-symbols-outlined">{{ tema.icone }}</mat-icon>
+        </div>
         <mat-card-title>{{ tema.nome }}</mat-card-title>
-        <button mat-button>SAIBA MAIS <mat-icon>arrow_forward</mat-icon></button>
+        <button mat-button color="primary" class="btn-saiba-mais">
+          Saiba mais
+          <mat-icon class="material-symbols-outlined">arrow_forward</mat-icon>
+        </button>
       </mat-card>
     </div>
   </section>
 
+  <!-- Cursos em destaque -->
   <section class="list-section">
     <div class="list-header">
       <h2>Cursos em destaque</h2>
-      <button mat-stroked-button color="primary">VER TODOS OS CURSOS</button>
+      <button mat-stroked-button color="primary">Ver todos os cursos</button>
     </div>
 
-    <mat-tab-group>
+    <mat-tab-group animationDuration="200ms">
       <mat-tab label="Cursos Livres">
         <div class="course-list">
+          <div class="sem-conteudo">
+            <mat-icon class="material-symbols-outlined">school</mat-icon>
+            <p>Nenhum curso disponível por aqui ainda</p>
+            <span class="subtle-text">Volte em breve para novidades</span>
           </div>
+        </div>
       </mat-tab>
-      <mat-tab label="Novos"> Conteúdo novos </mat-tab>
-      <mat-tab label="Em alta"> Conteúdo em alta </mat-tab>
+
+      <mat-tab label="Novos">
+        <div class="course-list">
+          <div class="sem-conteudo">
+            <mat-icon class="material-symbols-outlined">fiber_new</mat-icon>
+            <p>Nenhum curso novo por enquanto</p>
+            <span class="subtle-text">Volte em breve para novidades</span>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Em alta">
+        <div class="course-list">
+          <div class="sem-conteudo">
+            <mat-icon class="material-symbols-outlined">trending_up</mat-icon>
+            <p>Ainda não há cursos em alta</p>
+            <span class="subtle-text">Volte em breve para novidades</span>
+          </div>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </section>
 
