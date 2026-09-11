@@ -53,7 +53,7 @@ public class SecurityConfig {
                     req.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                     req.requestMatchers(HttpMethod.GET, "/cursos").permitAll();
 
-                    req.requestMatchers("/ia/**").permitAll(); // Isso libera GET, POST e qualquer outro sob /ia
+                    req.requestMatchers("/ia/**").authenticated();
                     req.requestMatchers("/feed/**").permitAll();
 
                     req.requestMatchers(HttpMethod.GET, "/perfil/me").authenticated();

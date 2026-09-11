@@ -13,6 +13,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { CriarPostagemComponent } from './pages/postagens/criar-postagem/criar-postagem.component';
 import { PerfilVisitanteComponent } from './pages/perfil/perfil-visitante/perfil-visitante.component';
 import { PerfilConfigComponent } from './pages/perfil/perfil-config/perfil-config.component';
+import { authGuard } from './guards/auth.guard';
 
 
 export const routes: Routes = [
@@ -23,23 +24,22 @@ export const routes: Routes = [
         children: [
             {path: 'login', component: LoginComponent},
             {path: 'register', component: RegisterComponent},
-            {path: '', redirectTo: 'login', pathMatch: 'full'} // redirect root to login
+            {path: '', redirectTo: 'login', pathMatch: 'full'} 
 
         ]
     },
     
     
     {
-        path: '',
+  path: '',
         component: MainLayoutComponent,
-        // NEED: canActivate for routes
         children: [
             {path: 'home', component: HomeComponent},
-            {path: 'criar-postagem', component: CriarPostagemComponent},
-            { path: 'perfil/config', component: PerfilConfigComponent },
+            {path: 'criar-postagem', component: CriarPostagemComponent, canActivate: [authGuard]},
+            { path: 'perfil/config', component: PerfilConfigComponent, canActivate: [authGuard] },
             { path: 'perfil', component: PerfilVisitanteComponent },
-            { path: 'perfil/:id', component: PerfilVisitanteComponent }, 
-            {path: 'ia', component: IaChatComponent},
+            { path: 'perfil/:id', component: PerfilVisitanteComponent },
+            {path: 'ia', component: IaChatComponent, canActivate: [authGuard]}, 
             {path: 'postagens', component: PostagensComponent},
             {path: 'cursos', component: CursosComponent},
             {path: 'postagens/:id', component: PostagemDetalheComponent},
