@@ -18,9 +18,13 @@ export class CriarPostagemComponent {
   autor: string = '';
   titulo: string = '';
   materia: string = '';
-  isPlanoAula: boolean = false;
+  conteudo: boolean = false;
+  tarefa: boolean = false;
   texto: string = '';
   categoria: string = '';
+  tag: string = '';
+  visibilidade: boolean = true;
+  isFavorita: boolean = false;
 
   constructor(
     private postagemService: PostagemService,
@@ -66,7 +70,12 @@ export class CriarPostagemComponent {
     titulo: this.titulo,
     texto: this.editor.nativeElement.innerText, // usa o editor!
     categoria: this.categoria,
-    tag: ''
+    tag: '',
+    conteudo: this.conteudo,
+    tarefa: this.tarefa,
+    isFavorita: false,
+    visibilidade: true,
+    likes: 0,
   };
 
   console.log('DTO ENVIADO:', dto);

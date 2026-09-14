@@ -18,7 +18,8 @@ export interface PostagemDTO {
   tag?: string;
   visibilidade?: boolean;
   isFavorita?: boolean;
-  isPlanoAula: boolean;
+  conteudo: boolean;
+  tarefa: boolean;
   nota: boolean;
   likes: number;
   dislikes: number;

@@ -2,6 +2,7 @@ package teachhub.com.TeachHub.model.comentarios;
 
 import jakarta.persistence.*;
 import lombok.*;
+import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 
 import java.time.LocalDateTime;
@@ -36,4 +37,8 @@ public class Comentarios {
     @ManyToOne
     @JoinColumn (name = "user_idusuario", nullable = false)
     private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "postagem_idpostagem", nullable = false)
+    private Postagem postagem;
 }
