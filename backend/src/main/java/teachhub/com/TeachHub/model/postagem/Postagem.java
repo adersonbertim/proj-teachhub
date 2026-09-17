@@ -49,10 +49,10 @@ public class Postagem {
     private Boolean visibilidade = true;
 
     @Column
-    private boolean conteudo = false;
+    private Boolean conteudo = false;
 
     @Column
-    private boolean tarefa  = false;
+    private Boolean tarefa  = false;
 
     @Column
     private int nota;
