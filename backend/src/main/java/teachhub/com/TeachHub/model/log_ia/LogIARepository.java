@@ -8,4 +8,6 @@ import java.util.List;
 public interface LogIARepository extends JpaRepository<LogIA, Long> {
 
     List<LogIA> findByUserOrderByDataDesc(Usuario usuario);
+
+    void deleteByUser(Usuario usuario);
 }

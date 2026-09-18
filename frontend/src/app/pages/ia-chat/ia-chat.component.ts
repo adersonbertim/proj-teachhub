@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IaService } from '../../services/ia.service';
 import { MaterialModule } from '../../material-module';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { marked } from 'marked';
 
 @Component({
   selector: 'app-ia-chat',
@@ -13,10 +15,14 @@ import { MaterialModule } from '../../material-module';
 })
 export class IaChatComponent implements OnInit {
 
-  constructor(private router: Router, private iaService: IaService) {}
+  constructor(private router: Router, private iaService: IaService, private sanitizer: DomSanitizer) {}
   userInput: string = '';
 
-
+  renderizarMarkdown(texto: string): SafeHtml {
+    const html = marked.parse(texto, { async: false }) as string;
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+  
   voltar() {
     return this.router.navigate(['/home']);
   }
@@ -81,5 +87,17 @@ export class IaChatComponent implements OnInit {
     }, 100);
   }
 
-  
+ limparConversa() {
+    if (!confirm('Tem certeza que deseja limpar toda a conversa? Isso não pode ser desfeito.')) return;
+ 
+    this.iaService.limparHistorico().subscribe({
+      next: () => {
+        this.message = [{
+          text: 'Olá! Eu sou o assistente do TeachHub. Como posso te ajudar com seus estudos hoje?',
+          type: 'ia'
+        }];
+      },
+      error: (err) => console.error('Erro ao limpar histórico', err)
+    });
+  }
 }

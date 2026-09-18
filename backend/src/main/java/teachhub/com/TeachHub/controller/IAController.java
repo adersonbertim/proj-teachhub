@@ -16,18 +16,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/ia")
 @CrossOrigin(origins = "http://localhost:4200")
-public class IAController  {
+public class IAController {
 
     private final IAService iaService;
+
     public IAController(IAService iaService) {
         this.iaService = iaService;
     }
 
     @PostMapping("/perguntar")
-    public ResponseEntity<ApiResponse<String>>conversa(
+    public ResponseEntity<ApiResponse<String>> conversa(
             @RequestBody PerguntaDTO perguntaDTO,
             @AuthenticationPrincipal Usuario usuarioLogado
-            ){
+    ) {
         String resposta = iaService.pergunta(perguntaDTO.pergunta(), usuarioLogado);
         return ResponseEntity.ok(ApiResponse.success(resposta));
     }
@@ -35,8 +36,18 @@ public class IAController  {
     @GetMapping("/historico")
     public ResponseEntity<ApiResponse<List<LogIA>>> listarHistorico(
             @AuthenticationPrincipal Usuario usuarioLogado
-    ){
+    ) {
         var historico = iaService.historico(usuarioLogado);
-        return  ResponseEntity.ok(ApiResponse.success(historico));
+        return ResponseEntity.ok(ApiResponse.success(historico));
+    }
+
+
+    @DeleteMapping("/historico")
+    public ResponseEntity<ApiResponse<Void>> limparHistorico(@AuthenticationPrincipal Usuario usuarioLogado) {
+        if (usuarioLogado == null) {
+            return ResponseEntity.status(401).body(ApiResponse.error("Não autenticado"));
+        }
+        iaService.limparHistorico(usuarioLogado);
+        return ResponseEntity.ok(ApiResponse.success(null));
     }
 }

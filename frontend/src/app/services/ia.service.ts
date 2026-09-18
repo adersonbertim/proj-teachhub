@@ -22,4 +22,7 @@ export class IaService {
     return this.http.get(`${this.apiUrl}/historico`);
   }
 
+    limparHistorico(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/historico`);
+  }
 }

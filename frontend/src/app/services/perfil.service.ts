@@ -29,4 +29,10 @@ export class PerfilService {
     formData.append('arquivo', arquivo);
     return this.http.post<ApiResponse<Perfil>>(`${this.baseUrl}/me/foto`, formData);
   }
+  
+  excluirConta(): Observable<ApiResponse<void>> {
+  return this.http.delete<ApiResponse<void>>(`${this.baseUrl}/me`);
+  }
+
+  
 }

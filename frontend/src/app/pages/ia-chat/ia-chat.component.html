@@ -6,10 +6,12 @@
         <h2>TeachHub IA</h2>
         <p>Seu tutor educacional inteligente</p>
       </div>
-    </div>
+        </div>
+    
     <button mat-icon-button (click)="voltar()" title="Voltar">
       <mat-icon>arrow_back</mat-icon>
     </button>
+
   </div>
 
   <div class="messages-container">
@@ -20,12 +22,17 @@
       </div>
 
       <div class="message-bubble">
-        <span class="text">{{msg.text}}</span>
+        <span class="text" *ngIf="msg.type === 'user'">{{msg.text}}</span>
+        <div class="text" *ngIf="msg.type === 'ia'" [innerHTML]="renderizarMarkdown(msg.text)"></div>
       </div>
     </div>
   </div>
 
   <div class="input-area">
+          <button mat-icon-button (click)="limparConversa()" aria-label="Limpar conversa">
+            <mat-icon class="material-symbols-outlined">delete_sweep</mat-icon>
+          </button> 
+          
     <mat-form-field appearance="outline" class="chat-input-field">
       <input
         matInput

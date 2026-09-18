@@ -114,4 +114,27 @@ export class PerfilConfigComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
+ excluirConta() {
+    const confirmacao1 = confirm(
+      'ATENÇÃO: isso vai excluir sua conta PERMANENTEMENTE'+
+      'Essa ação não pode ser desfeita.\n\nDeseja continuar?'
+    );
+    if (!confirmacao1) return;
+ 
+    const confirmacao2 = confirm('Última confirmação: excluir sua conta agora?');
+    if (!confirmacao2) return;
+ 
+    this.perfilService.excluirConta().subscribe({
+      next: () => {
+        this.authService.logout();
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Erro ao excluir conta:', err);
+        alert('Não foi possível excluir sua conta. Tente novamente.');
+      }
+    });
+  }
+
 }

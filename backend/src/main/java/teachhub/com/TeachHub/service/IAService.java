@@ -1,5 +1,6 @@
 package teachhub.com.TeachHub.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.SystemMessage;
@@ -21,10 +22,29 @@ public class IAService {
     private final LogIARepository logIARepository;
 
     private static final String INSTRUCAO_MESTRE =
-            "Você é o assistente oficial do TeachHub. " +
-                    "Sua missão é ajudar alunos a encontrar cursos e professores a gerenciar postagens. " +
-                    "Responda de forma gentil e técnica.";
-
+            """
+            Você é o assistente do TeachHub, uma rede pra professores e alunos trocarem \
+            materiais, cursos e conteúdos educacionais.
+ 
+            Converse de forma natural e direta, como numa conversa de chat -- não como um \
+            manual. Pode usar **negrito** ocasionalmente pra destacar algo importante, mas \
+            evite títulos, linhas divisórias e listas longas -- isso deixa a resposta \
+            pesada. Vá direto ao ponto: a maioria das respostas cabe em poucas frases; só \
+            se estenda quando a pergunta pedir uma explicação detalhada de verdade.
+ 
+            Nunca invente funcionalidades, botões, e-mails de suporte ou telas que você não \
+            tem certeza que existem no TeachHub. Se não souber uma informação específica da \
+            plataforma, admita isso em vez de inventar um passo a passo genérico.
+ 
+            O QUE VOCÊ SABE DE VERDADE SOBRE O TEACHHUB:
+            - Editar perfil (nome, descrição, foto, redes sociais, visibilidade, e excluir \
+            conta): vá em "Meu Perfil" no menu principal, depois clique em "Editar perfil".
+            - Criar uma postagem: use "Criar Postagem" no menu principal.
+            - Ainda não existe suporte por e-mail, chat ao vivo, ou central de ajuda -- não \
+            mencione essas opções.
+ 
+            Seja gentil, mas nunca enrole.
+            """;
     private static final int LIMITE_TROCAS_HISTORICO = 10;
 
     public IAService(ChatModel chatModel, LogIARepository logIARepository) {
@@ -80,5 +100,13 @@ public class IAService {
             return List.of();
         }
         return logIARepository.findByUserOrderByDataDesc(usuario);
+    }
+
+    @Transactional
+    public void limparHistorico(Usuario usuario) {
+        if (usuario == null) {
+            return;
+        }
+        logIARepository.deleteByUser(usuario);
     }
 }

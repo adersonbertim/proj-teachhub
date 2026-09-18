@@ -214,6 +214,42 @@
   }
 }
 
+ .zona-perigo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    padding: 18px 20px;
+    border-radius: 14px;
+    background-color: rgba(211, 47, 47, 0.06);
+    border: 1px solid rgba(211, 47, 47, 0.25);
+ 
+    .zona-perigo-texto {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+ 
+      .zona-titulo {
+        font-size: 14px;
+        font-weight: 600;
+        color: #c62828;
+      }
+ 
+      .zona-descricao {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.6);
+      }
+    }
+ 
+    button {
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+  }
+
+
 // Responsividade para dispositivos móveis
 @media (max-width: 600px) {
   .perfil-config-container {

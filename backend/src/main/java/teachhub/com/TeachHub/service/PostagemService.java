@@ -1,6 +1,7 @@
 package teachhub.com.TeachHub.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import teachhub.com.TeachHub.config.AService;
 import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.postagem.PostagemDTO;
@@ -72,5 +73,10 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
 
     public Optional<Postagem> buscarPorId(Long id) {
         return repository.findById(id);
+    }
+
+    @Transactional
+    public void deletarTodasDoAutor(Usuario autor) {
+        repository.deleteByAutor(autor);
     }
 }

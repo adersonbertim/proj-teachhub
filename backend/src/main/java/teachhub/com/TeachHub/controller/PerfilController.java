@@ -61,4 +61,16 @@ public class PerfilController {
         PerfilResponseDTO atualizado = perfilService.atualizarFotoPerfil(usuarioLogado, arquivo);
         return ResponseEntity.ok(ApiResponse.success(atualizado));
     }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<ApiResponse<Void>> excluirConta(
+            @AuthenticationPrincipal Usuario usuarioLogado
+    ) {
+        if (usuarioLogado == null) {
+            return ResponseEntity.status(401).body(ApiResponse.error("Não autenticado"));
+        }
+        perfilService.excluirConta(usuarioLogado);
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
 }
