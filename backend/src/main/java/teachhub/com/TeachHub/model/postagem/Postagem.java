@@ -58,11 +58,6 @@ public class Postagem {
     private int nota;
 
     @Column
-    private int likes;
-    @Column
-    private int dislikes;
-
-    @Column
     private String materia;
 
     @ManyToOne
