@@ -26,12 +26,12 @@ export class LoginComponent {
   login() {
     this.authService.login(this.loginData).subscribe({
       next: (response) => {
+        
         console.log('login realizado', response);
-        //redirect to ia
         this.router.navigate(['/home']);
       },
       error: (err) => {
-        this.errorMessage = 'Email invalido';
+        this.errorMessage = 'Email ou senha inválidos';
         console.error(err);
       },
     });

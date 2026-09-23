@@ -6,6 +6,7 @@ import { IaService } from '../../services/ia.service';
 import { MaterialModule } from '../../material-module';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ia-chat',
@@ -88,16 +89,28 @@ export class IaChatComponent implements OnInit {
   }
 
  limparConversa() {
-    if (!confirm('Tem certeza que deseja limpar toda a conversa? Isso não pode ser desfeito.')) return;
- 
-    this.iaService.limparHistorico().subscribe({
-      next: () => {
-        this.message = [{
-          text: 'Olá! Eu sou o assistente do TeachHub. Como posso te ajudar com seus estudos hoje?',
-          type: 'ia'
-        }];
-      },
-      error: (err) => console.error('Erro ao limpar histórico', err)
+    Swal.fire({
+      title: "Tem certeza?",
+      text: "Você não poderá desfazer esta ação!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#1976d2",
+      confirmButtonText: "Sim, excluir!",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.iaService.limparHistorico().subscribe({
+          next: () => {
+            this.message = [{
+              text: 'Olá! Eu sou o assistente do TeachHub. Como posso te ajudar com seus estudos hoje?',
+              type: 'ia'
+            }];
+            Swal.fire("Excluído!", "Seu histórico foi excluído.", "success");
+          },
+          error: (err: any) => console.error('Erro ao limpar histórico', err)
+        });
+      }
     });
-  }
 }
+
+  }

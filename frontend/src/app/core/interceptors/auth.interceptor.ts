@@ -3,6 +3,7 @@ import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
+import Swal from 'sweetalert2';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const platformId = inject(PLATFORM_ID);
@@ -28,8 +29,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
       if (erro.status === 401 && emBrowser) {
         localStorage.removeItem('teachhub_token');
-        alert('Sua sessão expirou. Faça login novamente.');
-        router.navigate(['/login']);
+        Swal.fire({
+          title: 'Sessão expirada',
+          text: 'Sua sessão expirou. Faça login novamente.',
+          icon: 'warning',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          router.navigate(['/login']);
+        });
       }
       return throwError(() => erro);
     })
