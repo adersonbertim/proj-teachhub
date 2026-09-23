@@ -6,6 +6,7 @@ import { MaterialModule } from '../../../material-module';
 import { PerfilService } from '../../../services/perfil.service';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { Perfil } from '../../../services/model.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-perfil-config',
@@ -88,6 +89,7 @@ export class PerfilConfigComponent implements OnInit {
     this.salvo = false;
 
     const dto = {
+      nome: this.perfil.nome,
       descricao: this.perfil.descricao,
       visibilidade: this.perfil.visibilidade,
       redesSociais: this.perfil.redesSociais
@@ -111,29 +113,49 @@ export class PerfilConfigComponent implements OnInit {
   }
 
   sair() {
+    Swal.fire({
+  title: "Tem certeza?",
+  text: "Você será desconectado.",
+  icon: "question",
+  showCancelButton: true,
+  confirmButtonColor: "#1976d2",
+  confirmButtonText: "Sim, sair"
+}).then((result) => {
+  if (result.isConfirmed) {
     this.authService.logout();
     this.router.navigate(['/login']);
+    Swal.fire({
+      title: "Desconectado!",
+      text: "Você foi desconectado com sucesso.",
+      icon: "success"
+    });
+  }
+});
+
   }
 
  excluirConta() {
-    const confirmacao1 = confirm(
-      'ATENÇÃO: isso vai excluir sua conta PERMANENTEMENTE'+
-      'Essa ação não pode ser desfeita.\n\nDeseja continuar?'
-    );
-    if (!confirmacao1) return;
- 
-    const confirmacao2 = confirm('Última confirmação: excluir sua conta agora?');
-    if (!confirmacao2) return;
- 
-    this.perfilService.excluirConta().subscribe({
-      next: () => {
-        this.authService.logout();
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        console.error('Erro ao excluir conta:', err);
-        alert('Não foi possível excluir sua conta. Tente novamente.');
-      }
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: 'Sua conta será excluída permanentemente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1976d2',
+      confirmButtonText: 'Sim, excluir',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (!result.isConfirmed) return;
+
+      this.perfilService.excluirConta().subscribe({
+        next: () => {
+          this.authService.logout();
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.error('Erro ao excluir conta:', err);
+          Swal.fire('Erro', 'Não foi possível excluir sua conta. Tente novamente.', 'error');
+        }
+      });
     });
   }
 

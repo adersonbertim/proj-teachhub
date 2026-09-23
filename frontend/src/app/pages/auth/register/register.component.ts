@@ -5,6 +5,7 @@ import { AuthService } from '../../../core/services/auth/auth.service';
 
 import { Router, RouterLink } from '@angular/router';
 import { MaterialModule } from '../../../material-module';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -31,7 +32,11 @@ export class RegisterComponent {
   registrarNovaConta(){
     this.authService.register(this.registerData).subscribe({
       next: () => {
-        alert('Cadastro realizado! Agora faça o login');
+        Swal.fire({
+        title: "Cadastro realizado com sucesso!",
+        text: "Você será redirecionado para a página de login.",
+        icon: "success"
+      });
         this.router.navigate(["/login"]);
       },
       error: (err: { error: { message: string; }; }) => {

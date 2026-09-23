@@ -35,7 +35,12 @@
         (change)="selecionarFoto($event)"
       >
     </div>
-
+    
+      <mat-form-field appearance="outline" class="campo-full">
+       <mat-label>Nome</mat-label>
+          <input matInput [(ngModel)]="perfil.nome" name="nome" required maxlength="100" placeholder="Seu nome completo">
+        </mat-form-field>
+ 
     <mat-form-field appearance="outline" class="campo-full">
       <mat-label>Descrição</mat-label>
       <textarea matInput rows="3" [(ngModel)]="perfil.descricao" name="descricao" maxlength="280" placeholder="Fale um pouco sobre você"></textarea>
