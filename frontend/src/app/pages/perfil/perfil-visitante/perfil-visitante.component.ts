@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { MaterialModule } from '../../../material-module';
 import { PerfilService } from '../../../services/perfil.service';
 import { PostagemService } from '../../../services/postagem.service';
-import { ApiResponse, Perfil } from '../../../services/model.service';
+import { ApiResponse, FavoritoDTO, Perfil } from '../../../services/model.service';
+import Swal from 'sweetalert2';
+import { FavoritoService } from '../../../services/favorito.service';
 
 @Component({
   selector: 'app-perfil-visitante',
@@ -17,12 +19,14 @@ export class PerfilVisitanteComponent implements OnInit {
   perfil?: Perfil;
   carregando = true;
   erro = false;
+  favoritos: FavoritoDTO[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private perfilService: PerfilService,
-    private postagemService: PostagemService
+    private postagemService: PostagemService,
+    private favoritoService: FavoritoService
   ) {}
 
   ngOnInit() {
@@ -48,6 +52,13 @@ export class PerfilVisitanteComponent implements OnInit {
       next: (response) => {
         this.perfil = response.data;
         this.carregando = false;
+
+       if (this.perfil.souDono) {
+          this.favoritoService.listarMeus().subscribe({
+            next: (res) => this.favoritos = res.data || [],
+            error: (err) => console.error('Erro ao carregar favoritos:', err)
+          });
+        }
       },
       error: (err) => {
         console.error('Erro ao carregar perfil:', err);
@@ -62,17 +73,29 @@ export class PerfilVisitanteComponent implements OnInit {
   }
 
   excluirPostagem(id: number) {
-    if (!confirm('Tem certeza que deseja excluir esta postagem?')) return;
-
-    this.postagemService.deletarPostagem(id).subscribe({
-      next: () => {
-        if (this.perfil?.postagens) {
-          this.perfil.postagens = this.perfil.postagens.filter(p => p.idPostagem !== id);
-        }
-      },
-      error: (err) => {
-        console.error('Erro ao excluir postagem:', err);
-        alert('Não foi possível excluir a postagem.');
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: 'Esta ação não pode ser desfeita.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1976d2',
+      cancelButtonColor: '#ccc',
+      confirmButtonText: 'Sim, excluir!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.postagemService.deletarPostagem(id).subscribe({
+          next: () => {
+            if (this.perfil?.postagens) {
+              this.perfil.postagens = this.perfil.postagens.filter(p => p.idPostagem !== id);
+            }
+            this.favoritos = this.favoritos.filter(f => f.idPostagem !== id);
+          },
+          error: (err) => {
+            console.error('Erro ao excluir postagem:', err);
+            Swal.fire('Erro', 'Não foi possível excluir a postagem.', 'error');
+          }
+        });
       }
     });
   }
@@ -85,4 +108,24 @@ export class PerfilVisitanteComponent implements OnInit {
       navigator.clipboard.writeText(url);
     }
   }
+
+desfavoritar(favorito: FavoritoDTO) {
+  this.favoritoService.toggleFavorito(favorito.idPostagem).subscribe({
+    next: () => {
+      this.favoritos = this.favoritos.filter(f => f.idFavorito !== favorito.idFavorito);
+    },
+    error: (err) => {
+      console.error('Erro ao desfavoritar:', err);
+      Swal.fire('Erro', 'Não foi possível remover dos favoritos.', 'error');
+    }
+  });
+}
+    private carregarFavoritos() {
+    this.favoritoService.listarMeus().subscribe({
+      next: (res) => this.favoritos = res.data,
+      error: (err) => console.error('Erro ao carregar favoritos:', err)
+    });
+  }
+  
+
 }

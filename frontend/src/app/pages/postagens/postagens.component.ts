@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { PostagemDTO } from '../../services/model.service';
 import { PageEvent } from '@angular/material/paginator';
 import { PostagemService } from '../../services/postagem.service';
+import { FavoritoService } from '../../services/favorito.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class PostagensComponent {
   pageIndex: number = 0;
   pageSize: number = 10;
 
-  constructor(private router: Router, private postagemService: PostagemService) { }
+  constructor(private router: Router, private postagemService: PostagemService, private favoritoService: FavoritoService) { }
 // criar postagem
   navegarCriarPostagem() {
     this.router.navigate(['/criar-postagem']);
@@ -33,13 +34,22 @@ export class PostagensComponent {
 
 
 
-//nao pode mecher nessas ainda!!! 
-  favoritarPostagem(id: number) {
-    const postagem = this.postagens.find(post => post.idPostagem === id);
-    if (postagem) {
-      postagem.isFavorita = !postagem.isFavorita;
-    }
-  };
+favoritarPostagem(postagemId: number) {
+    this.favoritoService.toggleFavorito(postagemId).subscribe({
+      next: (res) => {
+
+        const post = this.postagens.find(p => p.idPostagem === postagemId);
+        if (post) {
+          post.isFavorita = res.data;
+        }
+        const postExibida = this.postagensExibidas.find(p => p.idPostagem === postagemId);
+        if (postExibida) {
+          postExibida.isFavorita = res.data;
+        }
+      },
+      error: (err) => console.error('Erro ao favoritar:', err)
+    });
+  }
 
 
   //nao pode mecher nessas ainda, é teste

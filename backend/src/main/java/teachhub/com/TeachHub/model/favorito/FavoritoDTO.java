@@ -17,6 +17,7 @@ public class FavoritoDTO {
     private Long idFavorito;
     private LocalDateTime dataFavorito;
     private String nomeUsuario;
+    private Long idPostagem;
     private String tituloPostagem;
 
 
@@ -28,6 +29,7 @@ public class FavoritoDTO {
                 .idFavorito(favorito.getId())
                 .dataFavorito(favorito.getData())
                 .nomeUsuario(favorito.getUsuario() != null ? favorito.getUsuario().getNome() : null)
+                .idPostagem(favorito.getPostagem() != null ? favorito.getPostagem().getId() : null)
                 .tituloPostagem(favorito.getPostagem() != null ? favorito.getPostagem().getTitulo() : null)
                 .build();
     }

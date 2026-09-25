@@ -4,8 +4,11 @@ import org.springframework.stereotype.Service;
 import teachhub.com.TeachHub.config.AService;
 import teachhub.com.TeachHub.model.notificacao.Notificacao;
 import teachhub.com.TeachHub.model.notificacao.NotificacaoRepository;
+import teachhub.com.TeachHub.model.postagem.Postagem;
+import teachhub.com.TeachHub.model.usuarios.Usuario;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class NotificacaoService extends AService<Notificacao, NotificacaoRepository> {

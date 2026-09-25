@@ -9,6 +9,7 @@ import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class LikeService extends AService<Like, LikeRepository> {

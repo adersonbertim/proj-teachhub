@@ -39,6 +39,7 @@ export interface CursoDTO {
 
 export interface FavoritoDTO{
     idFavorito: number;
+    idPostagem: number;
     dataFavorito: Date | string | number;
     nomeUsuario: string;
     tituloPostagem: string;

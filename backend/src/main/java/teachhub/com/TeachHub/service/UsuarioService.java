@@ -7,12 +7,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import teachhub.com.TeachHub.config.AService;
 import teachhub.com.TeachHub.core.UsuarioRegistroDTO;
+import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.roles.Roles;
 import teachhub.com.TeachHub.model.roles.RolesRepository;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 import teachhub.com.TeachHub.model.usuarios.UsuarioRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class UsuarioService extends AService <Usuario, UsuarioRepository>{

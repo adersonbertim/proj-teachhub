@@ -54,11 +54,15 @@ public class SecurityConfig {
                     req.requestMatchers(HttpMethod.GET, "/cursos").permitAll();
 
                     req.requestMatchers("/ia/**").authenticated();
-                    req.requestMatchers("/feed/**").permitAll();
 
+                    req.requestMatchers(HttpMethod.GET, "/feed/listar-feed").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "/feed/postagens/*").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "/feed/minhas").authenticated();
+                    req.requestMatchers(HttpMethod.POST, "/feed/criar").authenticated();
+                    req.requestMatchers(HttpMethod.DELETE, "/feed/postagens/*").authenticated();
                     req.requestMatchers(HttpMethod.GET, "/perfil/me").authenticated();
                     req.requestMatchers(HttpMethod.GET, "/perfil/*").permitAll();
-
+                    req.requestMatchers("/favoritos/**").authenticated();
 
                     req.requestMatchers(HttpMethod.GET, "/uploads/**").permitAll();
 

@@ -1,12 +1,12 @@
 <div class="perfil-visitante-container">
 
-  <!-- Estado de carregamento -->
+
   <div class="estado-carregando" *ngIf="carregando">
     <mat-spinner diameter="40"></mat-spinner>
     <p>Carregando perfil...</p>
   </div>
 
-  <!-- Estado de erro -->
+
   <div class="estado-erro" *ngIf="erro && !carregando">
     <mat-icon class="material-symbols-outlined">error_outline</mat-icon>
     <p>Não foi possível carregar este perfil.</p>
@@ -14,7 +14,6 @@
 
   <ng-container *ngIf="perfil && !carregando && !erro">
 
-    <!-- Banner + Avatar (estilo Twitter/Reddit) -->
     <div class="perfil-banner">
       <div class="banner-bg"></div>
 
@@ -41,7 +40,7 @@
       </div>
     </div>
 
-    <!-- Informações principais -->
+  
     <div class="perfil-info">
       <h1>{{ perfil.nome }}</h1>
 
@@ -52,7 +51,7 @@
 
       <p class="descricao">{{ perfil.descricao || 'Sem descrição' }}</p>
 
-      <!-- Stats estilo Twitter/Reddit -->
+  
       <div class="perfil-stats">
         <div class="stat-item">
           <strong>{{ perfil.postagens?.length || 0 }}</strong>
@@ -69,7 +68,7 @@
         </div>
       </div>
 
-      <!-- Redes sociais como chips -->
+
       <div class="redes-sociais-chips" *ngIf="perfil.redesSociais">
         <a
           *ngIf="perfil.redesSociais?.instagram"
@@ -113,46 +112,104 @@
       </div>
     </div>
 
+
     <mat-divider></mat-divider>
 
-    <!-- Feed de conteúdos -->
-    <div class="perfil-conteudos">
-      <div class="secao-titulo">
-        <mat-icon class="material-symbols-outlined">library_books</mat-icon>
-        <h2>Conteúdos</h2>
-      </div>
+<div class="perfil-conteudos">
+  <mat-tab-group animationDuration="200ms">
+    <mat-tab label="Conteúdos">
 
-      <div class="conteudos-lista" *ngIf="perfil.postagens && perfil.postagens.length > 0">
-        <mat-card
-          class="conteudo-item"
-          appearance="outlined"
-          *ngFor="let conteudo of perfil.postagens"
-          [routerLink]="['/postagens', conteudo.idPostagem]"
-        >
-          <mat-card-content>
-            <mat-icon class="material-symbols-outlined">description</mat-icon>
-            <div class="conteudo-texto">
-              <span class="conteudo-titulo">{{ conteudo.titulo }}</span>
-              <span class="conteudo-data">{{ conteudo.dataCriacao | date:'dd/MM/yyyy' }}</span>
-            </div>
-            <button
-              mat-icon-button
-              class="btn-excluir"
-              *ngIf="perfil.souDono"
-              (click)="excluirPostagem(conteudo.idPostagem); $event.stopPropagation()"
-              aria-label="Excluir postagem"
-            >
-              <mat-icon class="material-symbols-outlined">delete</mat-icon>
-            </button>
-          </mat-card-content>
-        </mat-card>
-      </div>
+      <div class="conteudos-container">
+        <div
+          class="conteudos-lista"
+          *ngIf="perfil.postagens && perfil.postagens.length > 0">
+          <p></p>
+          <mat-card class="conteudo-item" appearance="outlined" *ngFor="let conteudo of perfil.postagens" [routerLink]="['/postagens', conteudo.idPostagem]">
 
-      <div class="sem-conteudo" *ngIf="!perfil.postagens || perfil.postagens.length === 0">
-        <mat-icon class="material-symbols-outlined">inbox</mat-icon>
-        <p>Nenhum conteúdo publicado ainda</p>
-        <span class="subtle-text">Volte em breve para novidades</span>
+            <mat-card-content>
+              <mat-icon class="material-symbols-outlined">
+                description
+              </mat-icon>
+
+              <div class="conteudo-texto">
+                <span class="conteudo-titulo">
+                  {{ conteudo.titulo }}
+                </span>
+
+                <span class="conteudo-data">
+                  {{ conteudo.dataCriacao | date:'dd/MM/yyyy' }}
+                </span>
+              </div>
+
+              <button
+                mat-icon-button
+                class="btn-excluir"
+                *ngIf="perfil.souDono"
+                (click)="excluirPostagem(conteudo.idPostagem); $event.stopPropagation()"
+                aria-label="Excluir postagem">
+                <mat-icon class="material-symbols-outlined">
+                  delete
+                </mat-icon>
+              </button>
+
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div
+          class="sem-conteudo"
+          *ngIf="!perfil.postagens || perfil.postagens.length === 0">
+          <mat-icon class="material-symbols-outlined">
+            inbox
+          </mat-icon>
+
+          <p>Nenhum conteúdo publicado ainda</p>
+
+          <span class="subtle-text">
+            Volte em breve para novidades
+          </span>
+        </div>
       </div>
+    </mat-tab>
+
+    <mat-tab label="Favoritos" *ngIf="perfil.souDono">
+
+      <div class="favoritos-container">
+        <div class="conteudos-lista" *ngIf="favoritos && favoritos.length > 0">
+          <mat-card class="conteudo-item" appearance="outlined" *ngFor="let favorito of favoritos" [routerLink]="['/postagens', favorito.idPostagem]">
+  <mat-card-content>
+    <mat-icon class="material-symbols-outlined">star</mat-icon>
+
+    <div class="conteudo-texto">
+      <span class="conteudo-titulo">{{ favorito.tituloPostagem }}</span>
+      <span class="conteudo-data">{{ favorito.dataFavorito | date:'dd/MM/yyyy' }}</span>
     </div>
+
+    <button
+      mat-icon-button
+      class="btn-desfavoritar"
+      (click)="$event.stopPropagation(); desfavoritar(favorito)"
+      aria-label="Desfavoritar postagem">
+      <mat-icon class="material-symbols-outlined">star_outline</mat-icon>
+    </button>
+  </mat-card-content>
+</mat-card>
+        </div>
+        <div
+          class="sem-conteudo"
+          *ngIf="!favoritos || favoritos.length === 0">
+          <mat-icon class="material-symbols-outlined">
+            star_border
+          </mat-icon>
+
+          <p>Nenhum favorito ainda</p>
+
+          <span class="subtle-text">
+            As postagens que você favoritar aparecerão aqui
+          </span>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
   </ng-container>
 </div>

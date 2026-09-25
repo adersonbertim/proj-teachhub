@@ -3,6 +3,7 @@ package teachhub.com.TeachHub.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teachhub.com.TeachHub.config.AService;
+import teachhub.com.TeachHub.model.favorito.FavoritoRepository;
 import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.postagem.PostagemDTO;
 import teachhub.com.TeachHub.model.postagem.PostagemRepository;
@@ -14,8 +15,12 @@ import java.util.Optional;
 
 @Service
 public class PostagemService extends AService<Postagem, PostagemRepository> {
-    public PostagemService(PostagemRepository repository) {
+    private FavoritoRepository favoritoRepository;
+
+
+    public PostagemService(PostagemRepository repository, FavoritoRepository favoritoRepository) {
         super(repository);
+        this.favoritoRepository = favoritoRepository;
     }
 
     @Override
@@ -60,6 +65,7 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
                 .toList();
     }
 
+    @Transactional
     public void deletarPostagem(Long id, Usuario usuarioLogado) {
         Postagem postagem = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Postagem não encontrada"));
@@ -67,6 +73,7 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
         if (!postagem.getAutor().getId().equals(usuarioLogado.getId())) {
             throw new RuntimeException("Você não tem permissão para excluir essa postagem");
         }
+        favoritoRepository.deleteByPostagem(postagem);
 
         repository.delete(postagem);
     }
@@ -77,6 +84,9 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
 
     @Transactional
     public void deletarTodasDoAutor(Usuario autor) {
-        repository.deleteByAutor(autor);
+        for (Postagem p : repository.findByAutor(autor)) {
+            favoritoRepository.deleteByPostagem(p);
+            repository.delete(p);
+        }
     }
 }

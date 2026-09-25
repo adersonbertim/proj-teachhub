@@ -42,8 +42,8 @@
       class="star-button"
       [class.active]="post.isFavorita"
       (click)="favoritarPostagem(post.idPostagem);
-      $event.stopPropagation()"
-    >
+      $event.stopPropagation()">
+      
       <mat-icon class="material-symbols-outlined">
         {{ post.isFavorita ? "star" : "star_outline" }}
       </mat-icon>

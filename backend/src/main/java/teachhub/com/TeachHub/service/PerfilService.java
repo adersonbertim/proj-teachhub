@@ -20,19 +20,21 @@ public class PerfilService {
     private final ArquivoService arquivoService;
     private final UsuarioRepository usuarioRepository;
     private final LogIARepository logIARepository;
+    private final FavoritoService favoritoService;
 
     public PerfilService(
             UsuarioService usuarioService,
             PostagemService postagemService,
             ArquivoService arquivoService,
             UsuarioRepository usuarioRepository,
-            LogIARepository logIARepository
+            LogIARepository logIARepository, FavoritoService favoritoService
     ) {
         this.usuarioService = usuarioService;
         this.postagemService = postagemService;
         this.arquivoService = arquivoService;
         this.usuarioRepository = usuarioRepository;
         this.logIARepository = logIARepository;
+        this.favoritoService = favoritoService;
     }
 
 
@@ -90,6 +92,7 @@ public class PerfilService {
 
     @Transactional
     public void excluirConta(Usuario usuario) {
+        favoritoService.deletarTodosDoUsuario(usuario);
         postagemService.deletarTodasDoAutor(usuario);
         logIARepository.deleteByUser(usuario);
 

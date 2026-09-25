@@ -67,5 +67,9 @@ public class Postagem {
     @OneToMany(mappedBy = "postagem")
     private List<Midia> midias;
 
+    private int likes;
+
+    private int dislikes;
+
     // adicionar a tabela favoritos nas Postagens, excluir a antiga do BD
 }

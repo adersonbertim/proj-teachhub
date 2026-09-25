@@ -7,9 +7,11 @@ package teachhub.com.TeachHub.config;
  */
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class AService <E, R extends JpaRepository<E, Long>> {
 
