@@ -46,8 +46,6 @@ public class PostagemDTO {
                 .planoAula(postagem.getConteudo())
                 .planoAula(postagem.getTarefa())
                 .nota(postagem.getNota())
-                .likes(postagem.getLikes())
-                .deslikes(postagem.getDislikes())
                 .materia(postagem.getMateria())
                 .resumo(postagem.getResumo())
                 .usuarioDTO(UsuarioDTO.fromEntity(postagem.getAutor()))

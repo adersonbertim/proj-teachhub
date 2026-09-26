@@ -3,6 +3,7 @@ package teachhub.com.TeachHub.model.favorito;
 import org.springframework.data.jpa.repository.JpaRepository;
 import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
+<<<<<<< Updated upstream
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,11 @@ public interface FavoritoRepository extends JpaRepository<Favorito, Long> {
     void deleteByUsuario(Usuario usuario);
 
     void deleteByPostagem(Postagem postagem);
+=======
+
+import java.util.Optional;
+
+public interface FavoritoRepository extends JpaRepository<Favorito,Long> {
+    Optional<Favorito> findByUsuarioAndPostagem(Usuario usuario, Postagem postagem);
+>>>>>>> Stashed changes
 }

@@ -25,11 +25,8 @@ public class Comentarios {
     @Column (nullable = false)
     private String texto;
 
-    @Column
-    private int avaliacao;
-
-    @Column
-    private int likes;
+//    @Column
+//    private int avaliacao;
 
     @Column (nullable = false)
     private LocalDateTime data;
@@ -41,4 +38,9 @@ public class Comentarios {
     @ManyToOne
     @JoinColumn(name = "postagem_idpostagem", nullable = false)
     private Postagem postagem;
+
+    @ManyToOne
+    @JoinColumn(name = "comentarioPai")
+    private Comentarios comentarioPai;
+
 }

@@ -5,14 +5,39 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { PostagemService } from '../../../services/postagem.service';
 import { PostagemDTO } from '../../../services/model.service';
 import { MaterialModule } from '../../../material-module';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-postagem-detalhe',
-  imports: [CommonModule, MaterialModule, RouterLink],
+  imports: [CommonModule, MaterialModule, RouterLink, FormsModule],
   templateUrl: './postagem-detalhe.component.html',
   styleUrl: './postagem-detalhe.component.scss'
 })
 export class PostagemDetalheComponent implements OnInit {
+likeStatus: any;
+favoritado: any;
+novoComentario: any;
+enviandoComentario: unknown;
+comentarios: any;
+relacionadas: any;
+toggleLikePostagem() {
+throw new Error('Method not implemented.');
+}
+toggleFavoritar() {
+throw new Error('Method not implemented.');
+}
+enviarComentario() {
+throw new Error('Method not implemented.');
+}
+toggleResponder(_t66: any) {
+throw new Error('Method not implemented.');
+}
+toggleLikeComentario(_t98: any) {
+throw new Error('Method not implemented.');
+}
+enviarResposta(_t66: any) {
+throw new Error('Method not implemented.');
+}
   postagem?: PostagemDTO;
   descricaoSegura?: SafeHtml;
   carregando = true;

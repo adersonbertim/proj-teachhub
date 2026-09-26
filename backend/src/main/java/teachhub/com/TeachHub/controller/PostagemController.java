@@ -63,4 +63,9 @@ public class PostagemController extends AController<Postagem, PostagemDTO, Long,
         service.deletarPostagem(id, usuarioLogado);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
+    @GetMapping("/postagens/{id}/relacionadas")
+    public ResponseEntity<ApiResponse<List<PostagemDTO>>> relacionadas(@PathVariable Long id) {
+        Postagem atual = service.findById(id);
+        return ResponseEntity.ok(ApiResponse.success(service.listarRelacionadas(atual, 4)));
+    }
 }

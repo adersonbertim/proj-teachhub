@@ -45,6 +45,7 @@ public class FavoritoService {
         return true;
     }
 
+<<<<<<< Updated upstream
     public List<FavoritoDTO> listarFavoritos(Usuario usuario) {
         return favoritoRepository.findByUsuarioOrderByDataDesc(usuario)
                 .stream()
@@ -61,3 +62,19 @@ public class FavoritoService {
         favoritoRepository.deleteByUsuario(usuario);
     }
 }
+=======
+    //Verificação se ja foi favorito
+    @Override
+    public List<Favorito> findAll() {
+        return super.findAll();
+    }
+
+    public Optional<Favorito> findByUserAndPostagem(Usuario usuario,  Postagem postagem) {
+        return repository.findByUsuarioAndPostagem(usuario, postagem);
+    }
+
+    public void remover(Favorito favorito) {
+        repository.delete(favorito);
+    }
+}
+>>>>>>> Stashed changes

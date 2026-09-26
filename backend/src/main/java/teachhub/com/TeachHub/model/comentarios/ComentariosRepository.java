@@ -7,5 +7,9 @@ import teachhub.com.TeachHub.model.postagem.Postagem;
 import java.util.List;
 
 public interface ComentariosRepository extends JpaRepository<Comentarios, Long> {
-    List<Comentarios> findByPostagem(Postagem postagem);
+    // Comentários raiz (sem pai) de uma postagem
+    List<Comentarios> findByPostagemAndComentarioPaiIsNullOrderByDataDesc(Postagem postagem);
+
+    // Respostas de um comentário específico
+    List<Comentarios> findByComentarioPaiOrderByDataAsc(Comentarios comentarioPai);
 }

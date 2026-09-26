@@ -48,8 +48,6 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
             postagem.setResumo(texto.length() > 150 ? texto.substring(0, 147) + "..." : texto);
         }
         return repository.save(postagem);
-
-
     }
 
 
@@ -88,5 +86,14 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
             favoritoRepository.deleteByPostagem(p);
             repository.delete(p);
         }
+    }
+
+
+    public List<PostagemDTO> listarRelacionadas(Postagem atual, int limite) {
+        return repository.findByCategoriaOrMateria(atual.getCategoria(), atual.getMateria()).stream()
+                .filter(p -> !p.getId().equals(atual.getId()))
+                .limit(limite)
+                .map(PostagemDTO::fromEntity)
+                .toList();
     }
 }

@@ -1,201 +1,90 @@
-@use "variables" as *;
-
-.postagem-detalhe-container {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 16px 8px 40px;
+.pagina-postagem {
+  width: 100%;
+  min-height: 100vh;
+  padding: 16px 24px;
+  box-sizing: border-box;
   position: relative;
+}
 
-  .btn-voltar {
-    margin-bottom: 8px;
-  }
+.layout-tela-cheia {
+  display: flex;
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
 
-  .estado-carregando,
-  .estado-erro {
-    display: flex;
+  @media (max-width: 900px) {
     flex-direction: column;
+  }
+}
+
+.postagem-card {
+  flex: 1;
+  min-width: 0; // evita overflow do texto longo
+}
+
+.card-relacionadas {
+  width: 320px;
+  height: fit-content;
+  position: sticky;
+  top: 16px;
+  padding: 16px;
+
+  .item-relacionado {
+    display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
+    padding: 10px 0;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+}
+
+.barra-acoes {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+}
+
+.secao-comentarios {
+  padding: 16px;
+
+  .novo-comentario, .nova-resposta {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .campo-comentario {
+    flex: 1;
+  }
+
+  .comentario {
+    display: flex;
     gap: 12px;
-    padding: 64px 16px;
-    color: rgba(0, 0, 0, 0.6);
-
-    p {
-      margin: 0;
-      font-size: 14px;
-    }
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
 
-  .estado-erro .material-symbols-outlined {
-    font-size: 40px;
-    width: 40px;
-    height: 40px;
-    color: #d32f2f;
+  .resposta {
+    margin-left: 48px; // recuo visual pra indicar que é resposta
   }
 
-  .postagem-card {
-    border-radius: 14px;
-    background-color: var(--bg-card, #fff);
-    padding: 20px;
-
-    .autor-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      padding-bottom: 16px;
-      width: fit-content;
-
-      .avatar {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        object-fit: cover;
-        background-color: rgba(0, 0, 0, 0.05);
-      }
-
-      .autor-texto {
-        display: flex;
-        flex-direction: column;
-
-        .autor-nome {
-          font-size: 15px;
-          font-weight: 600;
-        }
-
-        .data-criacao {
-          font-size: 12px;
-          color: rgba(0, 0, 0, 0.55);
-        }
-      }
-
-      &:hover .autor-nome {
-        text-decoration: underline;
-      }
-    }
-
-    mat-divider {
-      margin: 0 -20px;
-      width: calc(100% + 40px);
-    }
-
-    .postagem-corpo {
-      padding: 20px 0;
-
-      h1 {
-        margin: 0 0 12px;
-        font-size: 24px;
-        font-weight: 700;
-      }
-
-      .tags-linha {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 16px;
-
-        .chip {
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          padding: 4px 12px;
-          border-radius: 999px;
-          font-size: 12px;
-          font-weight: 500;
-          background: rgba(25, 118, 210, 0.1);
-          color: var(--primary, #1976d2);
-
-          .material-symbols-outlined {
-            font-size: 14px;
-            width: 14px;
-            height: 14px;
-          }
-
-          &.plano-aula {
-            background: rgba(79, 195, 247, 0.15);
-            color: #0288d1;
-          }
-        }
-      }
-
-      .texto-completo {
-        font-size: 15px;
-        line-height: 1.7;
-
-        ::ng-deep img {
-          max-width: 100%;
-          border-radius: 8px;
-          margin: 12px 0;
-        }
-      }
-
-      .tag-extra {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        margin-top: 16px;
-        font-size: 13px;
-        color: rgba(0, 0, 0, 0.6);
-
-        .material-symbols-outlined {
-          font-size: 16px;
-          width: 16px;
-          height: 16px;
-        }
-      }
-    }
-
-    .postagem-stats {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding-top: 16px;
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.7);
-
-      .material-symbols-outlined {
-        font-size: 18px;
-        color: var(--primary, #1976d2);
-      }
-    }
+  .avatar-comentario {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
   }
-}
 
-.dark-theme {
-  .postagem-detalhe-container {
-    .estado-carregando,
-    .estado-erro {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .postagem-card {
-      background-color: var(--bg-card, #242424);
-
-      .autor-info .data-criacao {
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-      .postagem-corpo .tag-extra {
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-      .postagem-stats {
-        color: rgba(255, 255, 255, 0.75);
-      }
-    }
+  .comentario-acoes {
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
-}
 
-@media (max-width: 600px) {
-  .postagem-detalhe-container {
-    padding: 8px 4px 32px;
-
-    .postagem-card {
-      padding: 16px;
-
-      .postagem-corpo h1 {
-        font-size: 20px;
-      }
-    }
+  .qtd-likes-comentario {
+    margin-right: 12px;
+    font-size: 13px;
   }
 }

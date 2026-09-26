@@ -1,19 +1,17 @@
-package teachhub.com.TeachHub.model.like;
+package teachhub.com.TeachHub.model.comentarios;
 
 import jakarta.persistence.*;
 import lombok.*;
-import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table (name = "tb_like")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Like {
+public class ComentarioLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +25,6 @@ public class Like {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "postagem_idpostagem", nullable = false)
-    private Postagem postagem;
+    @JoinColumn(name = "comentario_id", nullable = false)
+    private Comentarios comentario;
 }

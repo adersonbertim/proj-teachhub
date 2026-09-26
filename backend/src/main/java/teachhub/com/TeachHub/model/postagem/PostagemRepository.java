@@ -10,6 +10,8 @@ public interface PostagemRepository extends JpaRepository<Postagem,Long> {
 
     List<Postagem> findByAutor(Usuario autor);
     void deleteByAutor(Usuario autor);
+
+    List<Postagem> findByCategoriaOrMateria(String categoria, String materia);
 }
 
 
