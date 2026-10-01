@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import teachhub.com.TeachHub.core.*;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 import teachhub.com.TeachHub.model.usuarios.UsuarioDTO;
+import teachhub.com.TeachHub.service.GoogleAuthService;
 import teachhub.com.TeachHub.service.UsuarioService;
 
 @RestController
@@ -19,6 +20,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
     private final UsuarioService usuarioService;
+    private final GoogleAuthService googleAuthService;
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponseDTO>> login (@RequestBody @Valid UsuarioLoginDTO dto){
@@ -43,4 +45,12 @@ public class AuthController {
         Usuario usuarioSalvo = usuarioService.registrar(dto);
         return ResponseEntity.ok(ApiResponse.success(usuarioSalvo));
     }
+
+    @PostMapping("/google")
+    public ResponseEntity<ApiResponse<LoginResponseDTO>> loginGoogle(@RequestBody @Valid GoogleLoginDTO dto){
+        Usuario user = googleAuthService.autenticar(dto.credential());
+        String token = jwtService.generateToken(user);
+        return ResponseEntity.ok(ApiResponse.success(LoginResponseDTO.of(user, token)));
+    }
+
 }

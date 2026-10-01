@@ -16,13 +16,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/favoritos")
-public class FavoritoController extends AController<Favorito, FavoritoDTO, Long, FavoritoService> {
+public class FavoritoController  {
 
-    private final PostagemService postagemService;
+    private final FavoritoService  service;
 
-    public FavoritoController(FavoritoService service, PostagemService postagemService) {
-        super(service);
-        this.postagemService = postagemService;
+    public FavoritoController(FavoritoService service) {
+        this.service = service;
     }
 
     @PostMapping("/{postagemId}")

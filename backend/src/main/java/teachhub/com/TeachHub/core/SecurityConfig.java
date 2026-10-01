@@ -51,6 +51,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
+                    req.requestMatchers(HttpMethod.POST, "/auth/google").permitAll();
                     req.requestMatchers(HttpMethod.GET, "/cursos").permitAll();
 
                     req.requestMatchers("/ia/**").authenticated();

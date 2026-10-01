@@ -28,4 +28,15 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('teachhub_token');
   }
+
+  loginGoogle(credential: string): Observable<any> {
+  return this.http.post(`${this.API_URL}/google`, { credential }).pipe(
+    tap((res: any) => {
+      if (res.data && res.data.token) {
+        localStorage.setItem('teachhub_token', res.data.token);
+      }
+    })
+  );
+}
+
 }
