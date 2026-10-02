@@ -1,3 +1,4 @@
+import { NumberInput } from '@angular/cdk/coercion';
 import { Injectable } from '@angular/core';
 
 export interface UsuarioDTO {
@@ -10,6 +11,7 @@ export interface UsuarioDTO {
   imagemPerfil?: string;
 }
 export interface PostagemDTO {
+  id: number;
   idPostagem: number;
   titulo: string;
   descricao: string;
@@ -17,7 +19,7 @@ export interface PostagemDTO {
   autor: string;
   tag?: string;
   visibilidade?: boolean;
-  isFavorita?: boolean;
+  isFavorita?: boolean | string;
   conteudo: boolean;
   tarefa: boolean;
   nota: boolean;
@@ -54,16 +56,21 @@ export interface Ia{
     userIa: UsuarioDTO;
 }
 
-export interface Comentario{
+export interface ComentarioDTO{
+    id(id: any, novaResposta: string): unknown;
     idComentario: number;
     titulo: string;
     texto: string;
-    avaliacao: number;
-    likes: number;
-    dislikes: number;
-    dataComentario: Date | string | number;
-    usuario: UsuarioDTO;
-    postagem: PostagemDTO;
+    data: string;
+    nomeUsuario: string;
+    fotoUsuario?: string;
+    idComentarioPai?: number;
+    qtdLikes: number;
+    curtidoPeloUsuario: boolean;
+    respostas: ComentarioDTO[];
+    mostrandoRespostas?: boolean;
+    respondendo?: boolean;
+    novaResposta?: string;
 }
 
 export interface ApiResponse<T> {
@@ -90,4 +97,9 @@ export interface Perfil{
   postagens?: PostagemDTO[];
 
   souDono?: boolean;
+}
+
+export interface LikeStatusDTO {
+  qtdLikes: number;
+  curtidoPeloUsuario: boolean;
 }

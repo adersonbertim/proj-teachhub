@@ -6,6 +6,15 @@
   position: relative;
 }
 
+.estado-carregando,
+.estado-erro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px;
+}
+
 .layout-tela-cheia {
   display: flex;
   gap: 24px;
@@ -20,6 +29,46 @@
 .postagem-card {
   flex: 1;
   min-width: 0; // evita overflow do texto longo
+}
+
+.autor-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+  }
+
+  .data-criacao {
+    display: block;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 13px;
+  }
+}
+
+.postagem-corpo {
+  padding: 0 16px 16px;
+
+  .tags-linha {
+    display: flex;
+    gap: 8px;
+    margin: 8px 0;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.06);
+    font-size: 13px;
+  }
 }
 
 .card-relacionadas {
@@ -49,7 +98,8 @@
 .secao-comentarios {
   padding: 16px;
 
-  .novo-comentario, .nova-resposta {
+  .novo-comentario,
+  .nova-resposta {
     display: flex;
     gap: 8px;
     align-items: flex-start;

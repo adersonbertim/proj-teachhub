@@ -44,14 +44,14 @@
 
       <!-- Barra de ações: curtir e favoritar -->
       <div class="barra-acoes">
-        <button mat-button (click)="toggleLikePostagem()">
+        <button mat-button (click)="estadoLikePostagem()">
           <mat-icon class="material-symbols-outlined" [color]="likeStatus.curtidoPeloUsuario ? 'primary' : ''">
             thumb_up
           </mat-icon>
           {{ likeStatus.qtdLikes }} curtida{{ likeStatus.qtdLikes === 1 ? '' : 's' }}
         </button>
 
-        <button mat-button (click)="toggleFavoritar()">
+        <button mat-button (click)="estadoFavorito()">
           <mat-icon class="material-symbols-outlined" [color]="favoritado ? 'accent' : ''">
             {{ favoritado ? 'bookmark' : 'bookmark_border' }}
           </mat-icon>
@@ -61,7 +61,7 @@
 
       <mat-divider></mat-divider>
 
-      <!-- Campo de novo comentário -->
+      <!-- Campo de novo comentário + lista de comentários -->
       <div class="secao-comentarios">
         <div class="novo-comentario">
           <mat-form-field appearance="outline" class="campo-comentario">
@@ -74,7 +74,6 @@
           </button>
         </div>
 
-        <!-- Lista de comentários -->
         <div class="comentario" *ngFor="let comentario of comentarios">
           <img [src]="comentario.fotoUsuario || 'assets/default-avatar.png'" class="avatar-comentario" alt="">
           <div class="comentario-corpo">
@@ -82,14 +81,14 @@
             <p>{{ comentario.texto }}</p>
 
             <div class="comentario-acoes">
-              <button mat-icon-button (click)="toggleLikeComentario(comentario)">
+              <button mat-icon-button (click)="estadoLikeComentario(comentario)">
                 <mat-icon class="material-symbols-outlined" [color]="comentario.curtidoPeloUsuario ? 'primary' : ''">
                   thumb_up
                 </mat-icon>
               </button>
               <span class="qtd-likes-comentario">{{ comentario.qtdLikes }}</span>
 
-              <button mat-button (click)="toggleResponder(comentario)">Responder</button>
+              <button mat-button (click)="estadoResposta(comentario)">Responder</button>
 
               <button mat-button *ngIf="comentario.respostas.length > 0"
                       (click)="comentario.mostrandoRespostas = !comentario.mostrandoRespostas">
@@ -113,7 +112,7 @@
                   <strong>{{ resposta.nomeUsuario }}</strong>
                   <p>{{ resposta.texto }}</p>
                   <div class="comentario-acoes">
-                    <button mat-icon-button (click)="toggleLikeComentario(resposta)">
+                    <button mat-icon-button (click)="estadoLikeComentario(resposta)">
                       <mat-icon class="material-symbols-outlined" [color]="resposta.curtidoPeloUsuario ? 'primary' : ''">
                         thumb_up
                       </mat-icon>
