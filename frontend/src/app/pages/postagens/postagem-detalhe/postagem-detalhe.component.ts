@@ -87,7 +87,7 @@ export class PostagemDetalheComponent implements OnInit {
   // Favoritos
   carregarFavoritoStatus(id: number) {
     this.postagemService.getFavoritoStatus(id).subscribe({
-      next: (res) => (this.favoritado = res.data),
+      next: (res) => (this.favoritado = res.data.isFavorita),
       error: (err) => console.error('Erro ao carregar favorito:', err)
     });
   }
@@ -96,7 +96,7 @@ export class PostagemDetalheComponent implements OnInit {
     if (!this.postagem) return;
 
     this.postagemService.estadoFavorito(this.postagem.id).subscribe({
-      next: (res) => (this.favoritado = res.data),
+      next: (res) => (this.favoritado = res.data.isFavorita),
       error: (err) => console.error('Erro ao favoritar:', err)
     });
   }

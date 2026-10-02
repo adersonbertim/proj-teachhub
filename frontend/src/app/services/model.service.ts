@@ -57,8 +57,7 @@ export interface Ia{
 }
 
 export interface ComentarioDTO{
-    id(id: any, novaResposta: string): unknown;
-    idComentario: number;
+    id: number;
     titulo: string;
     texto: string;
     data: string;
