@@ -20,9 +20,6 @@ public class Comentarios {
     private Long id_comentarios;
 
     @Column (nullable = false)
-    private String titulo;
-
-    @Column (nullable = false)
     private String texto;
 
 //    @Column

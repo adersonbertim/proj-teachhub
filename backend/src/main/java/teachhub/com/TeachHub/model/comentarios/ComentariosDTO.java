@@ -26,7 +26,6 @@ public class ComentariosDTO {
         return ComentariosDTO.builder()
                 .id(comentario.getId_comentarios())
                 .texto(comentario.getTexto())
-                .titulo(comentario.getTitulo())
                 .data(comentario.getData())
                 .nomeUsuario(comentario.getUsuario() != null ? comentario.getUsuario().getNome() : null)
                 .idPostagem(comentario.getPostagem() != null ? comentario.getPostagem().getId() : null)

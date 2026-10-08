@@ -1,9 +1,21 @@
+@use "variables" as *;
+
+
+// neutro que funciona tanto no tema claro quanto no escuro.
+$borda: var(--card-border, rgba(128, 128, 128, 0.25));
+$amarelo-favorito: #ffca28; 
+
 .pagina-postagem {
   width: 100%;
-  min-height: 100vh;
   padding: 16px 24px;
   box-sizing: border-box;
   position: relative;
+  color: var(--text-main);
+}
+
+.btn-voltar {
+  margin-bottom: 8px;
+  color: var(--text-main);
 }
 
 .estado-carregando,
@@ -13,6 +25,7 @@
   align-items: center;
   gap: 12px;
   padding: 48px;
+  color: var(--text-main);
 }
 
 .layout-tela-cheia {
@@ -26,77 +39,173 @@
   }
 }
 
+// ---------- Card principal ----------
 .postagem-card {
   flex: 1;
   min-width: 0; // evita overflow do texto longo
+  background-color: var(--bg-card) !important;
+  color: var(--text-main);
+  border: 1px solid $borda;
+  border-radius: 24px !important;
+  overflow: hidden;
+
+  mat-divider {
+    border-top-color: $borda;
+  }
 }
 
 .autor-info {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 16px;
+  padding: 16px 24px;
   cursor: pointer;
 
   .avatar {
     width: 48px;
     height: 48px;
     border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba($primary, 0.2);
+  }
+
+  .autor-texto {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .autor-nome {
+    font-weight: 600;
   }
 
   .data-criacao {
-    display: block;
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--text-main);
+    opacity: 0.6;
     font-size: 13px;
   }
 }
 
 .postagem-corpo {
-  padding: 0 16px 16px;
+  padding: 24px;
+
+  h1 {
+    color: var(--text-main);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+  }
 
   .tags-linha {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
-    margin: 8px 0;
+    margin: 8px 0 16px;
   }
 
   .chip {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 4px 10px;
+    padding: 4px 12px;
     border-radius: 16px;
-    background: rgba(0, 0, 0, 0.06);
+    background-color: rgba($primary, 0.1);
+    border: 1px solid rgba($primary, 0.2);
+    color: var(--text-main);
     font-size: 13px;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+
+    &.plano-aula {
+      background-color: rgba($primary, 0.18);
+      font-weight: 600;
+    }
+  }
+
+  // Retângulo interno, igual ao .post-content do feed
+  .texto-completo {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid $borda;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+
+    // O conteúdo vem de [innerHTML], então precisa de ::ng-deep
+    ::ng-deep {
+      img,
+      video {
+        max-width: 100%;
+        height: auto;
+      }
+
+      pre {
+        overflow-x: auto;
+      }
+    }
+  }
+
+  .tag-extra {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    opacity: 0.7;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
   }
 }
 
-.card-relacionadas {
-  width: 320px;
-  height: fit-content;
-  position: sticky;
-  top: 16px;
-  padding: 16px;
+// ---------- Curtir / Salvar (mesmo estilo do .post-action) ----------
+.barra-acoes {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  min-height: 48px;
 
-  .item-relacionado {
+  button[mat-button] {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 0;
-    text-decoration: none;
-    color: inherit;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 0 12px;
+    color: var(--text-main);
+    font-weight: 600;
+
+    mat-icon {
+      margin: 0;
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+      font-variation-settings: 'wght' 300;
+    }
+
+    &:hover {
+      background-color: rgba($primary, 0.08);
+      color: $primary;
+    }
+  }
+
+  // O HTML usa [color]="'accent'" no favorito ativo:
+  // aqui ele vira amarelo e com ícone preenchido, como a estrela do feed.
+  mat-icon.mat-accent {
+    color: $amarelo-favorito;
+    font-variation-settings: 'FILL' 1, 'wght' 300;
   }
 }
 
-.barra-acoes {
-  display: flex;
-  gap: 8px;
-  padding: 12px 16px;
-}
-
+// ---------- Comentários ----------
 .secao-comentarios {
-  padding: 16px;
+  padding: 24px;
 
   .novo-comentario,
   .nova-resposta {
@@ -114,7 +223,27 @@
     display: flex;
     gap: 12px;
     padding: 12px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid $borda;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .comentario-corpo {
+    flex: 1;
+    min-width: 0;
+
+    strong {
+      color: var(--text-main);
+    }
+
+    p {
+      margin: 4px 0 8px;
+      line-height: 1.5;
+      opacity: 0.85;
+      overflow-wrap: anywhere;
+    }
   }
 
   .resposta {
@@ -125,16 +254,78 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
   }
 
   .comentario-acoes {
     display: flex;
     align-items: center;
     gap: 4px;
+
+    button[mat-button],
+    button[mat-icon-button] {
+      color: var(--text-main);
+
+      &:hover {
+        background-color: rgba($primary, 0.08);
+        color: $primary;
+      }
+    }
   }
 
   .qtd-likes-comentario {
     margin-right: 12px;
     font-size: 13px;
+    font-weight: 600;
+  }
+}
+
+// ---------- Postagens relacionadas ----------
+.card-relacionadas {
+  width: 320px;
+  height: fit-content;
+  position: sticky;
+  top: 16px;
+  padding: 16px;
+  background-color: var(--bg-card) !important;
+  color: var(--text-main);
+  border: 1px solid $borda;
+  border-radius: 24px !important;
+
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+
+  .item-relacionado {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 8px;
+    border-radius: 8px;
+    border-bottom: 1px solid $borda;
+    text-decoration: none;
+    color: inherit;
+
+    mat-icon {
+      opacity: 0.7;
+    }
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: rgba($primary, 0.08);
+    }
+  }
+
+  // Quando o layout vira coluna, ocupa a largura toda
+  @media (max-width: 900px) {
+    width: 100%;
+    position: static;
+    box-sizing: border-box;
   }
 }

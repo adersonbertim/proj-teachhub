@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class PostagemDetalheComponent implements OnInit {
   postagem?: PostagemDTO;
+  postagemId!: number;
   descricaoSegura?: SafeHtml;
   carregando = true;
   erro = false;
@@ -35,15 +36,16 @@ export class PostagemDetalheComponent implements OnInit {
     private sanitizer: DomSanitizer
   ) {}
 
-  ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (isNaN(id)) {
-      this.erro = true;
-      this.carregando = false;
-      return;
-    }
-    this.carregarPostagem(id);
+ngOnInit() {
+  const id = Number(this.route.snapshot.paramMap.get('id'));
+  if (isNaN(id)) {
+    this.erro = true;
+    this.carregando = false;
+    return;
   }
+  this.postagemId = id;
+  this.carregarPostagem(id);
+}
 
   carregarPostagem(id: number) {
     this.postagemService.getPostagemById(id).subscribe({
@@ -77,7 +79,7 @@ export class PostagemDetalheComponent implements OnInit {
   estadoLikePostagem() {
     if (!this.postagem) return;
 
-    this.postagemService.estadoLikePostagem(this.postagem.id).subscribe({
+    this.postagemService.estadoLikePostagem(this.postagemId!).subscribe({
       next: (res) => (this.likeStatus = res.data),
       error: (err) => console.error('Erro ao curtir postagem:', err)
     });
@@ -87,7 +89,7 @@ export class PostagemDetalheComponent implements OnInit {
   // Favoritos
   carregarFavoritoStatus(id: number) {
     this.postagemService.getFavoritoStatus(id).subscribe({
-      next: (res) => (this.favoritado = res.data.isFavorita),
+      next: (res) => (this.favoritado = res.data),
       error: (err) => console.error('Erro ao carregar favorito:', err)
     });
   }
@@ -95,8 +97,8 @@ export class PostagemDetalheComponent implements OnInit {
   estadoFavorito() {
     if (!this.postagem) return;
 
-    this.postagemService.estadoFavorito(this.postagem.id).subscribe({
-      next: (res) => (this.favoritado = res.data.isFavorita),
+    this.postagemService.estadoFavorito(this.postagemId!).subscribe({
+      next: (res) => (this.favoritado = res.data),
       error: (err) => console.error('Erro ao favoritar:', err)
     });
   }
@@ -113,7 +115,7 @@ export class PostagemDetalheComponent implements OnInit {
     if (!this.novoComentario.trim() || !this.postagem) return;
 
     this.enviandoComentario = true;
-    this.postagemService.enviarComentario(this.postagem.id, this.novoComentario).subscribe({
+    this.postagemService.enviarComentario(this.postagemId, this.novoComentario).subscribe({
       next: (res) => {
         this.comentarios.unshift(res.data);
         this.novoComentario = '';
