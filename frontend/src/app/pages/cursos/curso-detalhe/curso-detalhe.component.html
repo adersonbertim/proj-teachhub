@@ -1,0 +1,52 @@
+<div class="curso-detalhe-container">
+
+  <button mat-button class="btn-voltar" (click)="voltar()">
+    <mat-icon class="material-symbols-outlined">arrow_back</mat-icon>
+    Voltar para cursos
+  </button>
+
+  <div class="estado-carregando" *ngIf="carregando">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <div class="vazio" *ngIf="erro && !carregando">
+    <mat-icon class="material-symbols-outlined">error_outline</mat-icon>
+    <p>Não foi possível carregar este curso.</p>
+  </div>
+
+  <ng-container *ngIf="curso && !carregando && !erro">
+    <div class="player" *ngIf="urlPlayer">
+      <iframe
+        [src]="urlPlayer"
+        [title]="curso.titulo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <img class="capa" *ngIf="!urlPlayer && curso.imagem" [src]="curso.imagem" [alt]="curso.titulo">
+
+    <div class="info">
+      <span class="categoria-label">{{ curso.categoria }}</span>
+      <h1>{{ curso.titulo }}</h1>
+
+      <div class="meta">
+        <span class="tag" *ngIf="curso.canal">
+          <mat-icon class="material-symbols-outlined">account_circle</mat-icon>
+          {{ curso.canal }}
+        </span>
+        <span class="tag">
+          <mat-icon class="material-symbols-outlined">{{ ehPlaylist(curso.link) ? 'playlist_play' : 'smart_display' }}</mat-icon>
+          {{ ehPlaylist(curso.link) ? 'Playlist' : 'Vídeo' }} no {{ curso.plataforma }}
+        </span>
+      </div>
+
+      <p class="descricao" *ngIf="curso.descricao">{{ curso.descricao }}</p>
+
+      <a mat-stroked-button color="primary" [href]="curso.link" target="_blank" rel="noopener">
+        <mat-icon class="material-symbols-outlined">open_in_new</mat-icon>
+        Abrir no {{ curso.plataforma }}
+      </a>
+    </div>
+  </ng-container>
+</div>

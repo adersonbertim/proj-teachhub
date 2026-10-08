@@ -37,6 +37,21 @@ export interface CursoDTO {
   plataforma: string;
   categoria: string;
   link: string;
+  descricao?: string;
+  imagem?: string;
+  canal?: string;
+  idExterno?: string;
+  ativo?: boolean;
+}
+
+export interface ResultadoYoutubeDTO {
+  idExterno: string;
+  tipo: 'PLAYLIST' | 'VIDEO';
+  titulo: string;
+  descricao: string;
+  imagem: string;
+  canal: string;
+  jaAdicionado: boolean;
 }
 
 export interface FavoritoDTO{

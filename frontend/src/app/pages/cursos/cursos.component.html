@@ -1,77 +1,104 @@
 <div class="cursos-container">
 
+  <section class="hero">
+    <div class="hero-topo">
+      <div>
+        <h1>Cursos para professores</h1>
+        <p>Conteúdos selecionados pela equipe do TeachHub para apoiar o seu dia a dia em sala de aula.</p>
+      </div>
 
-  <section class="search-section">
-    <h1>O que você gostaria de aprender?</h1>
-    <p class="subtitulo">Explore cursos e conteúdos selecionados pra você evoluir na sua área</p>
+      <a mat-stroked-button class="btn-gerenciar" *ngIf="isAdmin" routerLink="/cursos/gerenciar">
+        <mat-icon class="material-symbols-outlined">tune</mat-icon>
+        Gerenciar cursos
+      </a>
+    </div>
 
-    <div class="search-bar">
-      <mat-form-field class="campo-busca">
-        <mat-label>Procurar</mat-label>
-        <mat-icon matPrefix class="material-symbols-outlined">search</mat-icon>
-        <input matInput placeholder="O que você quer procurar?">
-      </mat-form-field>
-      <button mat-flat-button color="primary" class="btn-buscar">
-        <mat-icon class="material-symbols-outlined">search</mat-icon>
-        Pesquisar
+    <div class="busca">
+      <mat-icon class="material-symbols-outlined">search</mat-icon>
+      <input type="text" placeholder="Buscar curso" [(ngModel)]="termo">
+      <button mat-icon-button *ngIf="termo" (click)="termo = ''" aria-label="Limpar busca">
+        <mat-icon class="material-symbols-outlined">close</mat-icon>
       </button>
     </div>
   </section>
 
-  <section class="themes-section">
-    <h2>Descubra nossas áreas do conhecimento</h2>
+  <nav class="categorias" aria-label="Categorias">
+    <button
+      class="categoria"
+      [class.ativa]="!categoriaSelecionada"
+      (click)="selecionarCategoria(null)">
+      <mat-icon class="material-symbols-outlined">apps</mat-icon>
+      Todos
+    </button>
+    <button
+      class="categoria"
+      *ngFor="let categoria of categorias"
+      [class.ativa]="categoriaSelecionada === categoria.nome"
+      (click)="selecionarCategoria(categoria.nome)">
+      <mat-icon class="material-symbols-outlined">{{ categoria.icone }}</mat-icon>
+      {{ categoria.nome }}
+      <span class="contador" *ngIf="quantidadeNaCategoria(categoria.nome) > 0">{{ quantidadeNaCategoria(categoria.nome) }}</span>
+    </button>
+  </nav>
 
-    <div class="themes-grid">
-      <mat-card class="theme-card" appearance="outlined" *ngFor="let tema of temas">
-        <div class="icon-wrapper">
-          <mat-icon class="material-symbols-outlined">{{ tema.icone }}</mat-icon>
+  <section class="lista">
+    <div class="lista-header" *ngIf="!carregando && !erro">
+      <h2>{{ categoriaSelecionada || 'Todos os cursos' }}</h2>
+      <span class="total">{{ cursosFiltrados.length }} {{ cursosFiltrados.length === 1 ? 'curso' : 'cursos' }}</span>
+    </div>
+
+    <div class="grid" *ngIf="carregando">
+      <div class="card skeleton" *ngFor="let i of [1, 2, 3, 4, 5, 6]">
+        <div class="thumb"></div>
+        <div class="corpo">
+          <div class="linha curta"></div>
+          <div class="linha"></div>
+          <div class="linha media"></div>
         </div>
-        <mat-card-title>{{ tema.nome }}</mat-card-title>
-        <button mat-button color="primary" class="btn-saiba-mais">
-          Saiba mais
-          <mat-icon class="material-symbols-outlined">arrow_forward</mat-icon>
-        </button>
-      </mat-card>
+      </div>
+    </div>
+
+    <div class="grid" *ngIf="!carregando && cursosFiltrados.length > 0">
+      <a class="card" *ngFor="let curso of cursosFiltrados" [routerLink]="['/cursos', curso.idCurso]">
+        <div class="thumb">
+          <img *ngIf="curso.imagem" [src]="curso.imagem" [alt]="curso.titulo" loading="lazy">
+          <div class="sem-imagem" *ngIf="!curso.imagem">
+            <mat-icon class="material-symbols-outlined">{{ iconeDaCategoria(curso.categoria) }}</mat-icon>
+          </div>
+          <span class="selo">
+            <mat-icon class="material-symbols-outlined">{{ ehPlaylist(curso.link) ? 'playlist_play' : 'smart_display' }}</mat-icon>
+            {{ ehPlaylist(curso.link) ? 'Playlist' : 'Vídeo' }}
+          </span>
+          <span class="play">
+            <mat-icon class="material-symbols-outlined">play_arrow</mat-icon>
+          </span>
+        </div>
+
+        <div class="corpo">
+          <span class="categoria-label">{{ curso.categoria }}</span>
+          <h3>{{ curso.titulo }}</h3>
+          <span class="canal" *ngIf="curso.canal">
+            <mat-icon class="material-symbols-outlined">account_circle</mat-icon>
+            {{ curso.canal }}
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <div class="vazio" *ngIf="!carregando && (erro || cursosFiltrados.length === 0)">
+      <mat-icon class="material-symbols-outlined">{{ erro ? 'cloud_off' : 'school' }}</mat-icon>
+      <ng-container *ngIf="erro">
+        <p>Não foi possível carregar os cursos</p>
+        <span>Tente novamente em alguns instantes</span>
+      </ng-container>
+      <ng-container *ngIf="!erro && cursos.length === 0">
+        <p>Nenhum curso disponível ainda</p>
+        <span>Em breve teremos conteúdos selecionados para você</span>
+      </ng-container>
+      <ng-container *ngIf="!erro && cursos.length > 0">
+        <p>Nenhum curso encontrado</p>
+        <button mat-button color="primary" (click)="limparFiltros()">Limpar filtros</button>
+      </ng-container>
     </div>
   </section>
-
-  <section class="list-section">
-    <div class="list-header">
-      <h2>Cursos em destaque</h2>
-      <button mat-stroked-button color="primary">Ver todos os cursos</button>
-    </div>
-
-    <mat-tab-group animationDuration="200ms">
-      <mat-tab label="Cursos Livres">
-        <div class="course-list">
-          <div class="sem-conteudo">
-            <mat-icon class="material-symbols-outlined">school</mat-icon>
-            <p>Nenhum curso disponível por aqui ainda</p>
-            <span class="subtle-text">Volte em breve para novidades</span>
-          </div>
-        </div>
-      </mat-tab>
-
-      <mat-tab label="Novos">
-        <div class="course-list">
-          <div class="sem-conteudo">
-            <mat-icon class="material-symbols-outlined">fiber_new</mat-icon>
-            <p>Nenhum curso novo por enquanto</p>
-            <span class="subtle-text">Volte em breve para novidades</span>
-          </div>
-        </div>
-      </mat-tab>
-
-      <mat-tab label="Em alta">
-        <div class="course-list">
-          <div class="sem-conteudo">
-            <mat-icon class="material-symbols-outlined">trending_up</mat-icon>
-            <p>Ainda não há cursos em alta</p>
-            <span class="subtle-text">Volte em breve para novidades</span>
-          </div>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  </section>
-
 </div>

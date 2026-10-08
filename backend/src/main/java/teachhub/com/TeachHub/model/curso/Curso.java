@@ -38,6 +38,18 @@ public class Curso {
     @Column
     private String anexo;
 
+    @Column(columnDefinition = "text")
+    private String descricao;
+
+    @Column
+    private String imagem;
+
+    @Column
+    private String canal;
+
+    @Column(unique = true)
+    private String idExterno;
+
     @OneToMany(mappedBy = "curso")
     private List<Inscricoes>  inscritos;
 }

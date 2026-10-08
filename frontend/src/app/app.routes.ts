@@ -14,6 +14,9 @@ import { CriarPostagemComponent } from './pages/postagens/criar-postagem/criar-p
 import { PerfilVisitanteComponent } from './pages/perfil/perfil-visitante/perfil-visitante.component';
 import { PerfilConfigComponent } from './pages/perfil/perfil-config/perfil-config.component';
 import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
+import { CursoDetalheComponent } from './pages/cursos/curso-detalhe/curso-detalhe.component';
+import { CursosGerenciarComponent } from './pages/cursos/cursos-gerenciar/cursos-gerenciar.component';
 
 
 export const routes: Routes = [
@@ -42,6 +45,8 @@ export const routes: Routes = [
             {path: 'ia', component: IaChatComponent, canActivate: [authGuard]}, 
             {path: 'postagens', component: PostagensComponent},
             {path: 'cursos', component: CursosComponent},
+            {path: 'cursos/gerenciar', component: CursosGerenciarComponent, canActivate: [authGuard, adminGuard]},
+            {path: 'cursos/:id', component: CursoDetalheComponent},
             {path: 'postagens/:id', component: PostagemDetalheComponent},
             {path:'**', redirectTo: 'home'}, 
         ]

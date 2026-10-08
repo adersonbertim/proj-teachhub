@@ -52,7 +52,10 @@ public class SecurityConfig {
                     req.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/auth/google").permitAll();
-                    req.requestMatchers(HttpMethod.GET, "/cursos").permitAll();
+                    req.requestMatchers("/curso/admin/**").hasRole("ADMINISTRADOR");
+                    req.requestMatchers(HttpMethod.POST, "/curso/**").hasRole("ADMINISTRADOR");
+                    req.requestMatchers(HttpMethod.DELETE, "/curso/**").hasRole("ADMINISTRADOR");
+                    req.requestMatchers(HttpMethod.GET, "/curso/**").permitAll();
 
                     req.requestMatchers("/ia/**").authenticated();
 

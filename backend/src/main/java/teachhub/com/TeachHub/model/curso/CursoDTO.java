@@ -15,6 +15,11 @@ public class CursoDTO {
     private String plataforma;
     private String categoria;
     private String link;
+    private String descricao;
+    private String imagem;
+    private String canal;
+    private String idExterno;
+    private Boolean ativo;
 
     public static CursoDTO fromEntity(Curso curso) {
         if (curso == null) {
@@ -26,6 +31,11 @@ public class CursoDTO {
                 .plataforma(curso.getPlataforma())
                 .categoria(curso.getCategoria())
                 .link(curso.getLink())
+                .descricao(curso.getDescricao())
+                .imagem(curso.getImagem())
+                .canal(curso.getCanal())
+                .idExterno(curso.getIdExterno())
+                .ativo(curso.getAtivo())
                 .build();
     }
 }

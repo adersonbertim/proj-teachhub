@@ -1,0 +1,139 @@
+<div class="gerenciar-container">
+
+  <header class="topo">
+    <a mat-button routerLink="/cursos" class="btn-voltar">
+      <mat-icon class="material-symbols-outlined">arrow_back</mat-icon>
+      Cursos
+    </a>
+    <h1>Curadoria de cursos</h1>
+    <p>Pesquise no YouTube, escolha a dedo o que faz sentido para os professores e organize por categoria. Só os cursos ofertados aparecem na página de cursos.</p>
+  </header>
+
+  <mat-tab-group animationDuration="200ms" class="abas">
+
+    <mat-tab label="Pesquisar no YouTube">
+      <div class="aba">
+        <div class="linha-busca">
+          <div class="busca">
+            <mat-icon class="material-symbols-outlined">search</mat-icon>
+            <input type="text" placeholder="Ex.: canva para plano de aula" [(ngModel)]="termo" (keyup.enter)="pesquisar()">
+          </div>
+          <button mat-flat-button color="primary" (click)="pesquisar()" [disabled]="pesquisando || !termo.trim()">
+            Pesquisar
+          </button>
+        </div>
+        <span class="dica">Cada pesquisa consome parte da cota diária da API do YouTube. Nada é salvo até você clicar em "Adicionar".</span>
+
+        <div class="estado-carregando" *ngIf="pesquisando">
+          <mat-spinner diameter="36"></mat-spinner>
+        </div>
+
+        <div class="resultados" *ngIf="!pesquisando">
+          <div class="resultado" *ngFor="let r of resultados">
+            <a class="thumb" [href]="linkDoResultado(r)" target="_blank" rel="noopener" matTooltip="Ver no YouTube">
+              <img [src]="r.imagem" [alt]="r.titulo" loading="lazy">
+              <span class="selo">{{ r.tipo === 'PLAYLIST' ? 'Playlist' : 'Vídeo' }}</span>
+            </a>
+
+            <div class="detalhes">
+              <h3>{{ r.titulo }}</h3>
+              <span class="canal">{{ r.canal }}</span>
+              <p>{{ r.descricao }}</p>
+            </div>
+
+            <div class="acoes">
+              <ng-container *ngIf="!r.jaAdicionado">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <mat-label>Categoria</mat-label>
+                  <mat-select [(ngModel)]="categoriaDoResultado[r.idExterno]">
+                    <mat-option *ngFor="let c of categorias" [value]="c.nome">{{ c.nome }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button mat-flat-button color="primary" (click)="adicionar(r)">
+                  <mat-icon class="material-symbols-outlined">add</mat-icon>
+                  Adicionar
+                </button>
+              </ng-container>
+
+              <span class="ja-adicionado" *ngIf="r.jaAdicionado">
+                <mat-icon class="material-symbols-outlined">check_circle</mat-icon>
+                Já está no catálogo
+              </span>
+            </div>
+          </div>
+
+          <div class="vazio" *ngIf="pesquisou && resultados.length === 0">
+            <p>Nenhum resultado para essa pesquisa</p>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Adicionar por link">
+      <div class="aba">
+        <p class="explicacao">Já sabe qual curso quer? Cole o link de uma playlist ou de um vídeo do YouTube.</p>
+
+        <div class="form-link">
+          <mat-form-field appearance="outline" class="campo-link">
+            <mat-label>Link do YouTube</mat-label>
+            <input matInput [(ngModel)]="link" placeholder="https://www.youtube.com/playlist?list=...">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Categoria</mat-label>
+            <mat-select [(ngModel)]="categoriaDoLink">
+              <mat-option *ngFor="let c of categorias" [value]="c.nome">{{ c.nome }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button mat-flat-button color="primary" (click)="adicionarPorLink()" [disabled]="adicionandoLink || !link.trim() || !categoriaDoLink">
+            Adicionar
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        Catálogo
+        <span class="contador-aba">{{ totalOfertados }}/{{ cadastrados.length }}</span>
+      </ng-template>
+
+      <div class="aba">
+        <div class="estado-carregando" *ngIf="carregandoCadastrados">
+          <mat-spinner diameter="36"></mat-spinner>
+        </div>
+
+        <div class="catalogo" *ngIf="!carregandoCadastrados">
+          <div class="item" *ngFor="let curso of cadastrados" [class.inativo]="!curso.ativo">
+            <img class="mini" *ngIf="curso.imagem" [src]="curso.imagem" [alt]="curso.titulo" loading="lazy">
+            <div class="mini sem-imagem" *ngIf="!curso.imagem">
+              <mat-icon class="material-symbols-outlined">school</mat-icon>
+            </div>
+
+            <div class="detalhes">
+              <a [routerLink]="['/cursos', curso.idCurso]">{{ curso.titulo }}</a>
+              <span>{{ curso.categoria }} · {{ curso.canal || curso.plataforma }}</span>
+            </div>
+
+            <mat-slide-toggle
+              color="primary"
+              [ngModel]="curso.ativo"
+              (ngModelChange)="alterarAtivo(curso, $event)">
+              {{ curso.ativo ? 'Ofertado' : 'Oculto' }}
+            </mat-slide-toggle>
+
+            <button mat-icon-button (click)="remover(curso)" aria-label="Remover curso" matTooltip="Remover">
+              <mat-icon class="material-symbols-outlined">delete</mat-icon>
+            </button>
+          </div>
+
+          <div class="vazio" *ngIf="cadastrados.length === 0">
+            <p>Nenhum curso no catálogo ainda</p>
+            <span>Use as abas ao lado para adicionar os primeiros</span>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
