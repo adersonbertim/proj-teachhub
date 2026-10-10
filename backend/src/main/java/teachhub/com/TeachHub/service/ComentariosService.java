@@ -77,13 +77,21 @@ public class ComentariosService extends AService<Comentarios, ComentariosReposit
                 .map(resp -> toDTO(resp, usuarioLogado))
                 .toList();
 
+        boolean curtido = usuarioLogado != null
+                && likeRepository.findByUsuarioAndComentario(usuarioLogado, c).isPresent();
+
         return ComentariosDTO.builder()
                 .id(c.getId_comentarios())
                 .texto(c.getTexto())
                 .data(c.getData())
                 .nomeUsuario(c.getUsuario().getNome())
-                .nomeUsuario(c.getUsuario().getImagemPerfil())
+                .fotoUsuario(c.getUsuario().getImagemPerfil())
                 .idPostagem(c.getPostagem().getId())
+                .idComentarioPai(c.getComentarioPai() != null
+                        ? c.getComentarioPai().getId_comentarios() : null)
+                .qtdLikes(likeRepository.countByComentario(c))
+                .curtidoPeloUsuario(curtido)
+                .respostas(respostas)
                 .build();
     }
 

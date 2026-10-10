@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -13,11 +15,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ComentariosDTO {
     private Long id;
-    private String titulo;
     private String texto;
     private LocalDateTime data;
     private String nomeUsuario;
     private Long idPostagem;
+    private String fotoUsuario;
+    private Long idComentarioPai;
+    private long qtdLikes;
+    private boolean curtidoPeloUsuario;
+
+    @Builder.Default
+    private List<ComentariosDTO> respostas = new ArrayList<>();
 
     public static ComentariosDTO fromEntity(Comentarios comentario) {
         if (comentario == null) {
