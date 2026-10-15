@@ -1,6 +1,9 @@
 package teachhub.com.TeachHub.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import teachhub.com.TeachHub.config.AService;
 import teachhub.com.TeachHub.model.comentarios.*;
 import teachhub.com.TeachHub.model.postagem.Postagem;
@@ -21,6 +24,14 @@ public class ComentariosService extends AService<Comentarios, ComentariosReposit
 
     public List<Comentarios> listarPorPostagem(Postagem postagem) {
         return repository.findByPostagemAndComentarioPaiIsNullOrderByDataDesc(postagem);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Comentarios> listarRespostas(
+            Comentarios comentarioPai) {
+
+        return repository
+                .findByComentarioPaiOrderByDataAsc(comentarioPai);
     }
 
     public Optional<Comentarios> buscarPorId(Long id) {

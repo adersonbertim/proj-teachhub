@@ -60,16 +60,14 @@ public class Postagem {
     @Column
     private String materia;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "user_idusuario", nullable = false)
     private Usuario autor;
 
-    @OneToMany(mappedBy = "postagem")
+    @OneToMany(mappedBy = "postagem", fetch = FetchType.LAZY)
     private List<Midia> midias;
 
     private int likes;
 
     private int dislikes;
-
-    // adicionar a tabela favoritos nas Postagens, excluir a antiga do BD
 }

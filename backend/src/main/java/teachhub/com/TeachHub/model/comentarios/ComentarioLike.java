@@ -20,11 +20,11 @@ public class ComentarioLike {
     @Column(nullable = false)
     private LocalDateTime data;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_idusuario", nullable = false)
     private Usuario usuario;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comentario_id", nullable = false)
     private Comentarios comentario;
 }

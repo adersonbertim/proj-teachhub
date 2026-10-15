@@ -28,15 +28,15 @@ public class Comentarios {
     @Column (nullable = false)
     private LocalDateTime data;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "user_idusuario", nullable = false)
     private Usuario usuario;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postagem_idpostagem", nullable = false)
     private Postagem postagem;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comentarioPai")
     private Comentarios comentarioPai;
 

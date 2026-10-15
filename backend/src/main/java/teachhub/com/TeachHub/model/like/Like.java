@@ -22,11 +22,11 @@ public class Like {
     @Column(nullable = false)
     private LocalDateTime data;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_idusuario", nullable = false)
     private Usuario usuario;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postagem_idpostagem", nullable = false)
     private Postagem postagem;
 }

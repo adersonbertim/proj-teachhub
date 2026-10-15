@@ -26,7 +26,7 @@ public class Midia {
     @Column
     private Integer lim_tamanho;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "postagem_idpostagem", nullable = false)
     private Postagem postagem;
 }
