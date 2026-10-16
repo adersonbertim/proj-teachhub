@@ -1,0 +1,30 @@
+<div class="not-found-container">
+  <div class="icone">
+    <mat-icon class="material-symbols-outlined">explore_off</mat-icon>
+  </div>
+
+  <span class="codigo">404</span>
+  <h1>Página não encontrada</h1>
+  <p>
+    Não encontramos <code>{{ caminho }}</code>.
+    O endereço pode estar errado ou a página foi removida.
+  </p>
+
+  <div class="acoes">
+    <button mat-stroked-button (click)="voltar()">
+      <mat-icon class="material-symbols-outlined">arrow_back</mat-icon>
+      Voltar
+    </button>
+    <a mat-flat-button color="primary" routerLink="/home">
+      <mat-icon class="material-symbols-outlined">home</mat-icon>
+      Ir para o início
+    </a>
+  </div>
+
+  <div class="atalhos">
+    <span>Ou acesse:</span>
+    <a routerLink="/postagens">Explorar</a>
+    <a routerLink="/cursos">Cursos</a>
+    <a routerLink="/perfil">Meu perfil</a>
+  </div>
+</div>
