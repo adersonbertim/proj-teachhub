@@ -1,55 +1,108 @@
 import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
-import { LoginComponent } from './pages/auth/login/login.component';
-import { RegisterComponent } from './pages/auth/register/register.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
-import { IaChatComponent } from './pages/ia-chat/ia-chat.component'
-import { SidebarComponent } from './layouts/sidebar/sidebar.component';
-import { PostagensComponent } from './pages/postagens/postagens.component';
-import { CursosComponent } from './pages/cursos/cursos.component';
-import { PostagemDetalheComponent } from './pages/postagens/postagem-detalhe/postagem-detalhe.component';
-import { HomeComponent } from './pages/home/home.component';
-import { PerfilComponent } from './pages/perfil/perfil.component';
-import { CriarPostagemComponent } from './pages/postagens/criar-postagem/criar-postagem.component';
-import { PerfilVisitanteComponent } from './pages/perfil/perfil-visitante/perfil-visitante.component';
-import { PerfilConfigComponent } from './pages/perfil/perfil-config/perfil-config.component';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
-import { CursoDetalheComponent } from './pages/cursos/curso-detalhe/curso-detalhe.component';
-import { CursosGerenciarComponent } from './pages/cursos/cursos-gerenciar/cursos-gerenciar.component';
+import { guestGuard } from './guards/guest.guard';
 
 
 export const routes: Routes = [
-    //group for autentication
+    // telas de login e cadastro
     {
         path: '',
         component: AuthLayoutComponent,
         children: [
-            {path: 'login', component: LoginComponent},
-            {path: 'register', component: RegisterComponent},
-            {path: '', redirectTo: 'login', pathMatch: 'full'} 
-
+            { path: '', redirectTo: 'login', pathMatch: 'full' },
+            {
+                path: 'login',
+                canActivate: [guestGuard],
+                title: 'Entrar | TeachHub',
+                loadComponent: () => import('./pages/auth/login/login.component').then(m => m.LoginComponent)
+            },
+            {
+                path: 'register',
+                canActivate: [guestGuard],
+                title: 'Cadastro | TeachHub',
+                loadComponent: () => import('./pages/auth/register/register.component').then(m => m.RegisterComponent)
+            }
         ]
     },
-    
-    
+
+    // telas com menu lateral
     {
-  path: '',
+        path: '',
         component: MainLayoutComponent,
         children: [
-            {path: 'home', component: HomeComponent},
-            {path: 'criar-postagem', component: CriarPostagemComponent, canActivate: [authGuard]},
-            { path: 'perfil/config', component: PerfilConfigComponent, canActivate: [authGuard] },
-            { path: 'perfil', component: PerfilVisitanteComponent },
-            { path: 'perfil/:id', component: PerfilVisitanteComponent },
-            {path: 'ia', component: IaChatComponent, canActivate: [authGuard]}, 
-            {path: 'postagens', component: PostagensComponent},
-            {path: 'cursos', component: CursosComponent},
-            {path: 'cursos/gerenciar', component: CursosGerenciarComponent, canActivate: [authGuard, adminGuard]},
-            {path: 'cursos/:id', component: CursoDetalheComponent},
-            {path: 'postagens/:id', component: PostagemDetalheComponent},
-            {path:'**', redirectTo: 'home'}, 
-        ]
+            {
+                path: 'home',
+                title: 'Início | TeachHub',
+                loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
+            },
 
+            {
+                path: 'postagens',
+                title: 'Explorar | TeachHub',
+                loadComponent: () => import('./pages/postagens/postagens.component').then(m => m.PostagensComponent)
+            },
+            {
+                path: 'postagens/:id',
+                title: 'Postagem | TeachHub',
+                loadComponent: () => import('./pages/postagens/postagem-detalhe/postagem-detalhe.component').then(m => m.PostagemDetalheComponent)
+            },
+            {
+                path: 'criar-postagem',
+                canActivate: [authGuard],
+                title: 'Criar postagem | TeachHub',
+                loadComponent: () => import('./pages/postagens/criar-postagem/criar-postagem.component').then(m => m.CriarPostagemComponent)
+            },
+
+            {
+                path: 'cursos',
+                title: 'Cursos | TeachHub',
+                loadComponent: () => import('./pages/cursos/cursos.component').then(m => m.CursosComponent)
+            },
+            {
+                path: 'cursos/gerenciar',
+                canActivate: [authGuard, adminGuard],
+                title: 'Curadoria de cursos | TeachHub',
+                loadComponent: () => import('./pages/cursos/cursos-gerenciar/cursos-gerenciar.component').then(m => m.CursosGerenciarComponent)
+            },
+            {
+                path: 'cursos/:id',
+                title: 'Curso | TeachHub',
+                loadComponent: () => import('./pages/cursos/curso-detalhe/curso-detalhe.component').then(m => m.CursoDetalheComponent)
+            },
+
+            {
+                path: 'perfil',
+                canActivate: [authGuard],
+                title: 'Meu perfil | TeachHub',
+                loadComponent: () => import('./pages/perfil/perfil-visitante/perfil-visitante.component').then(m => m.PerfilVisitanteComponent)
+            },
+            {
+                path: 'perfil/config',
+                canActivate: [authGuard],
+                title: 'Editar perfil | TeachHub',
+                loadComponent: () => import('./pages/perfil/perfil-config/perfil-config.component').then(m => m.PerfilConfigComponent)
+            },
+            {
+                path: 'perfil/:id',
+                title: 'Perfil | TeachHub',
+                loadComponent: () => import('./pages/perfil/perfil-visitante/perfil-visitante.component').then(m => m.PerfilVisitanteComponent)
+            },
+
+            {
+                path: 'ia',
+                canActivate: [authGuard],
+                title: 'Assistente IA | TeachHub',
+                loadComponent: () => import('./pages/ia-chat/ia-chat.component').then(m => m.IaChatComponent)
+            },
+
+            {
+                path: '**',
+                title: 'Página não encontrada | TeachHub',
+                loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent)
+            }
+        ]
     }
 ];

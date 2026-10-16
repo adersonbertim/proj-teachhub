@@ -29,6 +29,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
       if (erro.status === 401 && emBrowser) {
         localStorage.removeItem('teachhub_token');
+        localStorage.removeItem('teachhub_role');
+        localStorage.removeItem('teachhub_token');
         Swal.fire({
           title: 'Sessão expirada',
           text: 'Sua sessão expirou. Faça login novamente.',
