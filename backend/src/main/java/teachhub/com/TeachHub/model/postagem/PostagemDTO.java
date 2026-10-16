@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import teachhub.com.TeachHub.model.tag.Tag;
 import teachhub.com.TeachHub.model.usuarios.UsuarioDTO;
+
+import java.util.List;
 
 
 @Data
@@ -18,7 +21,7 @@ public class PostagemDTO {
     private String descricao;
     private String categoria;
     private String autor;
-    private String tag;
+    private List<String> tags;
     public boolean visibilidade;
     private boolean planoAula;
     private int nota;
@@ -41,7 +44,10 @@ public class PostagemDTO {
                 .titulo(postagem.getTitulo())
                 .descricao(postagem.getTexto())
                 .categoria(postagem.getCategoria())
-                .tag(postagem.getTag())
+                .tags(postagem.getTags().stream()
+                        .map(Tag::getNome)
+                        .sorted()
+                        .toList())
                 .visibilidade(postagem.getVisibilidade())
                 .planoAula(postagem.getConteudo())
                 .planoAula(postagem.getTarefa())
@@ -60,6 +66,6 @@ public class PostagemDTO {
             @NotBlank String titulo,
             @NotBlank String texto,
             @NotBlank String categoria,
-            String tag
+            @NotBlank String tags
     ) {}
 }

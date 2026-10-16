@@ -1,9 +1,12 @@
 package teachhub.com.TeachHub.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import teachhub.com.TeachHub.config.AController;
 import teachhub.com.TeachHub.core.ApiResponse;
@@ -38,8 +41,18 @@ public class PostagemController extends AController<Postagem, PostagemDTO, Long,
     }
 
     @GetMapping("/listar-feed")
-    public ResponseEntity<ApiResponse<List<PostagemDTO>>> listarFeed (){
-        return ResponseEntity.ok(ApiResponse.success(service.listarTodas()));
+    public ResponseEntity<ApiResponse<Page<PostagemDTO>>> listarFeed(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(ApiResponse.success(service.listarTodas(paginacao(page, size))));
+    }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<ApiResponse<Page<PostagemDTO>>> buscar(
+            @RequestParam String termo,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(ApiResponse.success(service.buscar(termo, paginacao(page, size))));
     }
 
     @GetMapping("/minhas")
@@ -64,8 +77,16 @@ public class PostagemController extends AController<Postagem, PostagemDTO, Long,
         return ResponseEntity.ok(ApiResponse.success(null));
     }
     @GetMapping("/postagens/{id}/relacionadas")
-    public ResponseEntity<ApiResponse<List<PostagemDTO>>> relacionadas(@PathVariable Long id) {
-        Postagem atual = service.findById(id);
-        return ResponseEntity.ok(ApiResponse.success(service.listarRelacionadas(atual, 4)));
+    public ResponseEntity<ApiResponse<Page<PostagemDTO>>> relacionadas(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(ApiResponse.success(service.listarRelacionadas(id, paginacao(page, size))));
+    }
+
+    private Pageable paginacao(int page, int size) {
+        int paginaSegura = Math.max(page, 0);
+        int tamanhoSeguro = Math.max(1, Math.min(size, 100));
+        return PageRequest.of(paginaSegura, tamanhoSeguro, Sort.by(Sort.Direction.DESC, "dataCriacao"));
     }
 }

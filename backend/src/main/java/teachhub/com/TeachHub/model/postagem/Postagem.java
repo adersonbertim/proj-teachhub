@@ -7,11 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import teachhub.com.TeachHub.model.midia.Midia;
+import teachhub.com.TeachHub.model.tag.Tag;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -42,8 +44,14 @@ public class Postagem {
     @Column(nullable = false)
     private LocalDateTime dataAtualizacao;
 
-    @Column
-    private String tag;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "postagem_tag",
+            joinColumns = @JoinColumn(name = "postagem_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"postagem_id", "tag_id"})
+    )
+    private Set<Tag> tags = new HashSet<>();
 
     @Column
     private Boolean visibilidade = true;
