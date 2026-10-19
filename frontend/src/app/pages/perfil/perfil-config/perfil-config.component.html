@@ -13,7 +13,7 @@
 
     <div class="foto-preview">
       <div class="avatar-wrapper">
-        <img [src]="fotoPreview || perfil.imagemPerfil || 'assets/default-avatar.png'" [alt]="'Foto de ' + perfil.nome">
+        <img referrerpolicy="no-referrer" [src]="fotoPreview || perfil.imagemPerfil || 'default-avatar.svg'" [alt]="'Foto de ' + perfil.nome">
         <div class="avatar-loading" *ngIf="enviandoFoto">
           <mat-spinner diameter="24"></mat-spinner>
         </div>

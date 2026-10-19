@@ -47,8 +47,13 @@ public class GoogleAuthService {
             throw new RuntimeException("E-mail do Google não verificado");
         }
 
-        return usuarioRepository.findByEmail(payload.getEmail())
+        Usuario usuario = usuarioRepository.findByEmail(payload.getEmail())
                 .orElseGet(() -> cadastrar(payload));
+        if (usuario.getImagemPerfil() == null && payload.get("picture") != null) {
+            usuario.setImagemPerfil((String) payload.get("picture"));
+            usuario = usuarioRepository.save(usuario);
+        }
+        return usuario;
     }
 
     private GoogleIdToken.Payload validarToken(String credential) {

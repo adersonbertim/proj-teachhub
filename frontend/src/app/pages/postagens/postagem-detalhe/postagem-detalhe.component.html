@@ -10,8 +10,8 @@
     <mat-card class="postagem-card" appearance="outlined">
 
       <div class="autor-info" [routerLink]="['/perfil', postagem.usuarioDTO?.id]">
-        <img [src]="postagem.usuarioDTO?.imagemPerfil || 'assets/default-avatar.png'"
-             [alt]="'Foto de ' + postagem.autor" class="avatar">
+        <img referrerpolicy="no-referrer" [src]="postagem.usuarioDTO?.imagemPerfil || 'default-avatar.svg'"
+            [alt]="'Foto de ' + postagem.autor" class="avatar">
         <div class="autor-texto">
           <span class="autor-nome">{{ postagem.autor }}</span>
           <span class="data-criacao">{{ postagem.dataCriacao | date: 'dd/MM/yyyy' }}</span>
@@ -75,7 +75,7 @@
         </div>
 
         <div class="comentario" *ngFor="let comentario of comentarios">
-          <img [src]="comentario.fotoUsuario || 'assets/default-avatar.png'" class="avatar-comentario" alt="">
+          <img referrerpolicy="no-referrer" [src]="comentario.fotoUsuario || 'default-avatar.svg'" class="avatar-comentario" alt="">
           <div class="comentario-corpo">
             <strong>{{ comentario.nomeUsuario }}</strong>
             <p>{{ comentario.texto }}</p>
@@ -107,7 +107,7 @@
             <!-- Respostas (thread) -->
             <div class="lista-respostas" *ngIf="comentario.mostrandoRespostas">
               <div class="comentario resposta" *ngFor="let resposta of comentario.respostas">
-                <img [src]="resposta.fotoUsuario || 'assets/default-avatar.png'" class="avatar-comentario" alt="">
+                <img referrerpolicy="no-referrer" [src]="resposta.fotoUsuario || 'default-avatar.svg'" class="avatar-comentario" alt="">
                 <div class="comentario-corpo">
                   <strong>{{ resposta.nomeUsuario }}</strong>
                   <p>{{ resposta.texto }}</p>

@@ -37,7 +37,7 @@ public class LikeService extends AService<Like, LikeRepository> {
     // Retorna a contagem atual e se o usuário logado já curtiu
     public LikeStatusDTO getStatus(Postagem postagem, Usuario usuario) {
         long qtd = repository.countByPostagem(postagem);
-        boolean curtido = repository.findByUsuarioAndPostagem(usuario, postagem).isPresent();
+        boolean curtido = usuario != null && repository.findByUsuarioAndPostagem(usuario, postagem).isPresent();
 
         return LikeStatusDTO.builder()
                 .qtdLikes(qtd)

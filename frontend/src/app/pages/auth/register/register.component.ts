@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormsModule, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth/auth.service';
 
 import { Router, RouterLink } from '@angular/router';
@@ -17,33 +17,45 @@ import Swal from 'sweetalert2';
 export class RegisterComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
-  
-//[Validators.required, Validators.minLength(6)],
+
   registerData = {
     nome: '',
     email: '',
-    senha: '', 
-    confirmarSenha: '',
-    role: 'professor',
+    senha: '',
+    confirmarSenha: ''
   }
 
   errorMessage: string = '';
+  carregando = false;
 
   registrarNovaConta(){
-    this.authService.register(this.registerData).subscribe({
+    if (this.registerData.senha !== this.registerData.confirmarSenha) {
+      this.errorMessage = 'As senhas não são iguais.';
+      return;
+    }
+
+    this.errorMessage = '';
+    this.carregando = true;
+
+    const { nome, email, senha } = this.registerData;
+
+    this.authService.register({ nome, email, senha }).subscribe({
       next: () => {
+        this.carregando = false;
         Swal.fire({
-        title: "Cadastro realizado com sucesso!",
-        text: "Você será redirecionado para a página de login.",
-        icon: "success"
-      });
-        this.router.navigate(["/login"]);
+          title: "Cadastro realizado com sucesso!",
+          text: "Agora é só entrar com seu e-mail e senha.",
+          icon: "success"
+        }).then(() => this.router.navigate(["/login"]));
       },
-      error: (err: { error: { message: string; }; }) => {
-        this.errorMessage = err.error?.message || 'Erro ao realizar o cadastro!';
+      error: (err) => {
+        this.carregando = false;
+        if (err.status === 0) {
+          this.errorMessage = 'Não foi possível conectar ao servidor.';
+        } else {
+          this.errorMessage = err.error?.message || 'Erro ao realizar o cadastro!';
+        }
       }
     })
   }
-
-  
 }

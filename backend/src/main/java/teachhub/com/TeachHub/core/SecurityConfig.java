@@ -17,6 +17,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import teachhub.com.TeachHub.config.SecurityFilter;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 import java.util.Arrays;
 
@@ -48,10 +50,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(cors()))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(ex->ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/auth/google").permitAll();
+                    req.requestMatchers("/error").permitAll();
                     req.requestMatchers("/curso/admin/**").hasRole("ADMINISTRADOR");
                     req.requestMatchers(HttpMethod.POST, "/curso/**").hasRole("ADMINISTRADOR");
                     req.requestMatchers(HttpMethod.DELETE, "/curso/**").hasRole("ADMINISTRADOR");

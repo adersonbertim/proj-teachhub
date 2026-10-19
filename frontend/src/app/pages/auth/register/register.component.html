@@ -6,35 +6,41 @@
 
     <mat-card-content>
       <form (ngSubmit)="registrarNovaConta()" #registerForm="ngForm" class="register-form">
-        
+
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nome Completo</mat-label>
-          <input matInput name="nome" [(ngModel)]="registerData.nome" required placeholder="Seu nome">
+          <input matInput name="nome" [(ngModel)]="registerData.nome" (ngModelChange)="errorMessage = ''" required placeholder="Seu nome">
           <mat-icon matSuffix>person</mat-icon>
+          <mat-error>Informe o nome</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>E-mail</mat-label>
-          <input matInput type="email" name="email" [(ngModel)]="registerData.email" required placeholder="exemplo@email.com">
+          <input matInput type="email" name="email" [(ngModel)]="registerData.email" (ngModelChange)="errorMessage = ''" required email placeholder="exemplo@email.com">
           <mat-icon matSuffix>email</mat-icon>
+          <mat-error>Informe um e-mail válido</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Senha</mat-label>
-          <input matInput type="password" name="senha" [(ngModel)]="registerData.senha" required placeholder="Crie uma senha forte">
+          <input matInput type="password" name="senha" [(ngModel)]="registerData.senha" (ngModelChange)="errorMessage = ''" required minlength="6" placeholder="Mínimo de 6 caracteres">
           <mat-icon matSuffix>lock</mat-icon>
+          <mat-error>A senha precisa ter pelo menos 6 caracteres</mat-error>
         </mat-form-field>
 
-          <mat-form-field appearance="outline" class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
           <mat-label>Confirmar Senha</mat-label>
-          <input matInput type="password" name="confirmarSenha" [(ngModel)]="registerData.confirmarSenha" required placeholder="Confirme sua senha">
+          <input matInput type="password" name="confirmarSenha" [(ngModel)]="registerData.confirmarSenha" (ngModelChange)="errorMessage = ''" required placeholder="Confirme sua senha">
           <mat-icon matSuffix>lock</mat-icon>
         </mat-form-field>
 
-        <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+        <p class="error-text" *ngIf="errorMessage">
+          <mat-icon>error_outline</mat-icon>
+          {{ errorMessage }}
+        </p>
 
-        <button mat-flat-button color="primary" type="submit" [disabled]="!registerForm.valid" class="btn-register">
-          Cadastrar
+        <button mat-flat-button color="primary" type="submit" [disabled]="!registerForm.valid || carregando" class="btn-register">
+          {{ carregando ? 'Cadastrando...' : 'Cadastrar' }}
         </button>
       </form>
 

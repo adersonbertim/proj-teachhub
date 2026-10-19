@@ -35,11 +35,15 @@ public class UsuarioService extends AService <Usuario, UsuarioRepository>{
 //    }
 
     public Usuario registrar(UsuarioRegistroDTO dto) {
+        if (repository.existsByEmailIgnoreCase(dto.email().trim())) {
+            throw new IllegalArgumentException("Já existe uma conta com esse e-mail");
+        }
+
         Usuario novoUsuario = new Usuario();
 
         // 1. Mapeia dados básicos
         novoUsuario.setNome(dto.nome());
-        novoUsuario.setEmail(dto.email());
+        novoUsuario.setEmail(dto.email().trim());
         novoUsuario.setScore(0);
         novoUsuario.setDataCadastro(LocalDateTime.now());
 

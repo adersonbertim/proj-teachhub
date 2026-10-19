@@ -41,9 +41,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<Usuario>> registrar (@RequestBody @Valid UsuarioRegistroDTO dto){
+    public ResponseEntity<ApiResponse<UsuarioDTO>> registrar (@RequestBody @Valid UsuarioRegistroDTO dto){
         Usuario usuarioSalvo = usuarioService.registrar(dto);
-        return ResponseEntity.ok(ApiResponse.success(usuarioSalvo));
+        return ResponseEntity.ok(ApiResponse.success(UsuarioDTO.fromEntity(usuarioSalvo)));
     }
 
     @PostMapping("/google")

@@ -19,10 +19,10 @@
 
       <div class="perfil-topo">
         <div class="foto-perfil">
-          <img
-            [src]="perfil.imagemPerfil || 'assets/default-avatar.png'"
+          <img referrerpolicy="no-referrer"
+            [src]="perfil.imagemPerfil || 'default-avatar.svg'"
             [alt]="'Foto de ' + perfil.nome"
-            (error)="perfil.imagemPerfil = 'assets/default-avatar.png'"
+            (error)="perfil.imagemPerfil = 'default-avatar.svg'"
           >
         </div>
 

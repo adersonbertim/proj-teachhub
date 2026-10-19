@@ -8,10 +8,10 @@
 
 <mat-card class="post-card" *ngFor="let post of postagensExibidas">
   <mat-card-header class="post-header-clickable">
-    <img
+    <img referrerpolicy="no-referrer"
       mat-card-avatar
       class="post-avatar"
-      [src]="post.usuarioDTO?.imagemPerfil || 'assets/default-avatar.png'"
+      [src]="post.usuarioDTO?.imagemPerfil || 'default-avatar.svg'"
       [alt]="'Foto de ' + post.autor"
     >
     <a class="post-header-content" [routerLink]="['/perfil', post.usuarioDTO?.id]">

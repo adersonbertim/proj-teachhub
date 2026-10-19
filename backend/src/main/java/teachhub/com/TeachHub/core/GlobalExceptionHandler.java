@@ -26,9 +26,9 @@ public class GlobalExceptionHandler {
         String mensagem = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .collect(Collectors.joining(", "));
-        return ResponseEntity.badRequest().body(ApiResponse.error("Erro de validação: " + mensagem));
+                .map(error -> error.getDefaultMessage())
+                .collect(Collectors.joining(". "));
+        return ResponseEntity.badRequest().body(ApiResponse.error(mensagem));
     }
 
     // Erro de credencias

@@ -6,23 +6,30 @@
 
     <mat-card-content>
       <form (ngSubmit)="login()" #loginForm="ngForm" class="login-form">
-        
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>E-mail</mat-label>
-          <input matInput type="email" name="email" [(ngModel)]="loginData.email" required placeholder="exemplo@email.com">
-          <mat-icon matSuffix>email</mat-icon>
-        </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Senha</mat-label>
-          <input matInput type="password" name="senha" [(ngModel)]="loginData.senha" required placeholder="Sua senha">
-          <mat-icon matSuffix>lock</mat-icon>
-        </mat-form-field>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>E-mail</mat-label>
+    <input matInput type="email" name="email" [(ngModel)]="loginData.email" (ngModelChange)="errorMessage = ''" required email placeholder="exemplo@email.com">
+    <mat-icon matSuffix>email</mat-icon>
+    <mat-error>Informe um e-mail válido</mat-error>
+  </mat-form-field>
 
-        <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid" class="btn-login">
-          Entrar
-        </button>
-      </form>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Senha</mat-label>
+    <input matInput type="password" name="senha" [(ngModel)]="loginData.senha" (ngModelChange)="errorMessage = ''" required placeholder="Sua senha">
+    <mat-icon matSuffix>lock</mat-icon>
+    <mat-error>Informe a senha</mat-error>
+  </mat-form-field>
+
+  <p class="error-text" *ngIf="errorMessage">
+    <mat-icon>error_outline</mat-icon>
+    {{ errorMessage }}
+  </p>
+
+  <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid || carregando" class="btn-login">
+    {{ carregando ? 'Entrando...' : 'Entrar' }}
+  </button>
+</form>
 
       <div class="divider">
         <span>ou</span>

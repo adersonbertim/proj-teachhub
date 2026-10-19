@@ -29,22 +29,30 @@ export class LoginComponent implements AfterViewInit {
   };
 
 
-  errorMessage: string = '';
+errorMessage: string = '';
+carregando = false;
 
+login() {
+  this.errorMessage = '';
+  this.carregando = true;
 
-  login() {
-    this.authService.login(this.loginData).subscribe({
-      next: (response) => {
-        
-        console.log('login realizado', response);
-        this.router.navigate(['/home']);
-      },
-      error: (err) => {
-        this.errorMessage = 'Email ou senha inválidos';
-        console.error(err);
-      },
-    });
-  }
+  this.authService.login(this.loginData).subscribe({
+    next: () => {
+      this.carregando = false;
+      this.router.navigate(['/home']);
+    },
+    error: (err) => {
+      this.carregando = false;
+      if (err.status === 401) {
+        this.errorMessage = 'E-mail ou senha incorretos.';
+      } else if (err.status === 0) {
+        this.errorMessage = 'Não foi possível conectar ao servidor.';
+      } else {
+        this.errorMessage = 'Não foi possível entrar. Tente novamente.';
+      }
+    },
+  });
+}
   
    ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -77,9 +85,8 @@ export class LoginComponent implements AfterViewInit {
  loginGoogle(credential: string) {
     this.authService.loginGoogle(credential).subscribe({
       next: () => this.router.navigate(['/home']),
-      error: (err) => {
-        this.errorMessage = 'Não foi possível entrar com o Google';
-        console.error(err);
+      error: () => {
+        this.errorMessage = 'Não foi possível entrar com o Google.';
       },
     });
   }
