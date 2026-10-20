@@ -77,6 +77,16 @@
   }
 }
 
+.tags-field {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.submit-error {
+  color: var(--mat-sys-error, #b3261e);
+  margin: 0 0 12px;
+}
+
 .post-settings {
   display: flex;
   align-items: center;

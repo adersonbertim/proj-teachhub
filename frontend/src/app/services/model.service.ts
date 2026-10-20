@@ -17,7 +17,7 @@ export interface PostagemDTO {
   descricao: string;
   categoria: string;
   autor: string;
-  tag?: string;
+  tags: string[];
   visibilidade?: boolean;
   isFavorita?: boolean | string;
   conteudo: boolean;
@@ -29,6 +29,21 @@ export interface PostagemDTO {
   resumo: string;
   dataCriacao: string | number | Date;
   usuarioDTO?: UsuarioDTO;
+}
+
+export interface PostagemRequestDTO {
+  titulo: string;
+  texto: string;
+  categoria: string;
+  tags: string;
+}
+
+export interface Pagina<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
 }
 
 export interface CursoDTO {

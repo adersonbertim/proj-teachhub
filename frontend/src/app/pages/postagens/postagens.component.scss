@@ -3,7 +3,44 @@
 .filter-header {
   margin: 24px 0;
   display: flex;
-    justify-content: space-between;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.search-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-field {
+  width: min(340px, 45vw);
+}
+
+.feed-loading,
+.feed-empty {
+  display: flex;
+  justify-content: center;
+  margin: 32px auto;
+  color: var(--text-main);
+}
+
+@media (max-width: 700px) {
+  .filter-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .search-control {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .search-field {
+    flex: 1;
+    width: auto;
+  }
 }
 
 .post-card {

@@ -50,6 +50,21 @@
 
       <div #editor class="rich-editor" contenteditable="true" placeholder="Comece a escrever seu conteúdo aqui..."></div>
 
+      <mat-form-field appearance="outline" class="tags-field">
+        <mat-label>Tags</mat-label>
+        <input
+          matInput
+          [(ngModel)]="tags"
+          placeholder="#matematica basica #geometria #física"
+          aria-describedby="tags-help"
+          (ngModelChange)="erroTags = ''"
+        >
+        <mat-hint id="tags-help">Use # para separar de 1 a 10 tags.</mat-hint>
+        <mat-error *ngIf="erroTags">{{ erroTags }}</mat-error>
+      </mat-form-field>
+
+      <p class="submit-error" *ngIf="erroEnvio" role="alert">{{ erroEnvio }}</p>
+
       <div class="post-settings">
         <mat-form-field appearance="outline">
           <mat-label>Categoria</mat-label>
@@ -82,11 +97,6 @@
               </mat-expansion-panel-header>
 
               <div class="advanced-settings">
-                <mat-form-field appearance="outline">
-                  <mat-label>Tag</mat-label>
-                  <input matInput [(ngModel)]="tag" placeholder="Ex: #algoritmos">
-                </mat-form-field>
-
                 <div class="setting-item">
                   <mat-slide-toggle color="primary" [(ngModel)]="visibilidade">
                     Visível para todos
@@ -109,9 +119,9 @@
       <button mat-button color="warn" (click)="voltar()">Descartar</button>
       <div class="main-actions">
         <button mat-stroked-button (click)="voltar()">Voltar</button>
-        <button mat-flat-button color="primary" (click)="criarPostagem()">
+        <button mat-flat-button color="primary" (click)="criarPostagem()" [disabled]="salvando">
           <mat-icon class="material-symbols-outlined">send</mat-icon>
-          Criar Postagem
+          {{ salvando ? 'Criando...' : 'Criar Postagem' }}
         </button>
       </div>
     </footer>

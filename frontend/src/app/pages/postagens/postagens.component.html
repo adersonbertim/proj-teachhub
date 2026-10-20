@@ -4,9 +4,30 @@
     <mat-chip-option>Trending</mat-chip-option>
     <mat-chip-option>Minhas Postagens</mat-chip-option>
   </mat-chip-listbox>
+
+  <div class="search-control">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar postagens</mat-label>
+      <input
+        matInput
+        [(ngModel)]="termoBusca"
+        placeholder="Título ou #tag"
+        aria-label="Buscar por título ou tag"
+        (keyup.enter)="pesquisar()"
+      >
+    </mat-form-field>
+    <button mat-flat-button color="primary" (click)="pesquisar()" [disabled]="carregandoFeed">
+      <mat-icon class="material-symbols-outlined">search</mat-icon>
+      Buscar
+    </button>
+  </div>
 </div>
 
-<mat-card class="post-card" *ngFor="let post of postagensExibidas">
+<div class="feed-loading" *ngIf="carregandoFeed">
+  <mat-spinner diameter="36"></mat-spinner>
+</div>
+
+<mat-card class="post-card" *ngFor="let post of postagensExibidas" [hidden]="carregandoFeed">
   <mat-card-header class="post-header-clickable">
     <img referrerpolicy="no-referrer"
       mat-card-avatar
@@ -51,9 +72,15 @@
   </mat-card-actions>
 </mat-card>
 
+<p class="feed-empty" *ngIf="!carregandoFeed && postagensExibidas.length === 0">
+  Nenhuma postagem encontrada.
+</p>
+
 <mat-paginator
-  [length]="postagens.length"
+  [length]="totalPostagens"
   [pageSize]="pageSize"
   [pageSizeOptions]="[5, 10, 25, 100]"
+  [pageIndex]="pageIndex"
+  [disabled]="carregandoFeed"
   (page)="mudancaPagina($event)"
 ></mat-paginator>

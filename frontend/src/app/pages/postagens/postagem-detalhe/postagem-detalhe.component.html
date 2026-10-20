@@ -34,9 +34,9 @@
 
         <div class="texto-completo" [innerHTML]="descricaoSegura"></div>
 
-        <div class="tag-extra" *ngIf="postagem.tag">
+        <div class="tag-extra" *ngIf="postagem.tags?.length">
           <mat-icon class="material-symbols-outlined">sell</mat-icon>
-          <span>{{ postagem.tag }}</span>
+          <span *ngFor="let tag of postagem.tags">#{{ tag }}</span>
         </div>
       </div>
 
@@ -130,7 +130,7 @@
     <!-- Coluna direita: postagens relacionadas -->
     <mat-card class="card-relacionadas">
       <h2>Postagens relacionadas</h2>
-      <a *ngFor="let rec of relacionadas" [routerLink]="['/postagens', rec.id]" class="item-relacionado">
+      <a *ngFor="let rec of relacionadas" [routerLink]="['/postagens', rec.idPostagem]" class="item-relacionado">
         <mat-icon class="material-symbols-outlined">description</mat-icon>
         <span>{{ rec.titulo }}</span>
       </a>

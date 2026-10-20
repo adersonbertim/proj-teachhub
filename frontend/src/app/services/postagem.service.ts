@@ -4,7 +4,9 @@ import {
   ApiResponse,
   ComentarioDTO,
   LikeStatusDTO,
+  Pagina,
   PostagemDTO,
+  PostagemRequestDTO,
 } from './model.service';
 import { HttpClient } from '@angular/common/http';
 
@@ -18,8 +20,8 @@ export class PostagemService {
   postagens$ = this.postagensSubject.asObservable();
   constructor(private http: HttpClient) {}
 
-  criarPostagem(dto: any) {
-    return this.http.post('http://localhost:8080/feed/criar', dto);
+  criarPostagem(dto: PostagemRequestDTO): Observable<ApiResponse<PostagemDTO>> {
+    return this.http.post<ApiResponse<PostagemDTO>>('http://localhost:8080/feed/criar', dto);
   }
 
   adicionarPostagens(novaPostagem: PostagemDTO) {
@@ -34,8 +36,22 @@ export class PostagemService {
     );
   }
 
-  listarFeed() {
-    return this.http.get<any>('http://localhost:8080/feed/listar-feed');
+  listarFeed(page: number, size: number): Observable<ApiResponse<Pagina<PostagemDTO>>> {
+    return this.http.get<ApiResponse<Pagina<PostagemDTO>>>(
+      'http://localhost:8080/feed/listar-feed',
+      { params: { page, size } },
+    );
+  }
+
+  buscarPostagens(
+    termo: string,
+    page: number,
+    size: number,
+  ): Observable<ApiResponse<Pagina<PostagemDTO>>> {
+    return this.http.get<ApiResponse<Pagina<PostagemDTO>>>(
+      'http://localhost:8080/feed/buscar',
+      { params: { termo, page, size } },
+    );
   }
 
   deletarPostagem(id: number): Observable<ApiResponse<PostagemDTO>> {
@@ -97,9 +113,14 @@ estadoLikeComentario(id: number): Observable<ApiResponse<ComentarioDTO>> {
     {},
   );
 }
-  getRelacionadas(id: number): Observable<ApiResponse<PostagemDTO[]>> {
-    return this.http.get<ApiResponse<PostagemDTO[]>>(
+  getRelacionadas(
+    id: number,
+    page = 0,
+    size = 4,
+  ): Observable<ApiResponse<Pagina<PostagemDTO>>> {
+    return this.http.get<ApiResponse<Pagina<PostagemDTO>>>(
       `http://localhost:8080/feed/postagens/${id}/relacionadas`,
+      { params: { page, size } },
     );
   }
 }

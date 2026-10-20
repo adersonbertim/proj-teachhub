@@ -4,6 +4,7 @@ import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material-module';
 import { PostagemService } from '../../../services/postagem.service';
+import { PostagemRequestDTO } from '../../../services/model.service';
 
 
 @Component({
@@ -22,7 +23,10 @@ export class CriarPostagemComponent {
   tarefa: boolean = false;
   texto: string = '';
   categoria: string = '';
-  tag: string = '';
+  tags: string = '';
+  erroTags = '';
+  erroEnvio = '';
+  salvando = false;
   visibilidade: boolean = true;
   isFavorita: boolean = false;
 
@@ -65,29 +69,44 @@ export class CriarPostagemComponent {
     document.execCommand('insertImage', false, src);
   }
 
+  private validarTags(): boolean {
+    const entrada = this.tags.trim();
+    const nomes = entrada.split('#')
+      .map(tag => tag.trim())
+      .filter(Boolean);
+    const tagsUnicas = new Set(nomes.map(tag => tag.toLowerCase()));
+
+    const valido = entrada.startsWith('#')
+      && tagsUnicas.size >= 1
+      && tagsUnicas.size <= 10;
+
+    this.erroTags = valido ? '' : 'Informe de 1 a 10 tags usando #.';
+    return valido;
+  }
+
   criarPostagem() {
-  const dto = {
-    titulo: this.titulo,
-    texto: this.editor.nativeElement.innerText, // usa o editor!
-    categoria: this.categoria,
-    tag: '',
-    conteudo: this.conteudo,
-    tarefa: this.tarefa,
-    isFavorita: false,
-    visibilidade: true,
-    likes: 0,
-  };
+    if (this.salvando || !this.validarTags()) return;
 
-  console.log('DTO ENVIADO:', dto);
+    const dto: PostagemRequestDTO = {
+      titulo: this.titulo,
+      texto: this.editor.nativeElement.innerText,
+      categoria: this.categoria,
+      tags: this.tags,
+    };
 
-  this.postagemService.criarPostagem(dto).subscribe((res: any) => {
-    console.log('RETORNO BACKEND:', res);
-
-    this.postagemService.adicionarPostagens(res.data);
-
-    this.router.navigate(['/postagens']);
-  });
-}
+    this.salvando = true;
+    this.erroEnvio = '';
+    this.postagemService.criarPostagem(dto).subscribe({
+      next: (res) => {
+        this.postagemService.adicionarPostagens(res.data);
+        this.router.navigate(['/postagens']);
+      },
+      error: (err) => {
+        this.salvando = false;
+        this.erroEnvio = err.error?.message || 'Não foi possível criar a postagem.';
+      },
+    });
+  }
     voltar() {
     if(window.history.length < 1){
       this.location.back()

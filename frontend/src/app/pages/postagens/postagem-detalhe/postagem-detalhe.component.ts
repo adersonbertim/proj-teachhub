@@ -159,7 +159,7 @@ ngOnInit() {
 
    carregarRelacionadas(id: number) {
     this.postagemService.getRelacionadas(id).subscribe({
-      next: (res) => (this.relacionadas = res.data),
+      next: (res) => (this.relacionadas = res.data.content),
       error: (err) => console.error('Erro ao carregar relacionadas:', err)
     });
   }

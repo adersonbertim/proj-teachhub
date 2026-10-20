@@ -151,6 +151,7 @@ $amarelo-favorito: #ffca28;
 
   .tag-extra {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 6px;
     margin-top: 16px;
@@ -161,6 +162,12 @@ $amarelo-favorito: #ffca28;
       font-size: 18px;
       width: 18px;
       height: 18px;
+    }
+
+    span {
+      padding: 4px 10px;
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
     }
   }
 }
