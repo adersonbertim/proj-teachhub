@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../material-module';
+import { AuthService } from '../../core/services/auth/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,7 +13,7 @@ import { MaterialModule } from '../../material-module';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
-  constructor(private router : Router){}
+  constructor(private router : Router, private authService: AuthService){}
 
   @Input() isSidebarCollapsed: boolean = false;
 
@@ -25,9 +27,26 @@ export class SidebarComponent {
 ];
 
 
-  logout(){ 
-    console.log('Logout');
-  
+  sair() {
+    Swal.fire({
+  title: "Tem certeza?",
+  text: "Você será desconectado.",
+  icon: "question",
+  showCancelButton: true,
+  confirmButtonColor: "#1976d2",
+  confirmButtonText: "Sim, sair"
+}).then((result) => {
+  if (result.isConfirmed) {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+    Swal.fire({
+      title: "Desconectado!",
+      text: "Você foi desconectado com sucesso.",
+      icon: "success"
+    });
+  }
+});
+
   }
 
 }

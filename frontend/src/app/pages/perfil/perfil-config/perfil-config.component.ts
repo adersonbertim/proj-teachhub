@@ -112,27 +112,7 @@ export class PerfilConfigComponent implements OnInit {
     this.router.navigate(['/perfil']);
   }
 
-  sair() {
-    Swal.fire({
-  title: "Tem certeza?",
-  text: "Você será desconectado.",
-  icon: "question",
-  showCancelButton: true,
-  confirmButtonColor: "#1976d2",
-  confirmButtonText: "Sim, sair"
-}).then((result) => {
-  if (result.isConfirmed) {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-    Swal.fire({
-      title: "Desconectado!",
-      text: "Você foi desconectado com sucesso.",
-      icon: "success"
-    });
-  }
-});
 
-  }
 
  excluirConta() {
     Swal.fire({

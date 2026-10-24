@@ -6,7 +6,7 @@
   max-width: 680px;
   margin: 0 auto;
   padding-bottom: 32px;
-  color: inherit;
+  color: var(--text-main);
 
   .estado-carregando,
   .estado-erro {
@@ -20,12 +20,12 @@
 
     p {
       margin: 0;
-      font-size: 14px;
+      font-size: 0.875rem;
     }
   }
 
   .estado-erro .material-symbols-outlined {
-    font-size: 40px;
+    font-size: 2.5rem;
     width: 40px;
     height: 40px;
     color: #d32f2f;
@@ -73,7 +73,7 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 13px;
+          font-size: 0.8125rem;
           border-radius: 50%;
           background: #757575;
           border: 2px solid var(--bg-card, #fff);
@@ -108,7 +108,7 @@
 
     h1 {
       margin: 0;
-      font-size: 22px;
+      font-size: 1.375rem;
       font-weight: 700;
     }
 
@@ -119,13 +119,13 @@
       align-self: flex-start;
       padding: 3px 10px 3px 6px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 500;
       background: rgba(0, 0, 0, 0.06);
       color: rgba(0, 0, 0, 0.6);
 
       .material-symbols-outlined {
-        font-size: 15px;
+        font-size: 0.9375rem;
         width: 15px;
         height: 15px;
       }
@@ -138,7 +138,7 @@
 
     .descricao {
       margin: 4px 0 0;
-      font-size: 15px;
+      font-size: 0.9375rem;
       line-height: 1.5;
       color: rgba(0, 0, 0, 0.75);
     }
@@ -152,11 +152,11 @@
         display: flex;
         align-items: baseline;
         gap: 4px;
-        font-size: 13px;
+        font-size: 0.8125rem;
         color: rgba(0, 0, 0, 0.6);
 
         strong {
-          font-size: 15px;
+          font-size: 0.9375rem;
           color: inherit;
           font-weight: 700;
         }
@@ -176,14 +176,14 @@
         padding: 6px 14px;
         border-radius: 999px;
         text-decoration: none;
-        font-size: 13px;
+        font-size: 0.8125rem;
         font-weight: 500;
         color: inherit;
         background: rgba(0, 0, 0, 0.05);
         transition: background 0.2s ease, transform 0.15s ease;
 
         .material-symbols-outlined {
-          font-size: 16px;
+          font-size: 1rem;
           width: 16px;
           height: 16px;
         }
@@ -223,7 +223,7 @@
 
       h2 {
         margin: 0;
-        font-size: 17px;
+        font-size: 1.0625rem;
         font-weight: 600;
       }
     }
@@ -262,7 +262,7 @@
             min-width: 0;
 
             .conteudo-titulo {
-              font-size: 14px;
+              font-size: 0.875rem;
               font-weight: 500;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -270,17 +270,20 @@
             }
 
             .conteudo-data {
-              font-size: 12px;
-              color: rgba(0, 0, 0, 0.5);
+              font-size: 0.75rem;
+              color: var(--text-main);
+              opacity: 0.55;
             }
           }
 
           .btn-excluir {
             flex-shrink: 0;
-            color: rgba(0, 0, 0, 0.4);
+            color: var(--text-main);
+            opacity: 0.5;
 
             &:hover {
               color: #d32f2f;
+              opacity: 1;
             }
           }
         }
@@ -299,7 +302,7 @@
       border-radius: 12px;
 
       .material-symbols-outlined {
-        font-size: 40px;
+        font-size: 2.5rem;
         width: 40px;
         height: 40px;
         margin-bottom: 8px;
@@ -312,14 +315,14 @@
       }
 
       .subtle-text {
-        font-size: 12px;
+        font-size: 0.75rem;
         opacity: 0.7;
       }
     }
   }
 }
 
-.dark-theme {
+:host-context(.dark-theme) {
   .perfil-visitante-container {
     .estado-carregando,
     .estado-erro {
@@ -420,7 +423,7 @@
   display: flex;
   gap: 8px;
   margin-bottom: 24px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
 }
 
 .aba {
@@ -433,8 +436,9 @@
   border: none;
   background: transparent;
 
-  color: #666;
-  font-size: 15px;
+  color: var(--text-main);
+  opacity: 0.7;
+  font-size: 0.9375rem;
   font-weight: 500;
 
   cursor: pointer;
@@ -445,17 +449,18 @@
 }
 
 .aba:hover {
-  background: #f5f5f5;
-  color: #333;
+  background: rgba($primary, 0.06);
+  opacity: 1;
 }
 
 .aba.ativa {
-  color: #3f51b5;
-  border-bottom-color: #3f51b5;
+  color: $primary;
+  opacity: 1;
+  border-bottom-color: $primary;
 }
 
 .aba mat-icon {
-  font-size: 20px;
+  font-size: 1.25rem;
   width: 20px;
   height: 20px;
 }

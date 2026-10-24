@@ -2,6 +2,7 @@
 
 .gerenciar-container {
   max-width: 1000px;
+  color: var(--text-main);
   margin: 0 auto;
   padding: 8px 4px 48px;
   display: flex;
@@ -294,7 +295,7 @@
   }
 }
 
-.dark-theme {
+:host-context(.dark-theme) {
   .resultado,
   .catalogo,
   .linha-busca .busca {

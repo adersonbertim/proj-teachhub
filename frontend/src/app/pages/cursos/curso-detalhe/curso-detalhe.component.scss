@@ -2,6 +2,7 @@
 
 .curso-detalhe-container {
   max-width: 960px;
+  color: var(--text-main);
   margin: 0 auto;
   padding: 8px 4px 48px;
   display: flex;
@@ -50,7 +51,7 @@
   gap: 12px;
 
   .categoria-label {
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.4px;
     text-transform: uppercase;
@@ -59,7 +60,7 @@
 
   h1 {
     margin: 0;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 700;
     line-height: 1.3;
   }
@@ -76,13 +77,13 @@
     gap: 6px;
     padding: 5px 12px;
     border-radius: 999px;
-    font-size: 13px;
+    font-size: 0.8125rem;
     background-color: rgba($primary, 0.08);
 
     mat-icon {
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
+      font-size: 1.125rem;
+      width: 1.125rem;
+      height: 1.125rem;
     }
   }
 
@@ -107,6 +108,6 @@
   opacity: 0.6;
 }
 
-.dark-theme .info .categoria-label {
+:host-context(.dark-theme) .info .categoria-label  {
   color: #64b5f6;
 }

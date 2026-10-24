@@ -2,6 +2,7 @@
 
 .cursos-container {
   max-width: 1180px;
+  color: var(--text-main);
   margin: 0 auto;
   padding: 8px 4px 48px;
   display: flex;
@@ -22,7 +23,7 @@
 
   h1 {
     margin: 0 0 6px;
-    font-size: 28px;
+    font-size: 1.75rem;
     font-weight: 700;
     letter-spacing: -0.3px;
   }
@@ -30,7 +31,7 @@
   p {
     margin: 0;
     max-width: 560px;
-    font-size: 15px;
+    font-size: 0.9375rem;
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.88);
   }
@@ -56,7 +57,7 @@
       border: 0;
       outline: none;
       font: inherit;
-      font-size: 15px;
+      font-size: 0.9375rem;
       color: #2d3436;
       background: transparent;
     }
@@ -94,13 +95,13 @@
     background-color: var(--bg-card, #fff);
     color: var(--text-main, #2d3436);
     font: inherit;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 
     mat-icon {
-      font-size: 18px;
+      font-size: 1.125rem;
       width: 18px;
       height: 18px;
     }
@@ -109,7 +110,7 @@
       min-width: 20px;
       padding: 1px 6px;
       border-radius: 999px;
-      font-size: 11px;
+      font-size: 0.6875rem;
       background-color: rgba(0, 0, 0, 0.06);
     }
 
@@ -137,12 +138,12 @@
 
   h2 {
     margin: 0;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 600;
   }
 
   .total {
-    font-size: 13px;
+    font-size: 0.8125rem;
     opacity: 0.6;
   }
 }
@@ -200,9 +201,9 @@
       color: $primary;
 
       mat-icon {
-        font-size: 40px;
-        width: 40px;
-        height: 40px;
+        font-size: 2.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
       }
     }
 
@@ -215,13 +216,13 @@
       gap: 4px;
       padding: 3px 8px 3px 6px;
       border-radius: 6px;
-      font-size: 11px;
+      font-size: 0.6875rem;
       font-weight: 600;
       color: #fff;
       background-color: rgba(0, 0, 0, 0.72);
 
       mat-icon {
-        font-size: 16px;
+        font-size: 1rem;
         width: 16px;
         height: 16px;
       }
@@ -244,7 +245,7 @@
       transition: opacity 0.2s ease, transform 0.2s ease;
 
       mat-icon {
-        font-size: 30px;
+        font-size: 1.875rem;
         width: 30px;
         height: 30px;
       }
@@ -259,7 +260,7 @@
   }
 
   .categoria-label {
-    font-size: 11px;
+    font-size: 0.6875rem;
     font-weight: 700;
     letter-spacing: 0.4px;
     text-transform: uppercase;
@@ -268,7 +269,7 @@
 
   h3 {
     margin: 0;
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-weight: 600;
     line-height: 1.35;
     display: -webkit-box;
@@ -282,11 +283,11 @@
     align-items: center;
     gap: 4px;
     margin-top: 2px;
-    font-size: 12px;
+    font-size: 0.75rem;
     opacity: 0.65;
 
     mat-icon {
-      font-size: 16px;
+      font-size: 1rem;
       width: 16px;
       height: 16px;
     }
@@ -323,7 +324,7 @@
   border-radius: 16px;
 
   mat-icon {
-    font-size: 40px;
+    font-size: 2.5rem;
     width: 40px;
     height: 40px;
     margin-bottom: 8px;
@@ -336,7 +337,7 @@
   }
 
   span {
-    font-size: 13px;
+    font-size: 0.8125rem;
     opacity: 0.65;
   }
 }
@@ -346,7 +347,7 @@
   100% { background-position: 0 50%; }
 }
 
-.dark-theme {
+:host-context(.dark-theme) {
   .categorias .categoria {
     border-color: rgba(255, 255, 255, 0.15);
 
@@ -379,7 +380,7 @@
     padding: 28px 18px;
 
     h1 {
-      font-size: 22px;
+      font-size: 1.375rem;
     }
 
     .hero-topo {

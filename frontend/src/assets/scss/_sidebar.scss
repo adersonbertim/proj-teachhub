@@ -1,7 +1,7 @@
 @use "variables" as *;
 
 .sidebar-container {
-  height: 100vh;
+  height: 100%;
   width: 260px;
   background-color: var(--bg-card);
   border-right: 1px solid var(--card-border);

@@ -36,7 +36,6 @@ public class AuthController {
 
         return ResponseEntity.ok(ApiResponse.success(LoginResponseDTO.of(user, token)));
 
-        // Posteriormente colocar o autenticador com o google!
 
     }
 
