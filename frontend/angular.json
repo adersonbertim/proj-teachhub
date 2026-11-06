@@ -33,6 +33,7 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
+              "node_modules/quill/dist/quill.snow.css",
               "src/assets/scss/style.scss",
               "src/app/theme.scss"
             ],

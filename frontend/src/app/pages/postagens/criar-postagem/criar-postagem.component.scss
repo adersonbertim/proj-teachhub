@@ -31,9 +31,49 @@
     padding: 0 !important;
   }
   input {
-    font-size: 2.2rem !important;
-    font-weight: 800 !important;
+    font-size: 1.7rem !important;
+    font-weight: 700 !important;
   }
+}
+
+.quill-editor {
+  --editor-text: var(--text-main);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-card);
+
+  ::ng-deep .ql-toolbar.ql-snow {
+    border: 0;
+    border-bottom: 1px solid var(--card-border);
+    background: color-mix(in srgb, var(--bg-body) 75%, transparent);
+  }
+
+  ::ng-deep .ql-container.ql-snow {
+    border: 0;
+    color: var(--text-main);
+    font: inherit;
+    font-size: 1rem;
+  }
+
+  ::ng-deep .ql-editor {
+    min-height: 300px;
+    padding: 20px;
+    line-height: 1.7;
+    color: var(--text-main);
+  }
+
+  ::ng-deep .ql-editor.ql-blank::before {
+    color: var(--text-main);
+    opacity: 0.55;
+    font-style: normal;
+  }
+
+  ::ng-deep .ql-stroke { stroke: var(--text-main); }
+  ::ng-deep .ql-fill { fill: var(--text-main); }
+  ::ng-deep .ql-picker { color: var(--text-main); }
+  ::ng-deep .ql-picker-options { background: var(--bg-card); border-color: var(--card-border); }
+  ::ng-deep .ql-editor img { max-width: 100%; height: auto; border-radius: 8px; }
 }
 
 .toolbar {
@@ -90,12 +130,36 @@
 .post-settings {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
+  flex-wrap: wrap;
   padding-top: 30px;
   border-top: 1px solid var(--card-border);
   margin-top: 20px;
 
-  mat-form-field { flex: 1; }
+  mat-form-field { flex: 1 1 240px; }
+}
+
+.tipo-postagem {
+  display: flex;
+  gap: 8px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+
+  legend { color: var(--text-main); font-size: 0.85rem; margin-bottom: 8px; }
+  button {
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 10px 18px;
+    color: var(--text-main);
+    background: transparent;
+    cursor: pointer;
+  }
+  button.selected {
+    color: white;
+    background: $primary;
+    border-color: $primary;
+  }
 }
 
 .post-footer {
@@ -114,4 +178,12 @@
       height: 48px;
     }
   }
+}
+
+@media (max-width: 640px) {
+  .create-post-container { padding: 16px 10px; }
+  .post-card { padding: 20px !important; }
+  .post-header h1 { font-size: 1.55rem; }
+  .post-footer { align-items: stretch; gap: 12px; flex-direction: column-reverse; }
+  .post-footer .main-actions { justify-content: flex-end; }
 }

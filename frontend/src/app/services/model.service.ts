@@ -36,6 +36,8 @@ export interface PostagemRequestDTO {
   texto: string;
   categoria: string;
   tags: string;
+  conteudo: boolean;
+  tarefa: boolean;
 }
 
 export interface Pagina<T> {

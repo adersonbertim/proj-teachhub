@@ -10,45 +10,7 @@
         <mat-label>Título da postagem</mat-label>
         <input matInput [(ngModel)]="titulo" placeholder="Ex: Introdução à Algoritmos">
       </mat-form-field>
-
-      <div class="toolbar">
-        <div class="tool-group">
-          <button mat-icon-button (click)="executar('bold')" title="Negrito">
-            <mat-icon class="material-symbols-outlined">format_bold</mat-icon>
-          </button>
-          <button mat-icon-button (click)="executar('italic')" title="Itálico">
-            <mat-icon class="material-symbols-outlined">format_italic</mat-icon>
-          </button>
-          <button mat-icon-button (click)="executar('underline')" title="Sublinhado">
-            <mat-icon class="material-symbols-outlined">format_underlined</mat-icon>
-          </button>
-        </div>
-
-        <div class="tool-group">
-          <button mat-icon-button (click)="executar('justifyLeft')" title="Esquerda">
-            <mat-icon class="material-symbols-outlined">format_align_left</mat-icon>
-          </button>
-          <button mat-icon-button (click)="executar('justifyCenter')" title="Centro">
-            <mat-icon class="material-symbols-outlined">format_align_center</mat-icon>
-          </button>
-          <button mat-icon-button (click)="executar('justifyRight')" title="Direita">
-            <mat-icon class="material-symbols-outlined">format_align_right</mat-icon>
-          </button>
-        </div>
-
-        <div class="tool-group">
-          <button mat-icon-button (click)="link()" title="Inserir Link">
-            <mat-icon class="material-symbols-outlined">link</mat-icon>
-          </button>
-          
-          <input type="file" #fileInput style="display: none" accept="image/*" (change)="selecionarArquivo($event)" />
-          <button mat-icon-button (click)="fileInput.click()" title="Upload de Imagem">
-            <mat-icon class="material-symbols-outlined">image</mat-icon>
-          </button>
-        </div>
-      </div>
-
-      <div #editor class="rich-editor" contenteditable="true" placeholder="Comece a escrever seu conteúdo aqui..."></div>
+      <div #editor class="quill-editor"></div>
 
       <mat-form-field appearance="outline" class="tags-field">
         <mat-label>Tags</mat-label>
@@ -77,41 +39,13 @@
           </mat-select>
         </mat-form-field>
 
-        <div class="setting-item">
-          <mat-slide-toggle color="primary" [(ngModel)]="conteudo">
-            Conteúdo
-          </mat-slide-toggle>
-        </div>
-        <div class="setting-item">
-          <mat-slide-toggle color="primary" [(ngModel)]="tarefa">
-            Tarefa
-          </mat-slide-toggle>
-        </div>
-        <div>
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Configurações Avançadas
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-
-              <div class="advanced-settings">
-                <div class="setting-item">
-                  <mat-slide-toggle color="primary" [(ngModel)]="visibilidade">
-                    Visível para todos
-                  </mat-slide-toggle>
-                </div>
-
-                <div class="setting-item">
-                  <mat-slide-toggle color="primary" [(ngModel)]="isFavorita">
-                    Marcar como favorita
-                  </mat-slide-toggle>
-                </div>
-              </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
+        <fieldset class="tipo-postagem" aria-label="Tipo da postagem">
+          <legend>Tipo</legend>
+          <button type="button" role="radio" [attr.aria-checked]="conteudo" [class.selected]="conteudo"
+            (click)="conteudo = true; tarefa = false">Conteúdo</button>
+          <button type="button" role="radio" [attr.aria-checked]="tarefa" [class.selected]="tarefa"
+            (click)="conteudo = false; tarefa = true">Tarefa</button>
+        </fieldset>
       </div>
     </div>
 

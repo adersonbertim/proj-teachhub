@@ -20,6 +20,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
+import java.io.StringReader;
+import java.io.StringWriter;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.parser.ParserDelegator;
 
 @Service
 public class PostagemService extends AService<Postagem, PostagemRepository> {
@@ -45,6 +49,9 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
 
     @Transactional
     public Postagem criarPostagem(PostagemDTO.PostagemRequestDTO dto, Usuario usuario) {
+        if (dto.conteudo() == dto.tarefa()) {
+            throw new IllegalArgumentException("Selecione Conteúdo ou Tarefa.");
+        }
         Postagem postagem = new Postagem();
         postagem.setTitulo(dto.titulo());
         postagem.setTexto(dto.texto());
@@ -53,8 +60,10 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
         postagem.setDataAtualizacao(LocalDateTime.now());
         postagem.setAutor(usuario);
 
-        String texto = postagem.getTexto();
-        postagem.setResumo(texto.length() > 150 ? texto.substring(0, 147) + "..." : texto);
+        postagem.setConteudo(dto.conteudo());
+        postagem.setTarefa(dto.tarefa());
+        String textoResumo = extrairTexto(postagem.getTexto()).replaceAll("\\s+", " ").trim();
+        postagem.setResumo(textoResumo.length() > 150 ? textoResumo.substring(0, 147) + "..." : textoResumo);
 
         Set<Tag> tags = new HashSet<>();
         for (String nome : normalizarTags(dto.tags())) {
@@ -64,6 +73,22 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
         }
         postagem.setTags(tags);
         return repository.save(postagem);
+    }
+
+    private String extrairTexto(String html) {
+        StringBuilder texto = new StringBuilder();
+        HTMLEditorKit.ParserCallback callback = new HTMLEditorKit.ParserCallback() {
+            @Override
+            public void handleText(char[] data, int pos) {
+                texto.append(data).append(' ');
+            }
+        };
+        try {
+            new ParserDelegator().parse(new StringReader(html), callback, true);
+        } catch (java.io.IOException e) {
+            throw new IllegalArgumentException("Não foi possível processar o texto da postagem.", e);
+        }
+        return texto.toString();
     }
 
     private List<String> normalizarTags(String entrada) {

@@ -1,11 +1,11 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material-module';
 import { PostagemService } from '../../../services/postagem.service';
 import { PostagemRequestDTO } from '../../../services/model.service';
-
+import Quill from 'quill';
 
 @Component({
   selector: 'app-criar-postagem',
@@ -13,13 +13,14 @@ import { PostagemRequestDTO } from '../../../services/model.service';
   templateUrl: './criar-postagem.component.html',
   styleUrl: './criar-postagem.component.scss',
 })
-export class CriarPostagemComponent {
+export class CriarPostagemComponent implements AfterViewInit {
 
-  @ViewChild('editor') editor!: ElementRef;
+  @ViewChild('editor') editor!: ElementRef<HTMLDivElement>;
+  quill!: Quill;
   autor: string = '';
   titulo: string = '';
   materia: string = '';
-  conteudo: boolean = false;
+  conteudo: boolean = true;
   tarefa: boolean = false;
   texto: string = '';
   categoria: string = '';
@@ -29,6 +30,7 @@ export class CriarPostagemComponent {
   salvando = false;
   visibilidade: boolean = true;
   isFavorita: boolean = false;
+  imagemInput!: HTMLInputElement;
 
   constructor(
     private postagemService: PostagemService,
@@ -36,37 +38,49 @@ export class CriarPostagemComponent {
     private location: Location,
   ) {}
 
-  executar(command: string) {
-    document.execCommand(command, false, '');
-  }
-  link() {
-    const url = prompt('Insira a URL do link: ');
-    if (url) document.execCommand('createLink', false, url);
-  }
-  imagemUrl() {
-    const img = prompt('Insira a url da imagem: ');
-    if (img) document.execCommand('insertImage', false, img);
+  ngAfterViewInit() {
+    this.quill = new Quill(this.editor.nativeElement, {
+      theme: 'snow',
+      placeholder: 'Comece a escrever seu conteúdo aqui...',
+      modules: {
+        toolbar: {
+          container: [['bold', 'italic', 'underline'], [{ align: [] }], ['link', 'image'], [{ list: 'ordered' }, { list: 'bullet' }]],
+          handlers: { link: () => this.inserirLink(), image: () => this.selecionarImagem() },
+        },
+      },
+    });
   }
 
-  //metodo para enviar arquivos do compudator
-  selecionarArquivo(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-        const base64Image = e.target.result;
-        // Inserimos a imagem no exato ponto do cursor
-        this.inserirImagem(base64Image);
-      };
-
-      reader.readAsDataURL(file); // Converte imagem para string Base64
+  inserirLink() {
+    const range = this.quill.getSelection(true);
+    if (!range) return;
+    const url = prompt('Insira a URL do link:');
+    if (!url) return;
+    const endereco = /^(https?:|mailto:)/i.test(url) ? url : `https://${url}`;
+    this.quill.setSelection(range);
+    if (range.length) this.quill.format('link', endereco, 'user');
+    else {
+      const texto = prompt('Texto do link:', endereco) || endereco;
+      this.quill.insertText(range.index, texto, { link: endereco }, 'user');
     }
   }
 
-  private inserirImagem(src: string) {
-    this.editor.nativeElement.focus();
-    document.execCommand('insertImage', false, src);
+  private selecionarImagem() {
+    this.imagemInput ??= Object.assign(document.createElement('input'), { type: 'file', accept: 'image/*' });
+    this.imagemInput.onchange = () => {
+      const arquivo = this.imagemInput.files?.[0];
+      if (!arquivo || !arquivo.type.startsWith('image/')) return;
+      const leitor = new FileReader();
+      leitor.onload = () => {
+        const range = this.quill.getSelection(true);
+        if (!range) return;
+        this.quill.insertEmbed(range.index, 'image', leitor.result, 'user');
+        this.quill.setSelection(range.index + 1, 0, 'silent');
+      };
+      leitor.readAsDataURL(arquivo);
+      this.imagemInput.value = '';
+    };
+    this.imagemInput.click();
   }
 
   private validarTags(): boolean {
@@ -89,9 +103,11 @@ export class CriarPostagemComponent {
 
     const dto: PostagemRequestDTO = {
       titulo: this.titulo,
-      texto: this.editor.nativeElement.innerText,
+      texto: this.quill.root.innerHTML,
       categoria: this.categoria,
       tags: this.tags,
+      conteudo: this.conteudo,
+      tarefa: this.tarefa,
     };
 
     this.salvando = true;

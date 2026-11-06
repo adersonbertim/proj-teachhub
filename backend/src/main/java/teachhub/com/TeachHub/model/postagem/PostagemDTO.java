@@ -23,7 +23,8 @@ public class PostagemDTO {
     private String autor;
     private List<String> tags;
     public boolean visibilidade;
-    private boolean planoAula;
+    private boolean conteudo;
+    private boolean tarefa;
     private int nota;
     private int likes;
     private int deslikes;
@@ -49,8 +50,8 @@ public class PostagemDTO {
                         .sorted()
                         .toList())
                 .visibilidade(postagem.getVisibilidade())
-                .planoAula(postagem.getConteudo())
-                .planoAula(postagem.getTarefa())
+                .conteudo(Boolean.TRUE.equals(postagem.getConteudo()))
+                .tarefa(Boolean.TRUE.equals(postagem.getTarefa()))
                 .nota(postagem.getNota())
                 .materia(postagem.getMateria())
                 .resumo(postagem.getResumo())
@@ -66,6 +67,8 @@ public class PostagemDTO {
             @NotBlank String titulo,
             @NotBlank String texto,
             @NotBlank String categoria,
-            @NotBlank String tags
+            @NotBlank String tags,
+            boolean conteudo,
+            boolean tarefa
     ) {}
 }
