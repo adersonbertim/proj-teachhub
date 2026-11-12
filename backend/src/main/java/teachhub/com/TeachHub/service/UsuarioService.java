@@ -21,11 +21,14 @@ public class UsuarioService extends AService <Usuario, UsuarioRepository>{
 
     private final PasswordEncoder passwordEncoder;
     private final RolesRepository rolesRepository;
+    private final EmailService emailService;
 
-    public UsuarioService(UsuarioRepository repository, RolesRepository rolesRepository, PasswordEncoder passwordEncoder) {
+    public UsuarioService(UsuarioRepository repository, RolesRepository rolesRepository, PasswordEncoder passwordEncoder,
+                          EmailService emailService) {
         super(repository);
         this.rolesRepository = rolesRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
 //    @Override
@@ -59,7 +62,9 @@ public class UsuarioService extends AService <Usuario, UsuarioRepository>{
 
 
         // 4. Salva de fato no banco de dados
-        return repository.save(novoUsuario);
+        Usuario salvo = repository.save(novoUsuario);
+        emailService.enviarEmailContaCriada(salvo.getEmail(), salvo.getNome());
+        return salvo;
     }
 
 

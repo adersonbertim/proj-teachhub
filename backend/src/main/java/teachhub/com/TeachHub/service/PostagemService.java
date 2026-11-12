@@ -29,13 +29,15 @@ import javax.swing.text.html.parser.ParserDelegator;
 public class PostagemService extends AService<Postagem, PostagemRepository> {
     private final FavoritoRepository favoritoRepository;
     private final TagRepository tagRepository;
+    private final EmailService emailService;
 
     public PostagemService(PostagemRepository repository,
                            FavoritoRepository favoritoRepository,
-                           TagRepository tagRepository) {
+                           TagRepository tagRepository, EmailService emailService) {
         super(repository);
         this.favoritoRepository = favoritoRepository;
         this.tagRepository = tagRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -72,7 +74,9 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
             tags.add(tag);
         }
         postagem.setTags(tags);
-        return repository.save(postagem);
+        Postagem salva = repository.save(postagem);
+        emailService.enviarEmailPostagemCriada(usuario.getEmail(), usuario.getNome(), salva.getTitulo());
+        return salva;
     }
 
     private String extrairTexto(String html) {
@@ -141,6 +145,8 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
         }
         favoritoRepository.deleteByPostagem(postagem);
         repository.delete(postagem);
+        emailService.enviarEmailPostagemExcluida(postagem.getAutor().getEmail(),
+                postagem.getAutor().getNome(), postagem.getTitulo());
     }
 
     public Optional<Postagem> buscarPorId(Long id) {

@@ -16,10 +16,13 @@ import java.util.Optional;
 @Service
 public class ComentariosService extends AService<Comentarios, ComentariosRepository> {
     private final ComentarioLikeRepository likeRepository;
+    private final EmailService emailService;
 
-    public ComentariosService(ComentariosRepository repository, ComentarioLikeRepository likeRepository) {
+    public ComentariosService(ComentariosRepository repository, ComentarioLikeRepository likeRepository,
+                              EmailService emailService) {
         super(repository);
         this.likeRepository = likeRepository;
+        this.emailService = emailService;
     }
 
     public List<Comentarios> listarPorPostagem(Postagem postagem) {
@@ -55,7 +58,13 @@ public class ComentariosService extends AService<Comentarios, ComentariosReposit
         comentario.setPostagem(postagem);
         comentario.setUsuario(usuario);
         comentario.setComentarioPai(pai);
-        return repository.save(comentario);
+        Comentarios salvo = repository.save(comentario);
+        Usuario autor = postagem.getAutor();
+        if (!autor.getId().equals(usuario.getId())) {
+            emailService.enviarEmailPostagemComentada(autor.getEmail(), autor.getNome(),
+                    postagem.getTitulo(), usuario.getNome());
+        }
+        return salvo;
     }
 
     // Curte/descurte um comentário (mesmo padrão do LikeService de postagem)
