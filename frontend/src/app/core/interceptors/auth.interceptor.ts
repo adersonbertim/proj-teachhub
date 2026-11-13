@@ -4,6 +4,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const platformId = inject(PLATFORM_ID);
@@ -22,6 +24,20 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           Authorization: `Bearer ${token}`
         }
       });
+    }
+  const platformId = inject(PLATFORM_ID);
+
+  // da um atraso pra garantir que o localStorage esteja disponível (em casos de SSR)
+  if (isPlatformBrowser(platformId)) {
+    const token = localStorage.getItem('teachhub_token');
+
+    if (token) {
+      const authReq = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return next(authReq);
     }
   }
 

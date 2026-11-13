@@ -23,8 +23,10 @@ public class GoogleAuthService {
     private final UsuarioRepository usuarioRepository;
     private final RolesRepository rolesRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
-    public GoogleAuthService(UsuarioRepository usuarioRepository, RolesRepository rolesRepository, PasswordEncoder passwordEncoder) {
+    public GoogleAuthService(UsuarioRepository usuarioRepository, RolesRepository rolesRepository, PasswordEncoder passwordEncoder,
+                             EmailService emailService) {
         Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
         String clientId = dotenv.get("GOOGLE_CLIENT_ID", null);
 
@@ -38,6 +40,7 @@ public class GoogleAuthService {
         this.usuarioRepository = usuarioRepository;
         this.rolesRepository = rolesRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     public Usuario autenticar(String credential) {
@@ -82,6 +85,8 @@ public class GoogleAuthService {
                 .orElseThrow(() -> new RuntimeException("Role não encontrado"));
         usuario.setRole(roleProfessor);
 
-        return usuarioRepository.save(usuario);
+        Usuario salvo = usuarioRepository.save(usuario);
+        emailService.enviarEmailContaCriada(salvo.getEmail(), salvo.getNome());
+        return salvo;
     }
 }

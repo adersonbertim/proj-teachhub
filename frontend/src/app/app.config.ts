@@ -2,6 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/http';
 import { MatPaginatorIntl } from '@angular/material/paginator';
+import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/http'; // Adicionado withFetch
 
 import { routes } from './app.routes';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
@@ -27,9 +28,12 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(
-      withFetch(), 
-      withInterceptors([authInterceptor]) 
+      withFetch(),
+      withInterceptors([authInterceptor])
     ),
     { provide: MatPaginatorIntl, useFactory: paginadorEmPortugues }
+      withFetch(),
+      withInterceptors([authInterceptor])
+    )
   ]
 };

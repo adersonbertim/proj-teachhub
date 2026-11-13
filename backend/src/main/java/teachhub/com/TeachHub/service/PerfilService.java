@@ -24,7 +24,7 @@ public class PerfilService {
     private final FavoritoService favoritoService;
     private final ComentariosService comentariosService;
     private final LikeRepository likeRepository;
-
+    private final EmailService emailService;
 
     public PerfilService(
             UsuarioService usuarioService,
@@ -32,7 +32,8 @@ public class PerfilService {
             ArquivoService arquivoService,
             UsuarioRepository usuarioRepository,
             LogIARepository logIARepository, FavoritoService favoritoService,
-            ComentariosService comentariosService, LikeRepository likeRepository
+            ComentariosService comentariosService, LikeRepository likeRepository,
+            EmailService emailService
     ) {
         this.usuarioService = usuarioService;
         this.postagemService = postagemService;
@@ -42,6 +43,7 @@ public class PerfilService {
         this.favoritoService = favoritoService;
         this.comentariosService = comentariosService;
         this.likeRepository = likeRepository;
+        this.emailService = emailService;
     }
 
 
@@ -106,5 +108,6 @@ public class PerfilService {
         logIARepository.deleteByUser(usuario);
 
         usuarioRepository.delete(usuario);
+        emailService.enviarEmailContaExcluida(usuario.getEmail(), usuario.getNome());
     }
 }

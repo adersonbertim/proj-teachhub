@@ -26,7 +26,8 @@ public class CursoController extends AController<Curso, CursoDTO, Long, CursoSer
         return CursoDTO.fromEntity(entity);
     }
 
-    @GetMapping("/listar-todos")
+
+   @GetMapping("/listar-todos")
     public ResponseEntity<ApiResponse<List<CursoDTO>>> listarTodos() {
         var cursos = service.listarAtivos()
                 .stream()
@@ -62,5 +63,10 @@ public class CursoController extends AController<Curso, CursoDTO, Long, CursoSer
     @PutMapping("/admin/{id}/ativo")
     public ResponseEntity<ApiResponse<CursoDTO>> alterarAtivo(@PathVariable Long id, @RequestParam boolean valor) {
         return ResponseEntity.ok(ApiResponse.success(CursoDTO.fromEntity(service.alterarAtivo(id, valor))));
+    }
+
+    @PostMapping("/salvar")
+    public ResponseEntity<ApiResponse<CursoDTO>> salvar(@RequestBody Curso curso) {
+        return ResponseEntity.ok(ApiResponse.success(CursoDTO.fromEntity(service.salvar(curso))));
     }
 }

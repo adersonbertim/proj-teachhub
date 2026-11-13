@@ -28,23 +28,27 @@ import java.io.StringWriter;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Service
 public class PostagemService extends AService<Postagem, PostagemRepository> {
     private final FavoritoRepository favoritoRepository;
     private final TagRepository tagRepository;
     private final LikeRepository likeRepository;
     private final ComentariosService comentariosService;
+    private final EmailService emailService;
 
     public PostagemService(PostagemRepository repository,
                            FavoritoRepository favoritoRepository,
                            TagRepository tagRepository,
                            LikeRepository likeRepository,
-                           ComentariosService comentariosService) {
+                           ComentariosService comentariosService){
         super(repository);
         this.favoritoRepository = favoritoRepository;
         this.tagRepository = tagRepository;
         this.likeRepository = likeRepository;
         this.comentariosService = comentariosService;
+        this.emailService = emailService;
     }
 
     @Override
@@ -81,7 +85,9 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
             tags.add(tag);
         }
         postagem.setTags(tags);
-        return repository.save(postagem);
+        Postagem salva = repository.save(postagem);
+        emailService.enviarEmailPostagemCriada(usuario.getEmail(), usuario.getNome(), salva.getTitulo());
+        return salva;
     }
 
     private String extrairTexto(String html) {
@@ -149,6 +155,10 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
             throw new AccessDeniedException("Você não tem permissão para excluir essa postagem");
         }
         apagarPostagem(postagem);
+        favoritoRepository.deleteByPostagem(postagem);
+        repository.delete(postagem);
+        emailService.enviarEmailPostagemExcluida(postagem.getAutor().getEmail(),
+                postagem.getAutor().getNome(), postagem.getTitulo());
     }
 
     @Transactional
