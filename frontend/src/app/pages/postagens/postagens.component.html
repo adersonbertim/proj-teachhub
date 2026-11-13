@@ -1,9 +1,9 @@
 <div class="filter-header">
-  <mat-chip-listbox aria-label="Filtros de postagem">
-    <mat-chip-option selected color="primary">Recentes</mat-chip-option>
-    <mat-chip-option>Em alta</mat-chip-option>
-    <mat-chip-option>Minhas Postagens</mat-chip-option>
-  </mat-chip-listbox>
+<mat-chip-listbox aria-label="Filtros de postagem" [value]="filtro" (change)="mudarFiltro($event)">
+  <mat-chip-option value="recentes">Recentes</mat-chip-option>
+  <mat-chip-option value="emAlta">Em alta</mat-chip-option>
+  <mat-chip-option value="minhas">Minhas Postagens</mat-chip-option>
+</mat-chip-listbox>
 
 <div class="busca">
   <mat-icon class="material-symbols-outlined">search</mat-icon>
@@ -35,7 +35,7 @@
       [alt]="'Foto de ' + post.autor"
     >
     <a class="post-header-content" [routerLink]="['/perfil', post.usuarioDTO?.id]">
-      <mat-card-title>{{ post.autor }}</mat-card-title>
+      <mat-card-title style="padding-left: 12px;">{{ post.autor }}</mat-card-title>
       <mat-card-subtitle>{{
         post.dataCriacao | date: "dd/MM/yyyy"
       }}</mat-card-subtitle>

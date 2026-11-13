@@ -42,7 +42,8 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
                            FavoritoRepository favoritoRepository,
                            TagRepository tagRepository,
                            LikeRepository likeRepository,
-                           ComentariosService comentariosService){
+                           ComentariosService comentariosService,
+                           EmailService emailService) {
         super(repository);
         this.favoritoRepository = favoritoRepository;
         this.tagRepository = tagRepository;
