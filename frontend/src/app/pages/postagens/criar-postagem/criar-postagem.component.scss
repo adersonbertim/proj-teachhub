@@ -1,189 +1,310 @@
 @use "variables" as *;
 
 .create-post-container {
-  padding: 40px 20px;
   display: flex;
   justify-content: center;
-  background-color: var(--bg-body);
+  padding: 24px 16px 48px;
 }
 
 .post-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   width: 100%;
-  max-width: 900px;
-  background: var(--bg-card) !important;
-  border-radius: 24px !important;
+  max-width: 860px;
+  height: auto;
   padding: 32px !important;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08) !important;
-  border: 1px solid var(--card-border) !important;
+  border-radius: 24px !important;
+  color: var(--text-main);
+  background: var(--bg-card) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06) !important;
 }
 
 .post-header {
-  margin-bottom: 30px;
-  h1 { font-size: 2rem; color: var(--text-main); font-weight: 800; }
-  p { opacity: 0.7; color: var(--text-main); }
-}
-
-.title-field-container {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
   margin-bottom: 20px;
-  ::ng-deep .mat-mdc-text-field-wrapper {
-    background-color: transparent !important;
-    padding: 0 !important;
+
+  .header-icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background-color: rgba($primary, 0.1);
+
+    mat-icon {
+      font-size: 1.75rem;
+      width: 1.75rem;
+      height: 1.75rem;
+      color: $primary;
+    }
   }
-  input {
-    font-size: 1.7rem !important;
-    font-weight: 700 !important;
+
+  h1 {
+    margin: 0 0 4px;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.7;
   }
 }
 
-.quill-editor {
-  --editor-text: var(--text-main);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
+.campo-titulo {
+  width: 100%;
+
+  input {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+}
+
+.linha-campos {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  .campo-categoria {
+    flex: 1 1 240px;
+  }
+}
+
+.rotulo {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.tipo-postagem {
+  mat-button-toggle-group {
+    border-radius: 12px;
+  }
+
+  .mat-button-toggle {
+    color: var(--text-main);
+    background-color: transparent;
+  }
+
+  // deixa a opção escolhida em azul, igual nos dois temas
+  .mat-button-toggle-checked {
+    color: $primary;
+    background-color: rgba($primary, 0.12);
+  }
+
+  mat-button-toggle mat-icon {
+    font-size: 1.15rem;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+}
+
+.secao-editor {
+  margin: 8px 0 20px;
+}
+
+// o Quill coloca a barra de ferramentas como irmã do editor, então o estilo fica no wrapper
+  .editor-wrapper {
+  position: relative;
+  border: 1px solid rgba(128, 128, 128, 0.35);
+  border: 1px solid rgba(128, 128, 128, 0.35);
+  border-radius: 14px;
   overflow: hidden;
-  background: var(--bg-card);
+  transition: border-color 0.2s ease;
+
+  &:focus-within {
+    border-color: $primary;
+  }
 
   ::ng-deep .ql-toolbar.ql-snow {
     border: 0;
-    border-bottom: 1px solid var(--card-border);
-    background: color-mix(in srgb, var(--bg-body) 75%, transparent);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+    padding: 10px 12px;
+    background-color: rgba($primary, 0.04);
   }
 
+  // o CSS padrão do Quill usa height: 100%, que fazia o editor vazar para fora do card
   ::ng-deep .ql-container.ql-snow {
+    height: auto;
     border: 0;
-    color: var(--text-main);
-    font: inherit;
+    font-family: inherit;
     font-size: 1rem;
   }
 
   ::ng-deep .ql-editor {
-    min-height: 300px;
-    padding: 20px;
+    min-height: 280px;
+    max-height: 60vh;
+    padding: 18px 20px;
     line-height: 1.7;
     color: var(--text-main);
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
   }
 
   ::ng-deep .ql-editor.ql-blank::before {
     color: var(--text-main);
-    opacity: 0.55;
+    opacity: 0.5;
     font-style: normal;
   }
 
-  ::ng-deep .ql-stroke { stroke: var(--text-main); }
-  ::ng-deep .ql-fill { fill: var(--text-main); }
-  ::ng-deep .ql-picker { color: var(--text-main); }
-  ::ng-deep .ql-picker-options { background: var(--bg-card); border-color: var(--card-border); }
-  ::ng-deep .ql-editor img { max-width: 100%; height: auto; border-radius: 8px; }
+  ::ng-deep .ql-snow .ql-stroke { stroke: var(--text-main); }
+  ::ng-deep .ql-snow .ql-fill { fill: var(--text-main); }
+  ::ng-deep .ql-snow .ql-picker { color: var(--text-main); }
+  ::ng-deep .ql-snow .ql-picker-options { background-color: var(--bg-card); }
+
+  ::ng-deep .ql-snow button:hover .ql-stroke,
+  ::ng-deep .ql-snow button.ql-active .ql-stroke { stroke: $primary; }
+  ::ng-deep .ql-snow button:hover .ql-fill,
+  ::ng-deep .ql-snow button.ql-active .ql-fill { fill: $primary; }
 }
 
-.toolbar {
-  display: flex;
-  gap: 8px;
-  padding: 8px;
-  background: rgba($primary, 0.05);
-  border: 1px solid rgba($primary, 0.1);
-  border-radius: 12px;
-  margin-bottom: 15px;
-  position: sticky;
-  top: 10px;
-  z-index: 100;
-
-  .tool-group {
-    display: flex;
-    gap: 2px;
-    border-right: 1px solid rgba($primary, 0.15);
-    padding-right: 8px;
-    &:last-child { border: none; }
-
-    button mat-icon {
-      font-variation-settings: 'wght' 300;
-      color: $primary;
-    }
-  }
-}
-
-.rich-editor {
-  min-height: 350px;
-  padding: 20px 0;
-  font-size: 1.15rem;
-  line-height: 1.8;
-  color: var(--text-main);
-  outline: none;
-  
-  &:empty:before {
-    content: attr(placeholder);
-    color: var(--text-main);
-    opacity: 0.4;
-  }
-}
-
-.tags-field {
-  width: 100%;
-  margin-top: 8px;
-}
-
-.submit-error {
-  color: var(--mat-sys-error, #b3261e);
-  margin: 0 0 12px;
-}
-
-.post-settings {
+.enviando-imagem {
   display: flex;
   align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  padding-top: 30px;
-  border-top: 1px solid var(--card-border);
-  margin-top: 20px;
-
-  mat-form-field { flex: 1 1 240px; }
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  opacity: 0.75;
 }
 
-.tipo-postagem {
-  display: flex;
-  gap: 8px;
-  border: 0;
-  padding: 0;
-  margin: 0;
+.campo-tags {
+  width: 100%;
+}
 
-  legend { color: var(--text-main); font-size: 0.85rem; margin-bottom: 8px; }
-  button {
-    border: 1px solid var(--card-border);
+.tags-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+
+  .tag {
+    padding: 3px 10px;
     border-radius: 999px;
-    padding: 10px 18px;
-    color: var(--text-main);
-    background: transparent;
-    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: $primary;
+    background-color: rgba($primary, 0.1);
   }
-  button.selected {
-    color: white;
-    background: $primary;
-    border-color: $primary;
+}
+
+.error-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #c62828;
+  background-color: rgba(211, 47, 47, 0.08);
+  border: 1px solid rgba(211, 47, 47, 0.25);
+
+  mat-icon {
+    font-size: 1.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
   }
 }
 
 .post-footer {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 40px;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(128, 128, 128, 0.2);
 
-  .main-actions {
-    display: flex;
-    gap: 12px;
+  button {
+    height: 44px;
+    padding: 0 22px;
+    border-radius: 999px;
+  }
+}
 
-    button {
-      border-radius: 50px !important;
-      padding: 0 24px !important;
-      height: 48px;
-    }
+:host-context(.dark-theme) {
+  .tags-preview .tag {
+    color: #64b5f6;
+  }
+
+  .error-text {
+    color: #f2b8b5;
   }
 }
 
 @media (max-width: 640px) {
-  .create-post-container { padding: 16px 10px; }
-  .post-card { padding: 20px !important; }
-  .post-header h1 { font-size: 1.55rem; }
-  .post-footer { align-items: stretch; gap: 12px; flex-direction: column-reverse; }
-  .post-footer .main-actions { justify-content: flex-end; }
+  .create-post-container {
+    padding: 12px 4px 32px;
+  }
+
+  .post-card {
+    padding: 20px !important;
+  }
+
+  .post-header h1 {
+    font-size: 1.35rem;
+  }
+
+  .post-footer button {
+    flex: 1;
+  }
+}
+
+.moldura-imagem {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid $primary;
+  border-radius: 8px;
+  pointer-events: none;
+
+  .barra-tamanho {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    gap: 2px;
+    padding: 4px;
+    border-radius: 999px;
+    background-color: var(--bg-card);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    pointer-events: auto;
+    white-space: nowrap;
+
+    button {
+      padding: 4px 12px;
+      border: 0;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 0.8rem;
+      color: var(--text-main);
+      background: transparent;
+      cursor: pointer;
+
+      &:hover { background-color: rgba($primary, 0.1); }
+
+      &.ativo {
+        color: #fff;
+        background-color: $primary;
+      }
+    }
+  }
+  ::ng-deep .ql-snow .ql-tooltip::before { content: "Abrir link:"; }
+  ::ng-deep .ql-snow .ql-tooltip a.ql-action::after { content: "Editar"; }
+  ::ng-deep .ql-snow .ql-tooltip a.ql-remove::before { content: "Remover"; }
+  ::ng-deep .ql-snow .ql-tooltip.ql-editing a.ql-action::after { content: "Salvar"; }
+  ::ng-deep .ql-snow .ql-tooltip[data-mode=link]::before { content: "Digite o link:"; }
 }

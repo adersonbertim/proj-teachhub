@@ -54,7 +54,7 @@ public class PostagemDTO {
                 .tarefa(Boolean.TRUE.equals(postagem.getTarefa()))
                 .nota(postagem.getNota())
                 .materia(postagem.getMateria())
-                .resumo(postagem.getResumo())
+                .resumo(gerarResumo(postagem.getTexto()))
                 .usuarioDTO(UsuarioDTO.fromEntity(postagem.getAutor()))
                 .build();
     }
@@ -64,11 +64,27 @@ public class PostagemDTO {
     }
 
     public record PostagemRequestDTO(
-            @NotBlank String titulo,
-            @NotBlank String texto,
-            @NotBlank String categoria,
-            @NotBlank String tags,
+            @NotBlank(message = "Informe o título") String titulo,
+            @NotBlank(message = "Escreva o texto da postagem") String texto,
+            @NotBlank(message = "Escolha a categoria") String categoria,
+            @NotBlank(message = "Informe de 1 a 10 tags no formato #tag") String tags,
             boolean conteudo,
             boolean tarefa
     ) {}
+
+    private static String gerarResumo(String html) {
+        if (html == null) {
+            return "";
+        }
+        String texto = html
+                .replaceAll("<[^>]*>", " ")
+                .replace("&nbsp;", " ")
+                .replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&quot;", "\"")
+                .replace("&amp;", "&")
+                .replaceAll("\\s+", " ")
+                .trim();
+        return texto.length() > 150 ? texto.substring(0, 147) + "..." : texto;
+    }
 }

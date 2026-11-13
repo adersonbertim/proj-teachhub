@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
+import teachhub.com.TeachHub.model.like.Like;
 
 import java.util.List;
 
@@ -47,4 +48,14 @@ public interface PostagemRepository extends JpaRepository<Postagem, Long> {
                     """
     )
     Page<Postagem> buscarRelacionadas(@Param("postagemId") Long postagemId, Pageable pageable);
+
+    @Query(value = """
+        SELECT p FROM Postagem p
+        LEFT JOIN Like l ON l.postagem = p
+        GROUP BY p
+        ORDER BY COUNT(l) DESC, p.dataCriacao DESC
+        """,
+            countQuery = "SELECT COUNT(p) FROM Postagem p")
+    Page<Postagem> listarEmAlta(Pageable pageable);
+
 }

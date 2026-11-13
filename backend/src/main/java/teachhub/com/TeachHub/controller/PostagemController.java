@@ -14,19 +14,22 @@ import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.postagem.PostagemDTO;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
 import teachhub.com.TeachHub.service.PostagemService;
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
+import teachhub.com.TeachHub.service.ArquivoService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/feed")
 public class PostagemController extends AController<Postagem, PostagemDTO, Long, PostagemService>  {
-    private PostagemService service;
+    private final ArquivoService arquivoService;
 
-    public PostagemController(PostagemService service) {
+    public PostagemController(PostagemService service, ArquivoService arquivoService) {
         super(service);
         this.service = service;
+        this.arquivoService = arquivoService;
     }
-
     @Override
     protected PostagemDTO toDTO(Postagem entity) {
         return PostagemDTO.fromEntity(entity);
@@ -84,9 +87,24 @@ public class PostagemController extends AController<Postagem, PostagemDTO, Long,
         return ResponseEntity.ok(ApiResponse.success(service.listarRelacionadas(id, paginacao(page, size))));
     }
 
+    @PostMapping(value = "/imagem", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<String>> enviarImagem(@RequestParam("arquivo") MultipartFile arquivo) {
+        return ResponseEntity.ok(ApiResponse.success(arquivoService.salvarImagemPostagem(arquivo)));
+    }
+
     private Pageable paginacao(int page, int size) {
         int paginaSegura = Math.max(page, 0);
         int tamanhoSeguro = Math.max(1, Math.min(size, 100));
         return PageRequest.of(paginaSegura, tamanhoSeguro, Sort.by(Sort.Direction.DESC, "dataCriacao"));
     }
+
+    @GetMapping("/em-alta")
+    public ResponseEntity<ApiResponse<Page<PostagemDTO>>> listarEmAlta(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(ApiResponse.success(
+                service.listarEmAlta(PageRequest.of(Math.max(page, 0), Math.max(1, Math.min(size, 100))))));
+    }
+
+
 }

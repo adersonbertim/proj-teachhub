@@ -26,7 +26,15 @@ export class SidebarComponent {
   { label: 'Meu Perfil', icon: 'account_circle', route: '/perfil' }
 ];
 
+  get logado(): boolean {
+    return !!localStorage.getItem('teachhub_token');
+  }
 
+  entrar() {
+    this.router.navigate(['/login']);
+  }
+
+  
   sair() {
     Swal.fire({
   title: "Tem certeza?",

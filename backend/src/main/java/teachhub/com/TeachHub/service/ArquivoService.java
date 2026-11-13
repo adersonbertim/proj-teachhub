@@ -17,6 +17,7 @@ import java.util.List;
 @Service
 public class ArquivoService {
 
+    private static final String PASTA_POSTAGENS = "uploads/postagens";
     private static final String PASTA_AVATARES = "uploads/avatars";
 
     @Value("${app.base-url:http://localhost:8080}")
@@ -29,26 +30,32 @@ public class ArquivoService {
     }
 
     public String salvarImagemPerfil(Long usuarioId, MultipartFile arquivo, String imagemAntiga) {
+        String nomeArquivo = salvarComHash(arquivo, PASTA_AVATARES);
+        String urlNova = baseUrl + "/uploads/avatars/" + nomeArquivo;
+        removerImagemAntigaSeOrfa(imagemAntiga, urlNova, Paths.get(PASTA_AVATARES));
+        return urlNova;
+    }
+
+    public String salvarImagemPostagem(MultipartFile arquivo) {
+        String nomeArquivo = salvarComHash(arquivo, PASTA_POSTAGENS);
+        return baseUrl + "/uploads/postagens/" + nomeArquivo;
+    }
+
+    private String salvarComHash(MultipartFile arquivo, String pasta) {
         validarArquivo(arquivo);
 
         try {
             byte[] bytes = arquivo.getBytes();
-            String hash = calcularHash(bytes);
-            String extensao = extensaoParaTipo(arquivo.getContentType());
-            String nomeArquivo = hash + extensao;
+            String nomeArquivo = calcularHash(bytes) + extensaoParaTipo(arquivo.getContentType());
 
-            Path pastaDestino = Paths.get(PASTA_AVATARES);
+            Path pastaDestino = Paths.get(pasta);
             Files.createDirectories(pastaDestino);
             Path destino = pastaDestino.resolve(nomeArquivo);
 
             if (!Files.exists(destino)) {
                 Files.write(destino, bytes);
             }
-
-            String urlNova = baseUrl + "/uploads/avatars/" + nomeArquivo;
-            removerImagemAntigaSeOrfa(imagemAntiga, urlNova, pastaDestino);
-
-            return urlNova;
+            return nomeArquivo;
         } catch (IOException e) {
             throw new RuntimeException("Erro ao salvar a imagem: " + e.getMessage(), e);
         }
@@ -73,11 +80,14 @@ public class ArquivoService {
 
     private void validarArquivo(MultipartFile arquivo) {
         if (arquivo == null || arquivo.isEmpty()) {
-            throw new RuntimeException("Nenhum arquivo enviado");
+            throw new IllegalArgumentException("Nenhum arquivo enviado");
         }
         String contentType = arquivo.getContentType();
         if (contentType == null || !TIPOS_PERMITIDOS.contains(contentType)) {
-            throw new RuntimeException("Envie uma imagem JPG, PNG ou WEBP");
+            throw new IllegalArgumentException("Envie uma imagem JPG, PNG ou WEBP");
+        }
+        if (arquivo.getSize() > 5 * 1024 * 1024) {
+            throw new IllegalArgumentException("A imagem precisa ter no máximo 5MB");
         }
     }
 

@@ -107,7 +107,7 @@ export class IaChatComponent implements OnInit {
             }];
             Swal.fire("Excluído!", "Seu histórico foi excluído.", "success");
           },
-          error: (err: any) => console.error('Erro ao limpar histórico', err)
+          error: (err: any) => {console.error('Erro ao limpar histórico', err);  Swal.fire('Erro', 'Não foi possível excluir o histórico. Tente novamente.', 'error');}
         });
       }
     });

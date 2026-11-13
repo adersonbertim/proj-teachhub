@@ -8,6 +8,8 @@ import teachhub.com.TeachHub.config.AService;
 import teachhub.com.TeachHub.model.comentarios.*;
 import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.usuarios.Usuario;
+import teachhub.com.TeachHub.model.usuarios.UsuarioRepository;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,10 +18,12 @@ import java.util.Optional;
 @Service
 public class ComentariosService extends AService<Comentarios, ComentariosRepository> {
     private final ComentarioLikeRepository likeRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public ComentariosService(ComentariosRepository repository, ComentarioLikeRepository likeRepository) {
+    public ComentariosService(ComentariosRepository repository, ComentarioLikeRepository likeRepository, UsuarioRepository usuarioRepository) {
         super(repository);
         this.likeRepository = likeRepository;
+        this.usuarioRepository= usuarioRepository;
     }
 
     public List<Comentarios> listarPorPostagem(Postagem postagem) {
@@ -53,7 +57,7 @@ public class ComentariosService extends AService<Comentarios, ComentariosReposit
         comentario.setTexto(texto);
         comentario.setData(LocalDateTime.now());
         comentario.setPostagem(postagem);
-        comentario.setUsuario(usuario);
+        comentario.setUsuario(usuarioRepository.getReferenceById(usuario.getId()));
         comentario.setComentarioPai(pai);
         return repository.save(comentario);
     }
@@ -82,6 +86,43 @@ public class ComentariosService extends AService<Comentarios, ComentariosReposit
                 .toList();
     }
 
+    // Exclui comentarios e as respostas
+    @Transactional
+    public void excluirComentario(Comentarios comentario, Usuario usuario) {
+        if (!comentario.getUsuario().getId().equals(usuario.getId())) {
+            throw new AccessDeniedException("Você só pode excluir os seus comentários");
+        }
+        apagarComRespostas(comentario);
+    }
+
+
+    @Transactional
+    public void apagarTodosDaPostagem(Postagem postagem) {
+        for (Comentarios comentario : repository.findByPostagemAndComentarioPaiIsNullOrderByDataDesc(postagem)) {
+            apagarComRespostas(comentario);
+        }
+    }
+
+    @Transactional
+    public void apagarTodosDoUsuario(Usuario usuario) {
+        likeRepository.deleteByUsuario(usuario);
+        for (Comentarios comentario : repository.findByUsuario(usuario)) {
+
+            if (repository.existsById(comentario.getId_comentarios())) {
+                apagarComRespostas(comentario);
+            }
+        }
+    }
+
+    private void apagarComRespostas(Comentarios comentario) {
+        for (Comentarios resposta : repository.findByComentarioPaiOrderByDataAsc(comentario)) {
+            apagarComRespostas(resposta);
+        }
+        likeRepository.deleteByComentario(comentario);
+        repository.delete(comentario);
+    }
+
+
     // Converte um comentário (e recursivamente suas respostas) pro DTO
     private ComentariosDTO toDTO(Comentarios c, Usuario usuarioLogado) {
         List<ComentariosDTO> respostas = repository.findByComentarioPaiOrderByDataAsc(c).stream()
@@ -102,6 +143,7 @@ public class ComentariosService extends AService<Comentarios, ComentariosReposit
                         ? c.getComentarioPai().getId_comentarios() : null)
                 .qtdLikes(likeRepository.countByComentario(c))
                 .curtidoPeloUsuario(curtido)
+                .souAutor(usuarioLogado != null && c.getUsuario().getId().equals(usuarioLogado.getId()))
                 .respostas(respostas)
                 .build();
     }

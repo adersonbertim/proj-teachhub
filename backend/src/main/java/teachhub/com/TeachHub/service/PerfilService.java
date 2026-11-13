@@ -3,6 +3,7 @@ package teachhub.com.TeachHub.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import teachhub.com.TeachHub.model.like.LikeRepository;
 import teachhub.com.TeachHub.model.log_ia.LogIARepository;
 import teachhub.com.TeachHub.model.postagem.PostagemDTO;
 import teachhub.com.TeachHub.model.usuarios.PerfilResponseDTO;
@@ -21,13 +22,17 @@ public class PerfilService {
     private final UsuarioRepository usuarioRepository;
     private final LogIARepository logIARepository;
     private final FavoritoService favoritoService;
+    private final ComentariosService comentariosService;
+    private final LikeRepository likeRepository;
+
 
     public PerfilService(
             UsuarioService usuarioService,
             PostagemService postagemService,
             ArquivoService arquivoService,
             UsuarioRepository usuarioRepository,
-            LogIARepository logIARepository, FavoritoService favoritoService
+            LogIARepository logIARepository, FavoritoService favoritoService,
+            ComentariosService comentariosService, LikeRepository likeRepository
     ) {
         this.usuarioService = usuarioService;
         this.postagemService = postagemService;
@@ -35,6 +40,8 @@ public class PerfilService {
         this.usuarioRepository = usuarioRepository;
         this.logIARepository = logIARepository;
         this.favoritoService = favoritoService;
+        this.comentariosService = comentariosService;
+        this.likeRepository = likeRepository;
     }
 
 
@@ -93,6 +100,8 @@ public class PerfilService {
     @Transactional
     public void excluirConta(Usuario usuario) {
         favoritoService.deletarTodosDoUsuario(usuario);
+        likeRepository.deleteByUsuario(usuario);
+        comentariosService.apagarTodosDoUsuario(usuario);
         postagemService.deletarTodasDoAutor(usuario);
         logIARepository.deleteByUser(usuario);
 

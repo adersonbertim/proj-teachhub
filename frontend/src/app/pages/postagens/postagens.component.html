@@ -1,26 +1,25 @@
 <div class="filter-header">
   <mat-chip-listbox aria-label="Filtros de postagem">
     <mat-chip-option selected color="primary">Recentes</mat-chip-option>
-    <mat-chip-option>Trending</mat-chip-option>
+    <mat-chip-option>Em alta</mat-chip-option>
     <mat-chip-option>Minhas Postagens</mat-chip-option>
   </mat-chip-listbox>
 
-  <div class="search-control">
-    <mat-form-field appearance="outline" class="search-field">
-      <mat-label>Buscar postagens</mat-label>
-      <input
-        matInput
-        [(ngModel)]="termoBusca"
-        placeholder="Título ou #tag"
-        aria-label="Buscar por título ou tag"
-        (keyup.enter)="pesquisar()"
-      >
-    </mat-form-field>
-    <button mat-flat-button color="primary" (click)="pesquisar()" [disabled]="carregandoFeed">
-      <mat-icon class="material-symbols-outlined">search</mat-icon>
-      Buscar
-    </button>
-  </div>
+<div class="busca">
+  <mat-icon class="material-symbols-outlined">search</mat-icon>
+  <input
+    type="text"
+    placeholder="Buscar por título ou #tag"
+    aria-label="Buscar por título ou tag"
+    [(ngModel)]="termoBusca"
+    (ngModelChange)="buscarAoDigitar()"
+  >
+  <button mat-icon-button *ngIf="termoBusca" (click)="termoBusca = ''; pesquisar()" aria-label="Limpar busca">
+    <mat-icon class="material-symbols-outlined">close</mat-icon>
+  </button>
+</div>
+
+
 </div>
 
 <div class="feed-loading" *ngIf="carregandoFeed">
@@ -46,7 +45,7 @@
   <mat-card-content class="post-content">
     <a class="post-content-clickable" [routerLink]="['/postagens', post.idPostagem]">
       <h3>{{ post.titulo }}</h3>
-      <p>{{ post.descricao }}</p>
+      <p>{{ post.resumo }}</p>
     </a>
   </mat-card-content>
 

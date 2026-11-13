@@ -56,7 +56,7 @@ export class PerfilVisitanteComponent implements OnInit {
        if (this.perfil.souDono) {
           this.favoritoService.listarMeus().subscribe({
             next: (res) => this.favoritos = res.data || [],
-            error: (err) => console.error('Erro ao carregar favoritos:', err)
+            error: () => this.avisoRapido('error', 'Não foi possível carregar seus favoritos.')
           });
         }
       },
@@ -91,23 +91,26 @@ export class PerfilVisitanteComponent implements OnInit {
             }
             this.favoritos = this.favoritos.filter(f => f.idPostagem !== id);
           },
-          error: (err) => {
-            console.error('Erro ao excluir postagem:', err);
-            Swal.fire('Erro', 'Não foi possível excluir a postagem.', 'error');
-          }
+          error: (err) => Swal.fire('Erro', err.error?.message || 'Não foi possível excluir a postagem.', 'error')  
         });
       }
     });
   }
 
-  compartilharPerfil() {
-    const url = window.location.href;
-    if (navigator.share) {
-      navigator.share({ title: this.perfil?.nome, url }).catch(() => {});
-    } else {
-      navigator.clipboard.writeText(url);
+    compartilharPerfil() {
+      const url = `${window.location.origin}/perfil/${this.perfil?.id}`;
+      if (navigator.share) {
+        navigator.share({ title: this.perfil?.nome, url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url)
+          .then(() => this.avisoRapido('success', 'Link do perfil copiado!'))
+          .catch(() => this.avisoRapido('error', 'Não foi possível copiar o link.'));
+      }
     }
-  }
+
+    private avisoRapido(icone: 'success' | 'error', mensagem: string) {
+      Swal.fire({ toast: true, position: 'bottom-end', icon: icone, title: mensagem, showConfirmButton: false, timer: 2500 });
+    }
 
 desfavoritar(favorito: FavoritoDTO) {
   this.favoritoService.toggleFavorito(favorito.idPostagem).subscribe({
@@ -123,7 +126,7 @@ desfavoritar(favorito: FavoritoDTO) {
     private carregarFavoritos() {
     this.favoritoService.listarMeus().subscribe({
       next: (res) => this.favoritos = res.data,
-      error: (err) => console.error('Erro ao carregar favoritos:', err)
+      error: () => this.avisoRapido('error', 'Não foi possível carregar seus favoritos.')
     });
   }
   

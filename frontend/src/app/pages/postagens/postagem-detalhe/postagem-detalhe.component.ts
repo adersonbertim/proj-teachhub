@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { PostagemService } from '../../../services/postagem.service';
 import { LikeStatusDTO, PostagemDTO, ComentarioDTO, ApiResponse } from '../../../services/model.service';
 import { MaterialModule } from '../../../material-module';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-postagem-detalhe',
@@ -16,7 +16,6 @@ import { FormsModule } from '@angular/forms';
 export class PostagemDetalheComponent implements OnInit {
   postagem?: PostagemDTO;
   postagemId!: number;
-  descricaoSegura?: SafeHtml;
   carregando = true;
   erro = false;
   relacionadas: PostagemDTO[] = [];
@@ -33,7 +32,7 @@ export class PostagemDetalheComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private postagemService: PostagemService,
-    private sanitizer: DomSanitizer
+  
   ) {}
 
 ngOnInit() {
@@ -51,7 +50,6 @@ ngOnInit() {
     this.postagemService.getPostagemById(id).subscribe({
       next: (response) => {
         this.postagem = response.data;
-        this.descricaoSegura = this.sanitizer.bypassSecurityTrustHtml(this.postagem.descricao || '');
         this.carregando = false;
 
         this.carregarLikeStatus(id);
@@ -77,7 +75,7 @@ ngOnInit() {
   }
 
   estadoLikePostagem() {
-    if (!this.postagem) return;
+    if (!this.postagem || this.precisaEntrar()) return;
 
     this.postagemService.estadoLikePostagem(this.postagemId!).subscribe({
       next: (res) => (this.likeStatus = res.data),
@@ -88,6 +86,7 @@ ngOnInit() {
 
   // Favoritos
   carregarFavoritoStatus(id: number) {
+     if (!localStorage.getItem('teachhub_token')) return;
     this.postagemService.getFavoritoStatus(id).subscribe({
       next: (res) => (this.favoritado = res.data),
       error: (err) => console.error('Erro ao carregar favorito:', err)
@@ -148,6 +147,7 @@ ngOnInit() {
   }
 
   estadoLikeComentario(comentario: ComentarioDTO) {
+    if (this.precisaEntrar()) return;
     this.postagemService.estadoLikeComentario(comentario.id).subscribe({
       next: (res) => {
         comentario.qtdLikes = res.data.qtdLikes;
@@ -167,4 +167,40 @@ ngOnInit() {
   voltar() {
     this.location.back();
   }
+
+  private precisaEntrar(): boolean {
+  if (localStorage.getItem('teachhub_token')) return false;
+  Swal.fire({
+    title: 'Entre na sua conta',
+    text: 'Faça login para curtir, salvar ou comentar.',
+    icon: 'info',
+    confirmButtonText: 'OK'
+  });
+  return true;
+}
+
+private avisarErro(err: any, mensagem: string) {
+  if (err.status === 401) return;
+  Swal.fire('Erro', err.error?.message || mensagem, 'error');
+}
+
+excluirComentario(comentario: ComentarioDTO) {
+  Swal.fire({
+    title: 'Excluir comentário?',
+    text: 'As respostas dele também serão apagadas.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#1976d2',
+    confirmButtonText: 'Sim, excluir',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (!result.isConfirmed) return;
+
+    this.postagemService.excluirComentario(comentario.id).subscribe({
+      next: () => this.carregarComentarios(this.postagemId),
+      error: (err) => Swal.fire('Erro', err.error?.message || 'Não foi possível excluir o comentário.', 'error')
+    });
+  });
+}
+
 }

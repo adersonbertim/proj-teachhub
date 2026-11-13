@@ -1,5 +1,6 @@
 package teachhub.com.TeachHub.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class ComentariosController {
     @PostMapping("/postagem/{postagemId}")
     public ResponseEntity<ApiResponse<ComentariosDTO>> criar(
             @PathVariable Long postagemId,
-            @RequestBody ComentariosDTO.ComentarioRequestDTO dto,
+            @RequestBody @Valid ComentariosDTO.ComentarioRequestDTO dto,
             @AuthenticationPrincipal Usuario usuarioLogado) {
         Postagem postagem = buscarPostagem(postagemId);
         Comentarios criado = comentariosService.criarComentario(dto.texto(), postagem, usuarioLogado);
@@ -50,7 +51,7 @@ public class ComentariosController {
     @PostMapping("/{comentarioId}/resposta")
     public ResponseEntity<ApiResponse<ComentariosDTO>> responder(
             @PathVariable Long comentarioId,
-            @RequestBody ComentariosDTO.ComentarioRequestDTO dto,
+            @RequestBody @Valid ComentariosDTO.ComentarioRequestDTO dto,
             @AuthenticationPrincipal Usuario usuarioLogado) {
         Comentarios pai = comentariosService.findById(comentarioId);
         comentariosService.responder(dto.texto(), pai, usuarioLogado);
@@ -77,4 +78,14 @@ public class ComentariosController {
         return postagemService.buscarPorId(id)
                 .orElseThrow(() -> new RuntimeException("Postagem não encontrada"));
     }
+
+    @DeleteMapping("/{comentarioId}")
+    public ResponseEntity<ApiResponse<Void>> excluir(
+            @PathVariable Long comentarioId,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
+        Comentarios comentario = comentariosService.findById(comentarioId);
+        comentariosService.excluirComentario(comentario, usuarioLogado);
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
 }

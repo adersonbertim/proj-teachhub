@@ -19,9 +19,13 @@
   </mat-nav-list>
 
   <div class="sidebar-footer">
-    <button mat-button (click)="sair()" class="btn-logout">
-      <mat-icon class="material-symbols-outlined">logout</mat-icon>
-      <span>Sair</span>
-    </button>
+    <button mat-button *ngIf="logado" (click)="sair()" class="btn-logout">
+  <mat-icon class="material-symbols-outlined">logout</mat-icon>
+  <span>Sair</span>
+</button>
+<button mat-button *ngIf="!logado" (click)="entrar()" class="btn-logout">
+  <mat-icon class="material-symbols-outlined">login</mat-icon>
+  <span>Entrar</span>
+</button>
   </div>
 </div>

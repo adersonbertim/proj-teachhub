@@ -13,6 +13,8 @@ public interface ComentarioLikeRepository extends JpaRepository<ComentarioLike, 
     Optional<ComentarioLike> findByUsuarioAndComentario(Usuario usuario, Comentarios comentario);
 
     long countByComentario(Comentarios comentario);
+    void deleteByComentario(Comentarios comentario);
+    void deleteByUsuario(Usuario usuario);
 
     @Query("""
         SELECT cl.comentario.id_comentarios,
@@ -35,5 +37,7 @@ public interface ComentarioLikeRepository extends JpaRepository<ComentarioLike, 
             @Param("usuario") Usuario usuario,
             @Param("ids") Collection<Long> ids
     );
+
+
 
 }

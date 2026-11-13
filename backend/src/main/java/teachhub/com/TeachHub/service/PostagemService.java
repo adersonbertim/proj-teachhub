@@ -1,11 +1,14 @@
 package teachhub.com.TeachHub.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teachhub.com.TeachHub.config.AService;
 import teachhub.com.TeachHub.model.favorito.FavoritoRepository;
+import teachhub.com.TeachHub.model.like.LikeRepository;
 import teachhub.com.TeachHub.model.postagem.Postagem;
 import teachhub.com.TeachHub.model.postagem.PostagemDTO;
 import teachhub.com.TeachHub.model.postagem.PostagemRepository;
@@ -29,13 +32,19 @@ import javax.swing.text.html.parser.ParserDelegator;
 public class PostagemService extends AService<Postagem, PostagemRepository> {
     private final FavoritoRepository favoritoRepository;
     private final TagRepository tagRepository;
+    private final LikeRepository likeRepository;
+    private final ComentariosService comentariosService;
 
     public PostagemService(PostagemRepository repository,
                            FavoritoRepository favoritoRepository,
-                           TagRepository tagRepository) {
+                           TagRepository tagRepository,
+                           LikeRepository likeRepository,
+                           ComentariosService comentariosService) {
         super(repository);
         this.favoritoRepository = favoritoRepository;
         this.tagRepository = tagRepository;
+        this.likeRepository = likeRepository;
+        this.comentariosService = comentariosService;
     }
 
     @Override
@@ -134,12 +143,25 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
     @Transactional
     public void deletarPostagem(Long id, Usuario usuarioLogado) {
         Postagem postagem = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Postagem não encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Postagem não encontrada"));
 
         if (!postagem.getAutor().getId().equals(usuarioLogado.getId())) {
-            throw new RuntimeException("Você não tem permissão para excluir essa postagem");
+            throw new AccessDeniedException("Você não tem permissão para excluir essa postagem");
         }
+        apagarPostagem(postagem);
+    }
+
+    @Transactional
+    public void deletarTodasDoAutor(Usuario autor) {
+        for (Postagem postagem : repository.findByAutor(autor)) {
+            apagarPostagem(postagem);
+        }
+    }
+
+    private void apagarPostagem(Postagem postagem) {
         favoritoRepository.deleteByPostagem(postagem);
+        likeRepository.deleteByPostagem(postagem);
+        comentariosService.apagarTodosDaPostagem(postagem);
         repository.delete(postagem);
     }
 
@@ -147,17 +169,15 @@ public class PostagemService extends AService<Postagem, PostagemRepository> {
         return repository.findById(id);
     }
 
-    @Transactional
-    public void deletarTodasDoAutor(Usuario autor) {
-        for (Postagem postagem : repository.findByAutor(autor)) {
-            favoritoRepository.deleteByPostagem(postagem);
-            repository.delete(postagem);
-        }
-    }
 
     @Transactional(readOnly = true)
     public Page<PostagemDTO> listarRelacionadas(Long postagemId, Pageable pageable) {
         return repository.buscarRelacionadas(postagemId, pageable)
                 .map(PostagemDTO::fromEntity);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostagemDTO> listarEmAlta(Pageable pageable) {
+        return repository.listarEmAlta(pageable).map(PostagemDTO::fromEntity);
     }
 }

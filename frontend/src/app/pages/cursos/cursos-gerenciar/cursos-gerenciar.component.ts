@@ -141,10 +141,7 @@ export class CursosGerenciarComponent implements OnInit {
         this.cadastrados = res.data || [];
         this.carregandoCadastrados = false;
       },
-      error: (err) => {
-        console.error('Erro ao carregar cursos cadastrados:', err);
-        this.carregandoCadastrados = false;
-      }
+      error: (err) => this.avisarErro(err, 'Não foi possível carregar os cursos cadastrados.')
     });
   }
 

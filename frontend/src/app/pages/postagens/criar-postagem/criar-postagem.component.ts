@@ -6,6 +6,7 @@ import { MaterialModule } from '../../../material-module';
 import { PostagemService } from '../../../services/postagem.service';
 import { PostagemRequestDTO } from '../../../services/model.service';
 import Quill from 'quill';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-criar-postagem',
@@ -15,22 +16,26 @@ import Quill from 'quill';
 })
 export class CriarPostagemComponent implements AfterViewInit {
 
-  @ViewChild('editor') editor!: ElementRef<HTMLDivElement>;
-  quill!: Quill;
-  autor: string = '';
-  titulo: string = '';
-  materia: string = '';
-  conteudo: boolean = true;
-  tarefa: boolean = false;
-  texto: string = '';
-  categoria: string = '';
-  tags: string = '';
-  erroTags = '';
-  erroEnvio = '';
-  salvando = false;
-  visibilidade: boolean = true;
-  isFavorita: boolean = false;
-  imagemInput!: HTMLInputElement;
+@ViewChild('editor') editor!: ElementRef<HTMLDivElement>;
+quill!: Quill;
+titulo: string = '';
+conteudo: boolean = true;
+tarefa: boolean = false;
+categoria: string = '';
+tags: string = '';
+erroTags = '';
+erroEnvio = '';
+salvando = false;
+enviandoImagem = false;
+imagemSelecionada: HTMLImageElement | null = null;
+molduraImagem = { top: 0, left: 0, width: 0, height: 0 };
+tamanhosImagem = [
+  { rotulo: 'Pequena', largura: '25%' },
+  { rotulo: 'Média', largura: '50%' },
+  { rotulo: 'Grande', largura: '75%' },
+  { rotulo: 'Original', largura: '' },
+];  
+imagemInput!: HTMLInputElement;
 
   constructor(
     private postagemService: PostagemService,
@@ -48,8 +53,51 @@ export class CriarPostagemComponent implements AfterViewInit {
           handlers: { link: () => this.inserirLink(), image: () => this.selecionarImagem() },
         },
       },
-    });
+    }
+  );
+    this.quill.root.addEventListener('click', (evento) => {
+    const alvo = evento.target as HTMLElement;
+    if (alvo.tagName === 'IMG') {
+      this.imagemSelecionada = alvo as HTMLImageElement;
+      this.posicionarMoldura();
+    } else {
+      this.imagemSelecionada = null;
+    }
+      });
+      this.quill.root.addEventListener('scroll', () => this.imagemSelecionada = null);
+      this.quill.on('text-change', (_delta, _antigo, origem) => {
+        if (origem === 'user') this.imagemSelecionada = null;
+      });
+      this.quill.on('selection-change', (range) => {
+        if (!range) this.imagemSelecionada = null;
+      });
   }
+
+  redimensionarImagem(largura: string) {
+    if (!this.imagemSelecionada) return;
+    const blot = Quill.find(this.imagemSelecionada);
+    if (!blot || blot instanceof Quill) return;
+
+    const indice = this.quill.getIndex(blot);
+    this.quill.formatText(indice, 1, 'width', largura || false, 'api');
+    this.posicionarMoldura();
+  }
+
+  larguraAtual(): string {
+    return this.imagemSelecionada?.getAttribute('width') || '';
+  }
+
+  private posicionarMoldura() {
+  if (!this.imagemSelecionada) return;
+  const imagem = this.imagemSelecionada.getBoundingClientRect();
+  const editor = this.editor.nativeElement.parentElement!.getBoundingClientRect();
+  this.molduraImagem = {
+    top: imagem.top - editor.top,
+    left: imagem.left - editor.left,
+    width: imagem.width,
+    height: imagem.height,
+  };
+}
 
   inserirLink() {
     const range = this.quill.getSelection(true);
@@ -65,61 +113,99 @@ export class CriarPostagemComponent implements AfterViewInit {
     }
   }
 
-  private selecionarImagem() {
-    this.imagemInput ??= Object.assign(document.createElement('input'), { type: 'file', accept: 'image/*' });
-    this.imagemInput.onchange = () => {
-      const arquivo = this.imagemInput.files?.[0];
-      if (!arquivo || !arquivo.type.startsWith('image/')) return;
-      const leitor = new FileReader();
-      leitor.onload = () => {
-        const range = this.quill.getSelection(true);
-        if (!range) return;
-        this.quill.insertEmbed(range.index, 'image', leitor.result, 'user');
-        this.quill.setSelection(range.index + 1, 0, 'silent');
-      };
-      leitor.readAsDataURL(arquivo);
-      this.imagemInput.value = '';
-    };
-    this.imagemInput.click();
-  }
+private selecionarImagem() {
+  this.imagemInput ??= Object.assign(document.createElement('input'), { type: 'file', accept: 'image/jpeg,image/png,image/webp' });
+  this.imagemInput.onchange = () => {
+    const arquivo = this.imagemInput.files?.[0];
+    this.imagemInput.value = '';
+    if (!arquivo) return;
 
-  private validarTags(): boolean {
-    const entrada = this.tags.trim();
-    const nomes = entrada.split('#')
-      .map(tag => tag.trim())
-      .filter(Boolean);
-    const tagsUnicas = new Set(nomes.map(tag => tag.toLowerCase()));
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(arquivo.type)) {
+      this.erroEnvio = 'Envie uma imagem JPG, PNG ou WEBP.';
+      return;
+    }
+    if (arquivo.size > 5 * 1024 * 1024) {
+      this.erroEnvio = 'A imagem precisa ter no máximo 5MB.';
+      return;
+    }
 
-    const valido = entrada.startsWith('#')
-      && tagsUnicas.size >= 1
-      && tagsUnicas.size <= 10;
-
-    this.erroTags = valido ? '' : 'Informe de 1 a 10 tags usando #.';
-    return valido;
-  }
-
-  criarPostagem() {
-    if (this.salvando || !this.validarTags()) return;
-
-    const dto: PostagemRequestDTO = {
-      titulo: this.titulo,
-      texto: this.quill.root.innerHTML,
-      categoria: this.categoria,
-      tags: this.tags,
-      conteudo: this.conteudo,
-      tarefa: this.tarefa,
-    };
-
-    this.salvando = true;
+    const range = this.quill.getSelection(true);
     this.erroEnvio = '';
-    this.postagemService.criarPostagem(dto).subscribe({
+    this.enviandoImagem = true;
+
+    this.postagemService.enviarImagem(arquivo).subscribe({
       next: (res) => {
-        this.postagemService.adicionarPostagens(res.data);
-        this.router.navigate(['/postagens']);
+        this.enviandoImagem = false;
+        this.quill.insertEmbed(range.index, 'image', res.data, 'user');
+        this.quill.setSelection(range.index + 1, 0, 'silent');
       },
       error: (err) => {
-        this.salvando = false;
-        this.erroEnvio = err.error?.message || 'Não foi possível criar a postagem.';
+        this.enviandoImagem = false;
+        this.erroEnvio = err.error?.message || 'Não foi possível enviar a imagem.';
+      }
+    });
+  };
+  this.imagemInput.click();
+}
+
+  get tagsDigitadas(): string[] {
+    const nomes = this.tags.split('#').map(tag => tag.trim().toLowerCase()).filter(Boolean);
+    return [...new Set(nomes)];
+  }
+
+private validarTags(): boolean {
+  const entrada = this.tags.trim();
+  const nomes = entrada.split('#')
+    .map(tag => tag.trim())
+    .filter(Boolean);
+  const tagsUnicas = new Set(nomes.map(tag => tag.toLowerCase()));
+
+  const valido = entrada.startsWith('#')
+    && tagsUnicas.size >= 1
+    && tagsUnicas.size <= 10;
+
+  this.erroTags = valido ? '' : 'Informe de 1 a 10 tags usando #.';
+  if (!valido) {
+    Swal.fire('Confira as tags', this.erroTags, 'warning');
+  }
+  return valido;
+}
+
+  criarPostagem() {
+  if (this.salvando) return;
+ const textoVazio = this.quill.getText().trim() === '' && !this.quill.root.querySelector('img');
+  let faltando = '';
+  if (!this.titulo.trim()) faltando = 'Informe o título da postagem.';
+  else if (!this.categoria) faltando = 'Escolha a categoria.';
+  else if (textoVazio) faltando = 'Escreva o texto da postagem.';
+  if (faltando) {
+    this.erroEnvio = faltando;
+    Swal.fire('Falta pouco', faltando, 'warning');
+    return;
+  }
+
+  if (!this.validarTags()) return;
+
+  const dto: PostagemRequestDTO = {
+    titulo: this.titulo,
+    texto: this.quill.root.innerHTML,
+    categoria: this.categoria,
+    tags: this.tags,
+    conteudo: this.conteudo,
+    tarefa: this.tarefa,
+  };
+
+  this.salvando = true;
+  this.erroEnvio = '';
+  this.postagemService.criarPostagem(dto).subscribe({
+    next: (res) => {
+      this.postagemService.adicionarPostagens(res.data);
+      this.router.navigate(['/postagens']);
+    },
+    error: (err) => {
+      this.salvando = false;
+      this.erroEnvio = err.error?.message || 'Não foi possível criar a postagem.';
+      Swal.fire('Erro', this.erroEnvio, 'error');
       },
     });
   }

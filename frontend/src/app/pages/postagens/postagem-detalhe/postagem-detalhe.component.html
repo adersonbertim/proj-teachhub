@@ -32,7 +32,7 @@
           </span>
         </div>
 
-        <div class="texto-completo" [innerHTML]="descricaoSegura"></div>
+        <div class="texto-completo" [innerHTML]="postagem.descricao"></div>
 
         <div class="tag-extra" *ngIf="postagem.tags?.length">
           <mat-icon class="material-symbols-outlined">sell</mat-icon>
@@ -90,6 +90,11 @@
 
               <button mat-button (click)="estadoResposta(comentario)">Responder</button>
 
+              <button mat-icon-button *ngIf="comentario.souAutor" (click)="excluirComentario(comentario)"
+                  aria-label="Excluir comentário" matTooltip="Excluir">
+                  <mat-icon class="material-symbols-outlined">delete</mat-icon>
+              </button>
+
               <button mat-button *ngIf="comentario.respostas.length > 0"
                       (click)="comentario.mostrandoRespostas = !comentario.mostrandoRespostas">
                 {{ comentario.mostrandoRespostas ? 'Ocultar' : 'Ver' }} {{ comentario.respostas.length }} resposta{{ comentario.respostas.length === 1 ? '' : 's' }}
@@ -118,6 +123,10 @@
                       </mat-icon>
                     </button>
                     <span class="qtd-likes-comentario">{{ resposta.qtdLikes }}</span>
+                    <button mat-icon-button *ngIf="resposta.souAutor" (click)="excluirComentario(resposta)"
+                        aria-label="Excluir resposta" matTooltip="Excluir">
+                        <mat-icon class="material-symbols-outlined">delete</mat-icon>
+                    </button>
                   </div>
                 </div>
               </div>

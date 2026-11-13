@@ -102,6 +102,7 @@ export interface ComentarioDTO{
     mostrandoRespostas?: boolean;
     respondendo?: boolean;
     novaResposta?: string;
+    souAutor: boolean;
 }
 
 export interface ApiResponse<T> {

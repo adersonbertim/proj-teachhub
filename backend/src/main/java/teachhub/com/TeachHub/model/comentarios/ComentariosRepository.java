@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import teachhub.com.TeachHub.model.postagem.Postagem;
+import teachhub.com.TeachHub.model.usuarios.Usuario;
 
 
 import java.util.Collection;
@@ -21,6 +22,8 @@ public interface ComentariosRepository extends JpaRepository<Comentarios, Long> 
     List<Comentarios> findByPostagemAndComentarioPaiIsNullOrderByDataDesc(
             Postagem postagem
     );
+
+    List<Comentarios> findByUsuario(Usuario usuario);
 
     // Respostas de um comentário específico
     @EntityGraph(attributePaths = "usuario")

@@ -23,6 +23,7 @@ public class ComentariosDTO {
     private Long idComentarioPai;
     private long qtdLikes;
     private boolean curtidoPeloUsuario;
+    private boolean souAutor;
 
     @Builder.Default
     private List<ComentariosDTO> respostas = new ArrayList<>();

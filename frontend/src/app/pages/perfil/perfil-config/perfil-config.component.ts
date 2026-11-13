@@ -30,19 +30,7 @@ export class PerfilConfigComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.perfilService.buscarMeuPerfil().subscribe({
-      next: (response) => {
-        this.perfil = response.data;
-        if (!this.perfil.redesSociais) {
-          this.perfil.redesSociais = {};
-        }
-        this.carregando = false;
-      },
-      error: (err) => {
-        console.error('Erro ao carregar seu perfil:', err);
-        this.carregando = false;
-      }
-    });
+    this.carregarPerfil();
   }
 
   selecionarFoto(event: Event) {
@@ -51,14 +39,14 @@ export class PerfilConfigComponent implements OnInit {
     if (!arquivo) return;
 
     if (!arquivo.type.startsWith('image/')) {
-      alert('Selecione um arquivo de imagem (JPG, PNG ou WEBP).');
+      Swal.fire('Arquivo inválido', 'Selecione uma imagem JPG, PNG ou WEBP.', 'warning');
       input.value = '';
       return;
     }
 
     const tamanhoMaximoMB = 5;
     if (arquivo.size > tamanhoMaximoMB * 1024 * 1024) {
-      alert(`A imagem precisa ter no máximo ${tamanhoMaximoMB}MB.`);
+      Swal.fire('Imagem muito grande', `A imagem precisa ter no máximo ${tamanhoMaximoMB}MB.`, 'warning');
       input.value = '';
       return;
     }
@@ -77,6 +65,7 @@ export class PerfilConfigComponent implements OnInit {
         console.error('Erro ao enviar foto:', err);
         this.enviandoFoto = false;
         this.fotoPreview = undefined;
+        Swal.fire('Erro', 'Não foi possível enviar a foto.', 'error');
       }
     });
 
@@ -136,6 +125,23 @@ export class PerfilConfigComponent implements OnInit {
           Swal.fire('Erro', 'Não foi possível excluir sua conta. Tente novamente.', 'error');
         }
       });
+    });
+  }
+
+  carregarPerfil(){
+    this.carregando = true;
+        this.perfilService.buscarMeuPerfil().subscribe({
+      next: (response) => {
+        this.perfil = response.data;
+        if (!this.perfil.redesSociais) {
+          this.perfil.redesSociais = {};
+        }
+        this.carregando = false;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar seu perfil:', err);
+        this.carregando = false;
+      }
     });
   }
 

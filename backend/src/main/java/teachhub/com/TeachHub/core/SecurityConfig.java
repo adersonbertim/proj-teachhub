@@ -50,8 +50,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(cors()))
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling(ex->ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .authorizeHttpRequests(req -> {
+                .exceptionHandling(ex -> ex
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                .accessDeniedHandler((request, response, erro) -> {
+                            response.setStatus(HttpStatus.FORBIDDEN.value());
+                            response.setContentType("application/json;charset=UTF-8");
+                            response.getWriter().write("{\"status\":\"error\",\"message\":\"Você não tem permissão para fazer isso.\",\"data\":null}");}))
+                    .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/auth/google").permitAll();
@@ -68,6 +73,11 @@ public class SecurityConfig {
                     req.requestMatchers(HttpMethod.GET, "/feed/minhas").authenticated();
                     req.requestMatchers(HttpMethod.POST, "/feed/criar").authenticated();
                     req.requestMatchers(HttpMethod.DELETE, "/feed/postagens/*").authenticated();
+                    req.requestMatchers(HttpMethod.GET, "/feed/em-alta").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "/feed/buscar").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "/feed/postagens/*/relacionadas").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "/comentarios/postagem/*").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "/likes/postagem/*").permitAll();
                     req.requestMatchers(HttpMethod.GET, "/perfil/me").authenticated();
                     req.requestMatchers(HttpMethod.GET, "/perfil/*").permitAll();
                     req.requestMatchers("/favoritos/**").authenticated();

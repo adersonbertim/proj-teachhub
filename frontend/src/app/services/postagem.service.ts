@@ -20,6 +20,12 @@ export class PostagemService {
   postagens$ = this.postagensSubject.asObservable();
   constructor(private http: HttpClient) {}
 
+  enviarImagem(arquivo: File): Observable<ApiResponse<string>> {
+  const formData = new FormData();
+  formData.append('arquivo', arquivo);
+  return this.http.post<ApiResponse<string>>('http://localhost:8080/feed/imagem', formData);
+}
+
   criarPostagem(dto: PostagemRequestDTO): Observable<ApiResponse<PostagemDTO>> {
     return this.http.post<ApiResponse<PostagemDTO>>('http://localhost:8080/feed/criar', dto);
   }
@@ -42,6 +48,17 @@ export class PostagemService {
       { params: { page, size } },
     );
   }
+
+  listarEmAlta(page: number, size: number): Observable<ApiResponse<Pagina<PostagemDTO>>> {
+  return this.http.get<ApiResponse<Pagina<PostagemDTO>>>(
+    'http://localhost:8080/feed/em-alta',
+    { params: { page, size } },
+  );
+}
+
+listarMinhas(): Observable<ApiResponse<PostagemDTO[]>> {
+  return this.http.get<ApiResponse<PostagemDTO[]>>('http://localhost:8080/feed/minhas');
+}
 
   buscarPostagens(
     termo: string,
@@ -97,6 +114,10 @@ enviarComentario(id: number, novoComentario: string): Observable<ApiResponse<Com
     `http://localhost:8080/comentarios/postagem/${id}`,
     { texto: novoComentario },
   );
+}
+
+excluirComentario(idComentario: number): Observable<ApiResponse<void>> {
+  return this.http.delete<ApiResponse<void>>(`http://localhost:8080/comentarios/${idComentario}`);
 }
 
 // aqui o id é o do COMENTÁRIO pai

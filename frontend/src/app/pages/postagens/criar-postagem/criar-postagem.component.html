@@ -1,63 +1,106 @@
 <div class="create-post-container">
   <mat-card class="post-card">
     <header class="post-header">
-      <h1>🚀 Nova Postagem</h1>
-      <p>Crie seus posts educativos ou ajude a comunidade com um novo conhecimento!</p>
+      <div class="header-icone">
+        <mat-icon class="material-symbols-outlined">edit_square</mat-icon>
+      </div>
+      <div>
+        <h1>Nova postagem</h1>
+        <p>Compartilhe um conteúdo ou uma tarefa com outros professores.</p>
+      </div>
     </header>
 
-    <div class="post-body">
-      <mat-form-field appearance="fill" class="title-field-container">
-        <mat-label>Título da postagem</mat-label>
-        <input matInput [(ngModel)]="titulo" placeholder="Ex: Introdução à Algoritmos">
-      </mat-form-field>
-      <div #editor class="quill-editor"></div>
+    <mat-form-field appearance="outline" class="campo-titulo">
+      <mat-label>Título da postagem</mat-label>
+      <input matInput [(ngModel)]="titulo" placeholder="Ex: Introdução a frações com material concreto">
+    </mat-form-field>
 
-      <mat-form-field appearance="outline" class="tags-field">
-        <mat-label>Tags</mat-label>
-        <input
-          matInput
-          [(ngModel)]="tags"
-          placeholder="#matematica basica #geometria #física"
-          aria-describedby="tags-help"
-          (ngModelChange)="erroTags = ''"
-        >
-        <mat-hint id="tags-help">Use # para separar de 1 a 10 tags.</mat-hint>
-        <mat-error *ngIf="erroTags">{{ erroTags }}</mat-error>
+    <div class="linha-campos">
+      <mat-form-field appearance="outline" class="campo-categoria">
+        <mat-label>Categoria</mat-label>
+        <mat-select [(ngModel)]="categoria">
+          <mat-option value="matematica">Matemática</mat-option>
+          <mat-option value="ciencias">Ciências</mat-option>
+          <mat-option value="fisica">Física</mat-option>
+          <mat-option value="quimica">Química</mat-option>
+          <mat-option value="historia">História</mat-option>
+        </mat-select>
       </mat-form-field>
 
-      <p class="submit-error" *ngIf="erroEnvio" role="alert">{{ erroEnvio }}</p>
-
-      <div class="post-settings">
-        <mat-form-field appearance="outline">
-          <mat-label>Categoria</mat-label>
-          <mat-select [(ngModel)]="categoria">
-            <mat-option value="matematica">Matemática</mat-option>
-            <mat-option value="ciencias">Ciências</mat-option>
-            <mat-option value="fisica">Física</mat-option>
-            <mat-option value="quimica">Química</mat-option>
-            <mat-option value="historia">História</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <fieldset class="tipo-postagem" aria-label="Tipo da postagem">
-          <legend>Tipo</legend>
-          <button type="button" role="radio" [attr.aria-checked]="conteudo" [class.selected]="conteudo"
-            (click)="conteudo = true; tarefa = false">Conteúdo</button>
-          <button type="button" role="radio" [attr.aria-checked]="tarefa" [class.selected]="tarefa"
-            (click)="conteudo = false; tarefa = true">Tarefa</button>
-        </fieldset>
+      <div class="tipo-postagem">
+        <span class="rotulo">Tipo</span>
+        <mat-button-toggle-group [value]="tarefa ? 'tarefa' : 'conteudo'" hideSingleSelectionIndicator aria-label="Tipo da postagem">
+          <mat-button-toggle value="conteudo" (change)="conteudo = true; tarefa = false">
+            <mat-icon class="material-symbols-outlined">menu_book</mat-icon>
+            Conteúdo
+          </mat-button-toggle>
+          <mat-button-toggle value="tarefa" (change)="conteudo = false; tarefa = true">
+            <mat-icon class="material-symbols-outlined">assignment</mat-icon>
+            Tarefa
+          </mat-button-toggle>
+        </mat-button-toggle-group>
       </div>
     </div>
 
-    <footer class="post-footer">
-      <button mat-button color="warn" (click)="voltar()">Descartar</button>
-      <div class="main-actions">
-        <button mat-stroked-button (click)="voltar()">Voltar</button>
-        <button mat-flat-button color="primary" (click)="criarPostagem()" [disabled]="salvando">
-          <mat-icon class="material-symbols-outlined">send</mat-icon>
-          {{ salvando ? 'Criando...' : 'Criar Postagem' }}
-        </button>
+    <div class="secao-editor">
+      <span class="rotulo">Texto</span>
+    <div class="editor-wrapper">
+      <div #editor></div>
+
+      <div
+        class="moldura-imagem"
+        *ngIf="imagemSelecionada"
+        [style.top.px]="molduraImagem.top"
+        [style.left.px]="molduraImagem.left"
+        [style.width.px]="molduraImagem.width"
+        [style.height.px]="molduraImagem.height"
+      >
+        <div class="barra-tamanho">
+          <button
+            type="button"
+            *ngFor="let tamanho of tamanhosImagem"
+            [class.ativo]="larguraAtual() === tamanho.largura"
+            (mousedown)="$event.preventDefault()"
+            (click)="redimensionarImagem(tamanho.largura)"
+          >
+            {{ tamanho.rotulo }}
+          </button>
+        </div>
       </div>
+    </div>
+      <span class="enviando-imagem" *ngIf="enviandoImagem">
+        <mat-spinner diameter="16"></mat-spinner>
+        Enviando imagem...
+      </span>
+    </div>
+
+    <mat-form-field appearance="outline" class="campo-tags">
+      <mat-label>Tags</mat-label>
+      <input
+        matInput
+        [(ngModel)]="tags"
+        placeholder="#fracoes #6ano #matematica"
+        (ngModelChange)="erroTags = ''"
+      >
+      <mat-icon matSuffix class="material-symbols-outlined">sell</mat-icon>
+      <mat-hint>De 1 a 10 tags, cada uma começando com #</mat-hint>
+    </mat-form-field>
+
+    <div class="tags-preview" *ngIf="tagsDigitadas.length">
+      <span class="tag" *ngFor="let tag of tagsDigitadas">#{{ tag }}</span>
+    </div>
+
+    <p class="error-text" *ngIf="erroTags || erroEnvio" role="alert">
+      <mat-icon class="material-symbols-outlined">error_outline</mat-icon>
+      {{ erroTags || erroEnvio }}
+    </p>
+
+    <footer class="post-footer">
+      <button mat-stroked-button (click)="voltar()">Cancelar</button>
+      <button mat-flat-button color="primary" (click)="criarPostagem()" [disabled]="salvando || enviandoImagem">
+        <mat-icon class="material-symbols-outlined">send</mat-icon>
+        {{ salvando ? 'Publicando...' : 'Publicar' }}
+      </button>
     </footer>
   </mat-card>
 </div>

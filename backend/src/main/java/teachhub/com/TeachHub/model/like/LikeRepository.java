@@ -12,4 +12,7 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     // Conta o total de likes de uma postagem
     long countByPostagem(Postagem postagem);
+    void deleteByPostagem(Postagem postagem);
+    void deleteByUsuario(Usuario usuario);
+
 }
