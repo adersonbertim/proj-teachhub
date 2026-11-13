@@ -6,6 +6,8 @@ import { catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const platformId = inject(PLATFORM_ID);
@@ -25,6 +27,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         }
       });
     }
+  const platformId = inject(PLATFORM_ID);
+
+  // da um atraso pra garantir que o localStorage esteja disponível (em casos de SSR)
+  if (isPlatformBrowser(platformId)) {
+    const token = localStorage.getItem('teachhub_token');
   const platformId = inject(PLATFORM_ID);
 
   // da um atraso pra garantir que o localStorage esteja disponível (em casos de SSR)

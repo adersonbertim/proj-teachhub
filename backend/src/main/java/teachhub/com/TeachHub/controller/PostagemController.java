@@ -58,6 +58,11 @@ public class PostagemController extends AController<Postagem, PostagemDTO, Long,
         return ResponseEntity.ok(ApiResponse.success(service.buscar(termo, paginacao(page, size))));
     }
 
+    @GetMapping("/listar-feed")
+    public ResponseEntity<ApiResponse<List<PostagemDTO>>> listarFeed (){
+        return ResponseEntity.ok(ApiResponse.success(service.listarTodas()));
+    }
+
     @GetMapping("/minhas")
     public ResponseEntity<ApiResponse<List<PostagemDTO>>> listarMinhas(@AuthenticationPrincipal Usuario usuarioLogado){
         return ResponseEntity.ok(ApiResponse.success(service.listarMinhas(usuarioLogado)));

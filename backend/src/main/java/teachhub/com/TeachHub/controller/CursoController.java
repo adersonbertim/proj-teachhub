@@ -66,6 +66,7 @@ public class CursoController extends AController<Curso, CursoDTO, Long, CursoSer
     }
 
     @PostMapping("/salvar")
+    @PostMapping("/salvar")
     public ResponseEntity<ApiResponse<CursoDTO>> salvar(@RequestBody Curso curso) {
         return ResponseEntity.ok(ApiResponse.success(CursoDTO.fromEntity(service.salvar(curso))));
     }
